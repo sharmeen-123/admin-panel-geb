@@ -168,6 +168,7 @@ export function GetInTouch({ update }) {
 
   // adding user in db
   const addUser = async (user) => {
+    console.log(user)
     let res = await axios2.post('/user/register', {
       firstName: user.fName,
       lastName: user.lName,
