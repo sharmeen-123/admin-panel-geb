@@ -216,6 +216,7 @@ export function PaymentForm({ update }) {
                     // setHours(res.data.data);
                     console.log("hourss", res.data.data)
                     setMsg("Amount Paid Successfully!")
+                    setImage()
                 }
 
                 )
@@ -234,6 +235,7 @@ export function PaymentForm({ update }) {
             let res = await axios.put('/payment/updatePayment/' + update._id, { userID: id, userName: name, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, userEmail: email, userImage: image })
                 .then((res) => {
                     setMsg("Payment Updated")
+                    setImage()
                 }
 
                 )
