@@ -275,6 +275,7 @@ export function PaymentForm({ update }) {
             let res = await axios.get('/shifts/getNumberOfHours/' + id)
                 .then((res) => {
                     setShifts(res.data.data.shifts)
+                    setHours(res.data.data.totalHours)
                     let data = { totalHours: res.data.data.totalHours }
                     update = data
                     console.log("update...", update)

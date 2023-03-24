@@ -96,7 +96,7 @@ export default function PaymentForm(props) {
         .then((res) => {
           setHours(res.data.data.totalHours);
           setShifts(res.data.data.shifts)
-          console.log("hourss", res.data.data)
+          console.log("hourss********", hours)
         }
 
         )
