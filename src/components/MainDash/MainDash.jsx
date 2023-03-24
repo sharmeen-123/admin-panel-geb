@@ -96,7 +96,7 @@ function MainDash(props) {
       <HeaderTabs user={{name:"sharmeen", image:"sdsd"}} title={"Dashboard"}/>
     <div className="MainDash">
       <Cards users={users} shifts={shifts} amount={payment}/>
-      <Charts users={users} shifts={shifts} prevShifts={prevShifts} amount={payment} prevAmount={prevAmount}/>
+      {/* <Charts users={users} shifts={shifts} prevShifts={prevShifts} amount={payment} prevAmount={prevAmount}/> */}
     </div>
     </div>
   );
