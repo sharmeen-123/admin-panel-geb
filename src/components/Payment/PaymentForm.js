@@ -94,7 +94,8 @@ export default function PaymentForm(props) {
     if (id) {
       let res = await axios.get('/shifts/getNumberOfHours/' + id)
         .then((res) => {
-          setHours(res.data.data.totalHours);
+          let hour = res.data.data.totalHours
+          setHours(hour);
           setShifts(res.data.data.shifts)
           console.log("hourss********", hours)
         }
@@ -181,10 +182,6 @@ export default function PaymentForm(props) {
       setImage(props.update.image)}
       console.log("image...",image)
       setEmail(props.update.userEmail)
-    }else{
-      setWage(0);
-      setHours(0);
-      setPayment(0)
     }
   }, [])
 
