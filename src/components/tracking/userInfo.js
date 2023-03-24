@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Map, { FullscreenControl, GeolocateControl, Marker, NavigationControl, Source, Layer } from 'react-map-gl';
-import { DeckGL } from '@deck.gl/react';
-import { LineLayer } from '@deck.gl/layers';
 import { AuthContext } from "../../App";
 import { HeaderTabs } from '../Payment/header/header';
 
