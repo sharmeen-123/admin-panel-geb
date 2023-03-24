@@ -1,0 +1,23 @@
+select {
+    border: 2px solid white;
+    appearance: none;
+    width: 6vw;
+    outline: none;
+  }
+  
+  /* select option[value="block"]:checked {
+    color: red;
+    background-color: aqua;
+  } */
+  tr {
+    text-align: center;
+  }
+  th{
+    text-align: center !important;
+  }
+
+  .delete {
+    background-color: rgb(43, 68, 60);
+  }
+ 
+  
