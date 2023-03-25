@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "../../axios";
 // import "./Adduser.css";
 import Payment from "../../imgs/Payment.png";
-import { HeaderTabs } from "../Payment/header/header";
+import { HeaderTabs } from "../header/header";
 
 export default function Adduser(props) {
   const [Name, setName] = useState("");
@@ -14,7 +14,7 @@ export default function Adduser(props) {
   const [Address, setAddress] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
-  const [img, setImg] = useState(false)
+  const {img, setImg} = useState(false)
   const [ImageSrc, setImageSrc] = useState(require("../../imgs/upload.png"));
   const hiddenFileInput = React.useRef(null);
 

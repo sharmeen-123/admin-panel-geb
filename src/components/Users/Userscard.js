@@ -5,29 +5,8 @@ import Employee from "../../imgs/construction.png"
 import rejected from "../../imgs/rejected.png"
 import "./UsersCard.css";
 
-export default function Userscard() {
-  const totalEmployees = 366;
-  const Siteworkers = 20;
-  const Other = totalEmployees - Siteworkers;
-  const [user, setUsers] = useState(false)
-
-  // getting users info
-  const Users = async () => {
-    let res = await axios.get('/user/getNumberOfUsers')
-    .then ((res) => {
-      setUsers(res.data.data);
-      console.log("users",res.data.data)
-    }
-      
-    )
-    .catch((error) => {
-        // setError(error.response.data);
-        console.log(error);
-    })
-  }
-  useEffect(() => {
-    Users();
-  }, [])
+export default function Userscard({user}) {
+ 
 
 
   return (

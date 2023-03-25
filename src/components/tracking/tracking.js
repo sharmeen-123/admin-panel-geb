@@ -8,7 +8,8 @@ import { Modal, Button, Group, Avatar, Text, Paper } from '@mantine/core';
 import { AuthContext } from "../../App";
 import { NavLink } from 'react-router-dom';
 import circle from "../../imgs/circle.png"
-import { HeaderTabs } from '../Payment/header/header';
+import { HeaderTabs } from '../header/header';
+import Loading from '../Loader/loading';
 
 
 
@@ -106,7 +107,10 @@ const Maps = () => {
         <div>
 
 <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"Track Employees"} />
-            <div style={{ display: "flex", justifyContent: "space-around", marginTop: "2vw",  backgroundColor: "#f5f6fa",  borderRadius:'3%',  margin: '1.3%'}}>
+
+            {shifts&&userStatus?(<>
+                <div style={{ display: "flex", justifyContent: "space-around", marginTop: "2vw",  backgroundColor: "#f5f6fa",  borderRadius:'3%',  margin: '1.3%'}}>
+            
                 <div style={{margin:"1.5%"}}>
                     <Map
                         mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZmRzeXF3bDB4b2UzeXBnMm96bHp3cjEifQ.nFCG0mw5jotR970K1RZYRQ'
@@ -176,7 +180,10 @@ const Maps = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div></>):(<>
+            <Loading/>
+            </>)}
+                
             {/* ..........Popup....... */}
             <Modal opened={opened} onClose={close} title="User Info"
                 radius="md"
@@ -185,6 +192,7 @@ const Maps = () => {
                 p="lg"
                 sx={(theme) => ({
                     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+                    
                 })}
 
             >
@@ -217,7 +225,9 @@ const Maps = () => {
                         </NavLink>
                     </Paper>
 
-                </>) : (<></>)}
+                </>) : (<>
+                <Loading/>
+                </>)}
 
 
             </Modal>

@@ -145,7 +145,7 @@ function Cards(props) {
       <div className="main_container" style={{ marginTop: "2%" }}>
 
       <div className="card">
-          <div className="title">
+          <div className="title" style={{marginBottom:"10%"}}>
           <p>Total Paid Amount</p>
           <div className="icon">
           <img src={totalPaid}/>

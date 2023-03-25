@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Map, { FullscreenControl, GeolocateControl, Marker, NavigationControl, Source, Layer } from 'react-map-gl';
 import { AuthContext } from "../../App";
-import { HeaderTabs } from '../Payment/header/header';
+import { HeaderTabs } from '../header/header';
+import Loading from '../Loader/loading';
 
 
 const Maps = () => {
@@ -41,7 +42,8 @@ const Maps = () => {
         <div>
 
             <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"User Details"} />
-            <div style={{ display: "flex", marginTop: "5vw", backgroundColor: "#f5f6fa", borderRadius: '3%', margin: '1.3%' }}>
+            {shift && location &&user &&data?(<>
+                <div style={{ display: "flex", marginTop: "5vw", backgroundColor: "#f5f6fa", borderRadius: '3%', margin: '1.3%' }}>
                 <Map
                     mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZmRzeXF3bDB4b2UzeXBnMm96bHp3cjEifQ.nFCG0mw5jotR970K1RZYRQ'
                     style={{
@@ -143,6 +145,10 @@ const Maps = () => {
 
                 </div>
             </div>
+            </>):(<>
+            <Loading/>
+            </>)}
+            
 
         </div>
 

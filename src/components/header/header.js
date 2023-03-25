@@ -24,7 +24,7 @@ import {
   IconChevronDown,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
-import  Logo  from "../../../imgs/logo.png";
+import  Logo  from "../../imgs/logo.png";
 
 const useStyles = createStyles((theme) => ({
   header: {

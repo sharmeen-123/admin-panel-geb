@@ -101,6 +101,7 @@ export function TableSelection({ dataa }) {
       .then((res) => {
         // setusers(res.data.data);
         console.log("updatedd")
+        Users()
       }
 
       )
@@ -111,12 +112,13 @@ export function TableSelection({ dataa }) {
   }
 
   // switching status
-  const status = async (id) => {
-    console.log("in status", id)
+  const status = async (e, id) => {
+    // console.log("in status", e.target.selected)
     let res = await axios.put('/user/switchUserStatus/' + id)
       .then((res) => {
         // setusers(res.data.data);
         console.log("updatedd")
+        Users()
       }
 
       )
@@ -215,16 +217,16 @@ export function TableSelection({ dataa }) {
         <td>{item.dateJoined}</td>
         <td>
           {item.status === "block" ? (<>
-            <select onChange={e => status(item._id)} selected="selected">
+            <select onChange={e => status(e, item._id)} selected="block" value={"block"} className="block">
 
               <option value="block" className='block'>block</option>
 
-              <option value="unblock">unblock</option>
+              <option value="unblock" className='unblock'>unblock</option>
 
             </select></>) : (<>
-              <select onChange={e => status(item._id)} selected="selected">
+              <select onChange={e => status(e, item._id)} selected="unblock" value={"unblock"} className="unblock">
 
-                <option value="unblock">unblock</option>
+                <option value="unblock" className='unblock'>unblock</option>
 
                 <option value="block" className='block'>block</option>
 
@@ -232,16 +234,16 @@ export function TableSelection({ dataa }) {
         </td>
         <td>
           {item.verified === true ? (<>
-            <select onChange={e => verification(item._id)} >
+            <select onChange={e => verification(item._id)} className="unblock">
 
-              <option value="verify">verify</option>
+              <option value="verify" className='unblock'>verify</option>
 
-              <option value="disprove">disprove</option>
+              <option value="disprove" className='block'>disprove</option>
 
             </select></>) : (<>
-              <select onChange={e => verification(item._id)}>
-                <option value="disprove">disprove</option>
-                <option value="verify">verify</option>
+              <select onChange={e => verification(item._id)} className={"block"}>
+                <option value="disprove" className='block'>disprove</option>
+                <option value="verify" className='unblock'>verify</option>
               </select></>)}
 
         </td>
@@ -249,7 +251,7 @@ export function TableSelection({ dataa }) {
           <div className="button-container" onClick={() => viewUser(item)}>
             <div
               onClick={togglePopup2}>
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <circle cx="12" cy="12" r="2" />
                 <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" />
@@ -267,11 +269,12 @@ export function TableSelection({ dataa }) {
                 radius="md"
                 withBorder
                 centered
-                p="md"
+                p="lg"
                 sx={(theme) => ({
                     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
                 })}
 
+                
             >
                     <Paper>
                         <Avatar src={image} size={120} radius={120} mx="auto" />
@@ -299,7 +302,7 @@ export function TableSelection({ dataa }) {
               <div
                 onClick={() => setUpdate(item)}
                 style={{ margin: "0", padding: 0 }}>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="orange" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
                   <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
@@ -314,7 +317,7 @@ export function TableSelection({ dataa }) {
             <div
 
               onClick={() => togglePopup(item)}>
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <line x1="4" y1="7" x2="20" y2="7" />
                 <line x1="10" y1="11" x2="10" y2="17" />
@@ -358,7 +361,7 @@ export function TableSelection({ dataa }) {
 
   return (
     <ScrollArea>
-      <Group>
+      <Group position='apart'>
       <TextInput label={"Search User"} style={{marginBottom:"2%", width:"85%"}} placeholder={"Search by name"}
       onChange={e=> handleSearch(e)}/>
        <Menu
@@ -366,9 +369,10 @@ export function TableSelection({ dataa }) {
       position="top-end"
       width={220}
       withinPortal
+      
     >
       <Menu.Target>
-        <Button rightIcon={<IconChevronDown size="1.05rem" stroke={1.5} />} pr={12} onClick={()=> Users()}>
+        <Button rightIcon={<IconChevronDown size="1.05rem" stroke={1.5} />} pr={12} onClick={()=> Users()} style={{backgroundColor:"rgb(226, 225, 225)", color:"black"}}>
           Sort
         </Button>
       </Menu.Target>
@@ -389,10 +393,11 @@ export function TableSelection({ dataa }) {
       </Menu.Dropdown>
     </Menu>
     </Group>
-      <Table >
+    <div style={{backgroundColor:"white", border:"2px solid rgb(226, 225, 225)",boxShadow:"0px 0px 3px 3px rgb(226, 225, 225)", borderRadius:"15px", padding:"3%"}}>
+      <Table>
         <thead>
           <tr>
-            <th >
+            <th>
               <Checkbox
                 onChange={toggleAll}
                 checked={selection?.length === data?.length}
@@ -410,6 +415,7 @@ export function TableSelection({ dataa }) {
         </thead>
         <tbody>{rows}</tbody>
       </Table>
+      </div>
     </ScrollArea>
   );
 }

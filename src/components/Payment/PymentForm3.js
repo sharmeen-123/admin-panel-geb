@@ -13,13 +13,15 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { FileInput, Avatar, Modal } from '@mantine/core';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from '../../axios';
 import { useDisclosure } from '@mantine/hooks';
-import { HeaderTabs } from './header/header';
+import { HeaderTabs } from '../header/header';
 import { forwardRef } from 'react';
 
 import "./PaymentForm.css";
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../../App";
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
 // import bg from './bg.svg';
 
@@ -45,8 +47,8 @@ const useStyles = createStyles((theme) => {
         },
         main: {
             margin: "1.5%",
-            marginLeft:"7%",
-            marginRight:"7%"
+            marginLeft: "7%",
+            marginRight: "7%"
             // border:"2px solid red"
         },
 
@@ -141,7 +143,6 @@ const SelectItem = forwardRef(({ image, label, email, value, ...others }, ref) =
 
 export function PaymentForm({ update }) {
     const { classes } = useStyles();
-    const [msg, setMsg] = useState("User Not Selected");
     const [opened, { open, close }] = useDisclosure(false);
     const [data, setData] = useState([]);
     const [users, setUsers] = useState([]);
@@ -155,8 +156,12 @@ export function PaymentForm({ update }) {
     const [email, setEmail] = useState(false);
     const [image, setImage] = useState();
     const [userr, setUserr] = useState([])
+    const [img, setImg] = useState(update.image);
+    const { alrt, setAlrt } = useContext(AuthContext);
+    const { msg, setMsg } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    
+
 
     const handleValueChange = (value) => {
         console.log("in value changeee")
@@ -217,16 +222,18 @@ export function PaymentForm({ update }) {
                     console.log("hourss", res.data.data)
                     setMsg("Amount Paid Successfully!")
                     setImage()
+                    setAlrt(true)
+                    navigate('/paymentUsers');
                 }
 
                 )
                 .catch((error) => {
                     // setError(error.response.data);
                     console.log(error.response.data);
-                    setMsg(error.response.data)
+                    setMsg(error.response.data);
+                    open()
                 })
         }
-        open()
     }
 
     const updateAmount = async () => {
@@ -236,15 +243,17 @@ export function PaymentForm({ update }) {
                 .then((res) => {
                     setMsg("Payment Updated")
                     setImage()
+                    setAlrt(true)
+                    navigate('/paymentUsers');
                 }
 
                 )
                 .catch((error) => {
                     setMsg(error.response.data)
                     console.log(res.data);
+                    open()
                 })
         }
-        open()
     }
 
 
@@ -299,6 +308,7 @@ export function PaymentForm({ update }) {
 
     useEffect(() => {
         Users();
+        setMsg("user not selected")
         if (update) {
             setPayment(update.totalPayment)
             setHours(update.totalHours)

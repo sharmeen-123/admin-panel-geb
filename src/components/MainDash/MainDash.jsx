@@ -3,7 +3,8 @@ import Cards from "../Cards/Cards";
 import Charts from "../Charts/Charts";
 import React, {useEffect, useState} from "react";
 import "./MainDash.css";
-import { HeaderTabs } from "../Payment/header/header";
+import { HeaderTabs } from "../header/header";
+import Loading from "../Loader/loading";
 
 function MainDash(props) {
   const [shifts, setShifts] = useState('');
@@ -92,12 +93,18 @@ function MainDash(props) {
     previousAmount();
   },[])
   return (
+    
     <div>
       <HeaderTabs user={{name:"sharmeen", image:"sdsd"}} title={"Dashboard"}/>
-    <div className="MainDash">
-      <Cards users={users} shifts={shifts} amount={payment}/>
-      {/* <Charts users={users} shifts={shifts} prevShifts={prevShifts} amount={payment} prevAmount={prevAmount}/> */}
-    </div>
+      {users && shifts && payment?(
+        <div className="MainDash">
+        <Cards users={users} shifts={shifts} amount={payment}/>
+        {/* <Charts users={users} shifts={shifts} prevShifts={prevShifts} amount={payment} prevAmount={prevAmount}/> */}
+      </div>
+      ):(
+        <Loading></Loading>
+      )}
+    
     </div>
   );
 }

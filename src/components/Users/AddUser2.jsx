@@ -12,11 +12,14 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { FileInput, Avatar, Modal } from '@mantine/core';
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import axios2 from '../../axios';
 import { useDisclosure } from '@mantine/hooks';
-import { HeaderTabs } from '../Payment/header/header';
+import { HeaderTabs } from '../header/header';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../../App";
+import man from "./../../imgs/man.png"
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
 // import bg from './bg.svg';
 
@@ -122,8 +125,10 @@ const useStyles = createStyles((theme) => {
 export function GetInTouch({ update }) {
   const { classes } = useStyles();
   const [img, setImg] = useState(update.image);
-  const [msg, setMsg] = useState();
   const [opened, { open, close }] = useDisclosure(false);
+  const {alrt, setAlrt} = useContext(AuthContext);
+  const {msg, setMsg} = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const form = useForm({
 
@@ -185,13 +190,16 @@ export function GetInTouch({ update }) {
 
         console.log("users", res.data.data);
         setMsg("User Added Successfully")
+        setAlrt(true)
+        navigate('/mainUsers');
       })
       .catch((error) => {
         // setError(error.response.data);
         console.log(error);
         setMsg(error.response.data)
+        open()
       })
-    open()
+    
   }
 
   // adding user in db
@@ -210,15 +218,19 @@ export function GetInTouch({ update }) {
       .then((res) => {
         console.log("users", res.data.data);
         setMsg("User Updated Successfully")
-
+        setAlrt(true)
+        navigate('/mainUsers');
       }
 
       )
       .catch((error) => {
         console.log(error);
-        setMsg(error.response.data)
+        if(error.response.data){
+        setMsg(error.response.data)}else{
+          setMsg("Some Error Occured")
+        }
+        open()
       })
-    open()
   }
 
 
@@ -230,12 +242,23 @@ export function GetInTouch({ update }) {
       updateUser(user)
     }
   }
-
+  useEffect(() => {
+    if(!update.image){
+      setImg(man)
+    }
+  }, [])
 
 
   return (
     <div>
       <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"Add User"} />
+      {/* {alrt?(<>
+        <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
+        onClose={()=> setAlrt(false)}
+        title="Bummer!" color="gray" style={{top:0, }}>
+     {msg}
+    </Alert>
+      </>):(<></>)} */}
       <Paper shadow="md" radius="lg" className={classes.main}>
 
         <div className={classes.wrapper}>
@@ -285,9 +308,11 @@ export function GetInTouch({ update }) {
 
 
               <Group position="right" mt="md">
+                {/* <NavLink to={"/mainUsers"}> */}
                 <Button type="submit" className={classes.control}>
                   Add User
                 </Button>
+                {/* </NavLink> */}
               </Group>
             </div>
           </form>
@@ -312,6 +337,7 @@ export function GetInTouch({ update }) {
 
         </Modal>
       </Paper>
+      
     </div>
   );
 }

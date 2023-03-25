@@ -12,7 +12,7 @@ import { GetInTouch } from "./components/Users/AddUser2";
 import "./App.css"
 import { NavbarNested2 } from "./components/sidebar/Navbar2";
 import { PaymentForm } from "./components/Payment/PymentForm3";
-import { HeaderTabs } from "./components/Payment/header/header";
+import { HeaderTabs } from "./components/header/header";
 export const AuthContext = React.createContext();
 
 const AdminSideBarLayout = () => {
@@ -21,8 +21,7 @@ const AdminSideBarLayout = () => {
       backgroundColor:"white",
       overflow:"hidden",
       "grid-template-columns": "15rem auto"}}>
-      {/* <div className="nav-bar"> */}
-        {/* <NavbarNested /> */}
+      
         <div style={{overflow:"hidden", borderRight:"2px solid #f5f6fa"}}>
         <NavbarNested2/>
         </div>
@@ -43,6 +42,8 @@ function App() {
   const [location, setLocation] = useState();
   const [user, setUser] = useState();
   const[shifts, setShifts] = useState()
+  const[msg, setMsg] = useState()
+  const [alrt, setAlrt] = useState()
   const value = {
     setUpdate: setUpdate,
     update: update,
@@ -51,8 +52,11 @@ function App() {
     user: user,
     setUser: setUser,
     shift: shifts,
-    setShift: setShifts
-
+    setShift: setShifts,
+    msg:msg,
+    setMsg:setMsg,
+    alrt: alrt,
+    setAlrt: setAlrt,
   };
   console.log(process.env.REACT_APP_API)
   return (

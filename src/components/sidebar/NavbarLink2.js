@@ -73,7 +73,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }) {
+export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link, number, number2 }) {
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
@@ -84,7 +84,7 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }) 
     className={classes.link} 
     activeClassName="active" 
     key={link.label}>
-    {link.label}
+    {link.number2+" "+link.label}
   </NavLink>
   ));
 
@@ -98,7 +98,10 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }) 
         <ThemeIcon variant="light" size={30}>
           <Icon size="2rem" className={classes.icons}/>
         </ThemeIcon>
-        <Box ml="md" style={{border:"none", }}>{label}</Box>
+        {number?(<>
+          <Box ml="md" style={{border:"none", }}>{number+" "+label}</Box></>):(<>
+            <Box ml="md" style={{border:"none", }}>{label}</Box></>)}
+        
       </Box>          
       {hasLinks && (
         <ChevronIcon

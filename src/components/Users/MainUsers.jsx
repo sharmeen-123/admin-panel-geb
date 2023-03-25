@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Userscard from "./Userscard";
 import "./MainUsers.css";
 import Tables from "./Tables";
 import axios from "../../axios";
-import { TableSort } from "./Table2";
 // import "./Tables.css"
 import {TableSelection} from "./Table3"
-import { HeaderTabs } from "../Payment/header/header";
+import { HeaderTabs } from "../header/header";
+import { Alert } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons-react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../../App";
+import Loading from "../Loader/loading";
 
 export default function MainUsers() {
   const [users, setusers] = useState()
+  const {alrt, setAlrt} = useContext(AuthContext);
+  const {msg, setMsg} = useContext(AuthContext);
+  const [user, setUsers] = useState(false)
     // getting users info
     const Users = async () => {
       let res = await axios.get('/user/getAllUsers')
@@ -25,24 +32,54 @@ export default function MainUsers() {
         })
     }
 
+    // getting users info
+    const Userss = async () => {
+      let res = await axios.get('/user/getNumberOfUsers')
+      .then ((res) => {
+        setUsers(res.data.data);
+        console.log("users",res.data.data)
+      }
+        
+      )
+      .catch((error) => {
+          // setError(error.response.data);
+          console.log(error);
+      })
+    }
+    useEffect(() => {
+      Users();
+    }, [])
+
     
   useEffect(() => {
     Users();
+    Userss()
   }, [])
 
   
   return (
+    
     <div >
       
       <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"View User"} />
-      <div style={{ backgroundColor: "#f5f6fa",  borderRadius:'3%',  margin: '1.3%'}}>
-      <Userscard />
-      <div style={{margin:"2vw"}}>
-      {/* <TableSort data={users}/> */}
+      {alrt?(<>
+        <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
+        onClose={()=> setAlrt(false)}
+        title="Alert" color="orange" style={{top:0, }}>
+     {msg}
+    </Alert>
+      </>):(<></>)}
+      
+        {user && users?(<>
+          <div style={{ backgroundColor: "#f5f6fa",  borderRadius:'3%',  margin: '1.3%', paddingBottom:"5%"}}>
+          <Userscard user={user}/>
+      <div style={{margin:"2%"}}>
       <TableSelection dataa={users}/>
       </div>
       </div>
-      {/* <Tables /> */}
+      </>):(<>
+      <Loading/>
+      </>)}
     </div>
   );
 }

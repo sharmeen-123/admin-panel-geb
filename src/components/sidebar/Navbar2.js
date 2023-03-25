@@ -11,25 +11,27 @@ import { LinksGroup } from './NavbarLink2';
 import  Logo  from "../../imgs/logo.png";
 
 const mockdata = [
-    { label: 'Dashboard', icon: IconHome2, link: '/' },
+    { label: 'Dashboard', icon: IconHome2, link: '/', number:1 },
     {
       label: 'Users',
       icon: IconUser,
       initiallyOpened: true,
       link:"/addUser",
+      number:2,
       links: [
-        { label: 'Add User', link: '/addUser' },
-        { label: 'View User', link: '/mainUsers' }
+        { label: 'Add User', link: '/addUser', number2:2.1 },
+        { label: 'View User', link: '/mainUsers',number2:2.2 }
       ],
     },
-    { label: 'Tracking', icon: IconMapPinFilled, link: '/trackUser' },
+    { label: 'Tracking', icon: IconMapPinFilled, link: '/trackUser', number:3 },
     {
       label: 'Payments',
       icon: IconBrandMastercard,
       link:"/paymentForm",
+      number:4,
       links: [
-        { label: 'Add Payment', link: '/paymentForm' },
-        { label: 'View Payment', link: '/paymentUsers' },
+        { label: 'Add Payment', link: '/paymentForm', number2:4.1 },
+        { label: 'View Payment', link: '/paymentUsers', number2:4.2 },
       ],
     },
    
