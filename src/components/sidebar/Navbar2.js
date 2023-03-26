@@ -39,12 +39,12 @@ const mockdata = [
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    position:"sticky"  ,
+    // position:"fixed"  ,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
     // backgroundColor:"red",
     overflow:"hidden",
     paddingBottom: 0,
-    width:"18vw"
+    width:"18vw",
     // borderRight:"2px solid #f5f6fa"
 
   },

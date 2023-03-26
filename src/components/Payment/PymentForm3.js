@@ -145,7 +145,7 @@ export function PaymentForm({ update }) {
     const { classes } = useStyles();
     const [opened, { open, close }] = useDisclosure(false);
     const [data, setData] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState();
     const [selectedValue, setSelectedValue] = useState();
     const [name, setName] = useState(false);
     const [wage, setWage] = useState(0);
@@ -285,6 +285,7 @@ export function PaymentForm({ update }) {
         if (id) {
             let res = await axios.get('/shifts/getNumberOfHours/' + id)
                 .then((res) => {
+                    setUsers(res.data.data)
                     setShifts(res.data.data.shifts)
                     setHours(res.data.data.totalHours)
                     let data = { totalHours: res.data.data.totalHours }
@@ -300,6 +301,11 @@ export function PaymentForm({ update }) {
                 })
         }
     }
+
+    // useEffect(() => {
+    //     setShifts(users.shifts)
+    //                 setHours(users.totalHours)
+    // },[users])
     useEffect(() => {
         const totalPayment = wage * hours;
         setPayment(totalPayment);

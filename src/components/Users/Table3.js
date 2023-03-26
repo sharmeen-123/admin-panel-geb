@@ -61,7 +61,8 @@ export function TableSelection({ dataa }) {
       setId(false)
     }
   }
-  function togglePopup2() {
+  function togglePopup2(item) {
+    viewUser(item)
     setShowPopup2(!showPopup2);
     open()
   }
@@ -249,9 +250,9 @@ export function TableSelection({ dataa }) {
 
         </td>
         <td>
-          <div className="button-container" onClick={() => viewUser(item)}>
+          <div className="button-container" >
             <div
-              onClick={togglePopup2}>
+              onClick={() => togglePopup2(item)}>
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <circle cx="12" cy="12" r="2" />
