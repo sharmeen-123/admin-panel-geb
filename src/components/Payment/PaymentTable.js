@@ -7,6 +7,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
 import "./PaymentTable.css"
+import Close from "../../imgs/close.png"
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -180,21 +181,17 @@ export function TableSelection({ dataa }) {
 
             {/* ..........Popup....... */}
 
-            <Modal opened={opened} onClose={close} title="User Info"
-              radius="md"
-              withBorder
-              centered
-              p="md"
-              sx={(theme) => ({
-                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-              })}
-              overlayStyle={{
-                backdropFilter: 'blur(0.5px)',
-                WebkitBackdropFilter: 'blur(0.5px)',}}
-                
-            >
-             
-                  <Paper>
+            {showPopup2 && (
+
+<Popup>
+
+                  <Paper style={{ width: "30vw" }}>
+                    <Group position='apart'>
+                      <Text>
+                        Payment Info
+                      </Text>
+                      <img src={Close} onClick={() => setShowPopup2(!showPopup2)} style={{width:"15px"}}/>
+                    </Group>
 
                     <Avatar src={image} size={120} radius={120} mx="auto" />
                     <Text ta="center" fz="lg" weight={500} mt="md">
@@ -218,7 +215,8 @@ export function TableSelection({ dataa }) {
                     </Group>
 
                   </Paper>
-            </Modal>
+                  </Popup>
+            )}
 
             <NavLink
               to="/updatePaymentForm">
@@ -249,6 +247,12 @@ export function TableSelection({ dataa }) {
               <Popup>
 
                 <Paper style={{ width: "20vw" }}>
+                <Group position='apart'>
+                      <Text>
+                        Delete Payment
+                      </Text>
+                      <img src={Close} onClick={() => setShowPopup(!showPopup)} style={{width:"15px"}}/>
+                    </Group>
 
                   <Text ta="center" fz="lg" weight={500} mt="md">
                     Delete Payment

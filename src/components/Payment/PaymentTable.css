@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(0.5px); /* change the value to adjust the level of blur */
+    backdrop-filter: blur(0.7px); /* change the value to adjust the level of blur */
     z-index: 0;
 }
 .paper{

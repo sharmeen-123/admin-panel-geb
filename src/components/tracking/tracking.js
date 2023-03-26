@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom';
 import circle from "../../imgs/circle.png"
 import { HeaderTabs } from '../header/header';
 import Loading from '../Loader/loading';
+import mapboxgl from 'mapbox-gl';
 
 
 

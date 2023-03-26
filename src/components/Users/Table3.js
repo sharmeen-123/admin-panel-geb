@@ -8,6 +8,7 @@ import axios from '../../axios';
 import "./tableStyle.css"
 import { useDisclosure } from '@mantine/hooks';
 import { Menu, useMantineTheme } from '@mantine/core';
+import Close from "../../imgs/close.png"
 import {
   IconSquareCheck,
   IconPackage,
@@ -265,18 +266,16 @@ export function TableSelection({ dataa }) {
 
 
  {/* ..........Popup....... */}
- <Modal opened={opened} onClose={close} title="User Info"
-                radius="md"
-                withBorder
-                centered
-                p="lg"
-                sx={(theme) => ({
-                    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-                })}
-
-                
-            >
-                    <Paper>
+ {showPopup2 && (
+              <Popup>
+               
+                <Paper style={{width:"30vw"}}>
+                <Group position='apart'>
+                      <Text>
+                        User Info
+                      </Text>
+                      <img src={Close} onClick={() => setShowPopup2(!showPopup2)} style={{width:"15px"}}/>
+                    </Group>
                         <Avatar src={image} size={120} radius={120} mx="auto" />
                         <Text ta="center" fz="lg" weight={500} mt="md">
                             {name} . {designation}
@@ -293,10 +292,8 @@ export function TableSelection({ dataa }) {
                         
                             
                     </Paper>
-
-
-
-            </Modal>
+                    </Popup>
+            )}
             <NavLink
               to="/updateUser">
               <div
@@ -329,20 +326,19 @@ export function TableSelection({ dataa }) {
 
             {showPopup && (
               <Popup>
-                {/* <h1>Delete User</h1>
-                <p>You want to Delete User.</p>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <button onClick={() => { togglePopup(false, true); }}>Yes</button>
-                  <button className="red" onClick={() => togglePopup(false, false)}>
-                    No
-                  </button>
-                </div> */}
+               
                 <Paper style={{width:"20vw"}}>
+                <Group position='apart'>
+                      <Text>
+                        Delete User
+                      </Text>
+                      <img src={Close} onClick={() => setShowPopup(!showPopup)} style={{width:"15px"}}/>
+                    </Group>
                         
                         <Text ta="center" fz="lg" weight={500} mt="md">
-                            Delete Payment
+                            Delete User
                         </Text>
-                        <p>You want to Delete payment!</p>
+                        <p>You want to Delete User!</p>
                         <Button onClick={() => { togglePopup(false, true); }} variant="default" fullWidth mt="md">Yes</Button>
                           <Button  onClick={() => togglePopup(false, false)} variant="default" fullWidth mt="md">
                             No
