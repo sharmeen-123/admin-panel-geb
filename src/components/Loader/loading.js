@@ -15,7 +15,7 @@ const Loading = () => {
     })
   }, [])
 
-  return <div className='container' ref={container} style={{width:"40%", margin:"0 auto", marginTop:"12%"}}></div>
+  return <div className='container' ref={container} style={{width:"40%", margin:"0 auto", marginTop:"5%"}}></div>
 }
 
 export default Loading
