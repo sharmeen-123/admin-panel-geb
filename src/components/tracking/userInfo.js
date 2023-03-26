@@ -125,7 +125,7 @@ const Maps = () => {
                         </>) : (<></>)}
                     </div>
 
-                    <div className="card" style={{ border: "2px solid rgb(226, 225, 225)", margin: "1vw", width: "25vw", height: "40%" }}>
+                    <div className="card" style={{ border: "2px solid rgb(226, 225, 225)", margin: "1vw", width: "25vw", height: "32%" }}>
                         <h3 style={{ marginRight: "0.5vw", marginLeft: "0.5vw", borderBottom: "2px solid rgb(226, 225, 225)", textAlign: "center" }}>All Locations</h3>
                         <div style={{ overflow: "auto", margin: "1vw", scrollbarColor: 'rebeccapurple green' }}>
                             {location ? (<>
