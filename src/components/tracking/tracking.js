@@ -113,7 +113,7 @@ const Maps = () => {
             
                 <div style={{margin:"1.5%"}}>
                     <Map
-                        mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZmRzMDB0OTExdXYzeG4xbDRuamQ5MHMifQ.WqbvALWbiMPazVPIGxkdCQ'
+                        mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZnBiczZqbTE0M2YzdnJrbHFyM3F4MDMifQ.A1gpX0qWw-Y1DRVPCQRlTA'
                         style={{
                             width: "50vw",
                             height: "35vw",
@@ -126,7 +126,7 @@ const Maps = () => {
                             latitude: lat,
                             zoom: 10,
                         }}
-                        mapStyle='mapbox://styles/mapbox/outdoors-v9'
+                        mapStyle='mapbox://styles/mapbox/streets-v11'
                     >
                         {/* <Marker
                         // key={6}

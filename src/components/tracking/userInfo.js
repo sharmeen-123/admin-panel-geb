@@ -45,7 +45,7 @@ const Maps = () => {
             {shift && location &&user &&data?(<>
                 <div style={{ display: "flex", marginTop: "5vw", backgroundColor: "#f5f6fa", borderRadius: '3%', margin: '1.3%' }}>
                 <Map
-                    mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZmRzMDB0OTExdXYzeG4xbDRuamQ5MHMifQ.WqbvALWbiMPazVPIGxkdCQ'
+                    mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZnBiczZqbTE0M2YzdnJrbHFyM3F4MDMifQ.A1gpX0qWw-Y1DRVPCQRlTA'
                     style={{
                         width: "30vw",
                         height: "45vw",
@@ -60,7 +60,7 @@ const Maps = () => {
                         latitude: lat,
                         zoom: 8,
                     }}
-                    mapStyle='mapbox://styles/mapbox/outdoors-v9'
+                    mapStyle='mapbox://styles/mapbox/streets-v11'
                 >
                     {/* <Marker
                         // key={6}
