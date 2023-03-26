@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
-import "./paymentTable.css"
+import "./PaymentTable.css"
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
