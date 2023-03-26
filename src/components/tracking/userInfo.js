@@ -45,7 +45,7 @@ const Maps = () => {
             {shift && location &&user &&data?(<>
                 <div style={{ display: "flex", marginTop: "5vw", backgroundColor: "#f5f6fa", borderRadius: '3%', margin: '1.3%' }}>
                 <Map
-                    mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZmRzeXF3bDB4b2UzeXBnMm96bHp3cjEifQ.nFCG0mw5jotR970K1RZYRQ'
+                    mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZmRzMDB0OTExdXYzeG4xbDRuamQ5MHMifQ.WqbvALWbiMPazVPIGxkdCQ'
                     style={{
                         width: "30vw",
                         height: "45vw",

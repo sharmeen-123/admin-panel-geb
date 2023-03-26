@@ -113,7 +113,7 @@ const Maps = () => {
             
                 <div style={{margin:"1.5%"}}>
                     <Map
-                        mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZmRzeXF3bDB4b2UzeXBnMm96bHp3cjEifQ.nFCG0mw5jotR970K1RZYRQ'
+                        mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZmRzMDB0OTExdXYzeG4xbDRuamQ5MHMifQ.WqbvALWbiMPazVPIGxkdCQ'
                         style={{
                             width: "50vw",
                             height: "35vw",
