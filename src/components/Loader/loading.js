@@ -16,7 +16,7 @@ const Loading = () => {
   }, [])
 
   return <div style={{display:'flex', justifyContent:'center',alignItems:"center", height:'78vh'}}>
-    <div className='container' ref={container} style={{width:"15%"}}></div>
+    <div className='container' ref={container} style={{width:"45%"}}></div>
     </div>
 }
 
