@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { createStyles, Table, Checkbox, ScrollArea, Group, Avatar, Text, rem, Button,  Paper, Modal, TextInput } from '@mantine/core';
-
-
+import { IconPhoneCall, IconAt, IconMapPin } from '@tabler/icons-react';
 import { AuthContext } from "../../App";
 import { NavLink } from "react-router-dom";
 import axios from '../../axios';
@@ -24,6 +23,15 @@ const useStyles = createStyles((theme) => ({
         ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2)
         : theme.colors[theme.primaryColor][0],
   },
+    icon: {
+      color: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[5],
+    },
+  
+    name: {
+      fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    },
+
+
 }));
 function Popup(props) {
   return (
@@ -51,6 +59,7 @@ export function TableSelection({ dataa }) {
   const [data, setData] = useState(dataa)
   const { update, setUpdate } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
+
   function togglePopup(user, del) {
     setShowPopup(!showPopup);
     if (user) {
@@ -268,29 +277,51 @@ export function TableSelection({ dataa }) {
 
  {/* ..........Popup....... */}
  {showPopup2 && (
-              <Popup>
+              <Popup >
                
                 <Paper style={{width:"30vw"}}>
-                <Group position='apart'>
+
+                <div>
+                <Group position='apart' style={{padding:"2.5%"}}>
                       <Text>
                         User Info
                       </Text>
                       <img src={Close} onClick={() => setShowPopup2(!showPopup2)} style={{width:"15px"}}/>
                     </Group>
-                        <Avatar src={image} size={120} radius={120} mx="auto" />
-                        <Text ta="center" fz="lg" weight={500} mt="md">
-                            {name} . {designation}
-                        </Text>
-                        <Text ta="center" c="dimmed" fz="sm">
-                            {email}
-                        </Text>
-                        <Text ta="center" c="dimmed" fz="sm" style={{margin:"1vw"}}>
-                            Contact:{" "+phone}
-                        </Text>
-                        <Text ta="center" c="dimmed" fz="sm" style={{margin:"1vw"}}>
-                            Address:{" "+address}
-                        </Text>
-                        
+      <Group noWrap style={{padding:"10%"}}>
+        <Avatar src={image} size={94} radius="md" />
+        <div>
+          <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
+            {designation}
+          </Text>
+
+          <Text fz="lg" fw={500} className={classes.name}>
+            {name}
+          </Text>
+
+          <Group noWrap spacing={10} mt={3}>
+            <IconAt stroke={1.5} size="1rem" className={classes.icon} />
+            <Text fz="xs" c="dimmed">
+              {email}
+            </Text>
+          </Group>
+
+          <Group noWrap spacing={10} mt={5}>
+            <IconPhoneCall stroke={1.5} size="1rem" className={classes.icon} />
+            <Text fz="xs" c="dimmed">
+              {phone}
+            </Text>
+          </Group>
+          <Group noWrap spacing={10} mt={5}>
+            <IconMapPin stroke={1.5} size="1rem" className={classes.icon} />
+            <Text fz="xs" c="dimmed">
+              {address}
+            </Text>
+          </Group>
+        </div>
+      </Group>
+    </div>
+              
                             
                     </Paper>
                     </Popup>
@@ -328,7 +359,7 @@ export function TableSelection({ dataa }) {
             {showPopup && (
               <Popup>
                
-                <Paper style={{width:"20vw"}}>
+                <Paper style={{ width: "22vw", padding:"4%" }}>
                 <Group position='apart'>
                       <Text>
                         Delete User

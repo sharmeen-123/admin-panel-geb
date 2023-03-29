@@ -11,6 +11,7 @@ import circle from "../../imgs/circle.png"
 import { HeaderTabs } from '../header/header';
 import Loading from '../Loader/loading';
 import mapboxgl from 'mapbox-gl';
+import "./Tracking.css"
 
 
 
@@ -110,13 +111,13 @@ const Maps = () => {
 <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"Track Employees"} />
 
             {shifts&&userStatus?(<>
-                <div style={{ display: "flex", justifyContent: "space-around", marginTop: "2vw",  backgroundColor: "#f5f6fa",  borderRadius:'3%',  margin: '1.3%'}}>
+                <div className="main">
             
-                <div style={{margin:"1.5%"}}>
+                <div className="map">
                     <Map
                         mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZnBiczZqbTE0M2YzdnJrbHFyM3F4MDMifQ.A1gpX0qWw-Y1DRVPCQRlTA'
                         style={{
-                            width: "50vw",
+                            width: "40vw",
                             height: "35vw",
                             borderRadius: "15px",
                             border: "2px solid rgb(226, 225, 225)",
@@ -154,17 +155,17 @@ const Maps = () => {
 
                     </Map>
                 </div>
-                <div style={{margin:"1.5%"}}>
-                    <div className="card" style={{ marginLeft: "1vw", height:"90%" }}>
+                <div>
+                    <div className="card" style={{height:"90%" }}>
 
                         <div style={{ overflow: "auto" }}>
-                            <h1 className="numbers" style={{marginRight:"1vw", marginBottom: "3vw", borderBottom: "2px solid rgb(226, 225, 225)", textAlign: "center" }}>All Workers</h1>
+                            <h1 className="numbers" style={{marginRight:"1vw", marginBottom: "3vw", borderBottom: "2px solid rgb(226, 225, 225)", textAlign: "center" }}>Workers</h1>
                             <div >
                                 {userStatus?.map((val, ind) => {
                                     return (
-                                        <div style={{ display: "flex", margin: "1vw", width: "92%", borderBottom: "2px solid rgb(226, 225, 225)" }}>
+                                        <div style={{ display: "flex", margin: ".3vw", borderBottom: "2px solid rgb(226, 225, 225)" }} className="img">
                                             {val.image ? (<>
-                                                <img src={val.image} style={{ width: "1.7vw",height:"6vh", borderRadius: "100%" }} />
+                                                <img src={val.image} style={{ width: "3vw",height:"6vh", borderRadius: "100%" }} />
                                             </>) : (<>
                                                 <img src={require("../../imgs/upload.png")} style={{ width: "3vw", borderRadius: "100%" }} />
                                             </>)}

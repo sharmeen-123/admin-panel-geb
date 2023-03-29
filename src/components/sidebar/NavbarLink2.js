@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Group,
@@ -11,6 +11,7 @@ import {
   rem,
 } from '@mantine/core';
 import { IconCalendarStats, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import './Navbar.css'
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -59,11 +60,6 @@ const useStyles = createStyles((theme) => ({
       borderLeft:"5px solid gray"
     },
   },
-  icons:{
-  backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
-  color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-  
-  },
 
 
   chevron: {
@@ -73,10 +69,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link, number, number2 }) {
+export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link, number, number2,isOpened, setOpenLink,opened, setOpened }) {
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
-  const [opened, setOpened] = useState(initiallyOpened || false);
+  const [isOpen, setIsOpen] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
   const items = (hasLinks ? links : []).map((link) => (
     <NavLink 
@@ -88,18 +84,29 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link, nu
   </NavLink>
   ));
 
+  const handleClick = () => {
+    setIsOpen((o) => !o);
+    if(label === isOpened){
+      setOpenLink(false)
+    }else{
+    setOpenLink(label)};
+    setOpened(isOpen)
+  };
+
+
   return (
     <>
-      <NavLink to={link} style={{color:"white"}} className={classes.navlinks} activeClassName="active">
-  <UnstyledButton onClick={() => setOpened((o) => !o) } className={classes.control} 
+      <NavLink to={link} style={{color:"transparent"}} className={classes.navlinks} activeClassName="active">
+  <UnstyledButton onClick={handleClick} className={classes.control} 
   >
     <Group position="apart" spacing={0}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <ThemeIcon variant="light" size={30}>
-          <Icon size="2rem" className={classes.icons}/>
+          <img src={Icon} className={classes.icons} style={{width:'85%'}}/>
+          {/* <Icon size="2rem" className={classes.icons}/> */}
         </ThemeIcon>
         {number?(<>
-          <Box ml="md" style={{border:"none", }}>{number+" "+label}</Box></>):(<>
+          <Box ml="md" style={{border:"none", }}>{number+". "+label}</Box></>):(<>
             <Box ml="md" style={{border:"none", }}>{label}</Box></>)}
         
       </Box>          
@@ -109,14 +116,14 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link, nu
           size="1rem"
           stroke={1.5}
           style={{
-            transform: opened ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none',
+            transform: initiallyOpened ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none',
           }}
         />
       )}
     </Group>
   </UnstyledButton>
 </NavLink>
-      {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
+      {hasLinks ? <Collapse in={initiallyOpened}>{items}</Collapse> : null}
     </>
   );
 }

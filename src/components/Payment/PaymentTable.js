@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
 import "./PaymentTable.css"
 import Close from "../../imgs/close.png"
+import {  Card} from '@mantine/core';
+import BackGround from '../../imgs/backgroundImage.jpg'
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -15,6 +17,15 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark'
         ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2)
         : theme.colors[theme.primaryColor][0],
+  },
+  card: {
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    padding:0,
+    margin:0,
+  },
+
+  avatar: {
+    border: `${rem(.1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white}`,
   },
 
 }));
@@ -141,9 +152,28 @@ export function TableSelection({ dataa }) {
     );
   const toggleAll = () =>
     setSelection((current) => (current?.length === data?.length ? [] : data?.map((item) => item.id)));
-
+    // const { classes, theme } = useStyles()
   const rows = data?.map((item) => {
     const selected = selection.includes(item.id);
+
+    const stats =[
+      {label:"wage", value:wage},
+      {label:"hours", value:hours},
+      {label:"payment", value:payment},
+      {label:"shifts", value:shifts},
+    ]
+
+   
+    const items = stats.map((stat) => (
+      <div key={stat.label}>
+        <Text ta="center" fz="lg" fw={500}>
+          {stat.value}
+        </Text>
+        <Text ta="center" fz="sm" c="dimmed">
+          {stat.label}
+        </Text>
+      </div>
+    ));
     return (
 
       <tr key={item.id} className={cx({ [classes.rowSelected]: selected })} style={{ textAlign: "center" }}>
@@ -185,7 +215,36 @@ export function TableSelection({ dataa }) {
 
 <Popup>
 
-                  <Paper style={{ width: "30vw" }}>
+<Card withBorder padding="xl" radius="md" className={classes.card} style={{ width: "30vw" }}>
+<Group position='apart' style={{marginBottom:"10px"}}>
+                      <Text>
+                        Payment Info
+                      </Text>
+                      <img src={Close} onClick={() => setShowPopup2(!showPopup2)} style={{width:"15px"}}/>
+                    </Group>
+      <Card.Section sx={{ backgroundImage: `url(${BackGround})`, height: 140 }} />
+      <Avatar src={image} size={80} radius={80} mx="auto" mt={-30} className={classes.avatar} />
+      <Text ta="center" fz="lg" fw={500} mt="sm">
+        {name}
+      </Text>
+      {/* <Text ta="center" fz="sm" c="dimmed">
+        {wage}
+      </Text> */}
+      <Group mt="md" position="center" spacing={30}>
+        {items}
+      </Group>
+      {/* <Button
+        fullWidth
+        radius="md"
+        mt="xl"
+        size="md"
+        color={theme.colorScheme === 'dark' ? undefined : 'dark'}
+      >
+        Follow
+      </Button> */}
+    </Card>
+
+                  {/* <Paper style={{ width: "30vw" }}>
                     <Group position='apart'>
                       <Text>
                         Payment Info
@@ -214,7 +273,7 @@ export function TableSelection({ dataa }) {
                       </Text>
                     </Group>
 
-                  </Paper>
+                  </Paper> */}
                   </Popup>
             )}
 
@@ -246,7 +305,7 @@ export function TableSelection({ dataa }) {
 
               <Popup>
 
-                <Paper style={{ width: "20vw" }}>
+                <Paper style={{ width: "22vw", padding:"4%" }}>
                 <Group position='apart'>
                       <Text>
                         Delete Payment

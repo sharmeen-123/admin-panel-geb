@@ -2,17 +2,13 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import MainDash from "./components/MainDash/MainDash";
 import MainUsers from "./components/Users/MainUsers";
-import Adduser from "./components/Users/Adduser";
-// import PaymentForm from "./components/Payment/PaymentForm";
 import PaymentUsers from "./components/Payment/PaymentUsers";
-// import { NavbarNested } from "./components/sidebar/Navbar";
 import Tracking from "./components/tracking/tracking";
 import Map from "./components/tracking/userInfo";
 import { GetInTouch } from "./components/Users/AddUser2";
 import "./App.css"
 import { NavbarNested2 } from "./components/sidebar/Navbar2";
 import { PaymentForm } from "./components/Payment/PymentForm3";
-import { HeaderTabs } from "./components/header/header";
 export const AuthContext = React.createContext();
 
 const AdminSideBarLayout = () => {
@@ -20,7 +16,9 @@ const AdminSideBarLayout = () => {
     <div className={"main_div"} style={{display:"grid",
       backgroundColor:"white",
       overflow:"hidden",
-      "grid-template-columns": "15rem auto"}}>
+      gridTemplateColumns: "20% auto"
+    }}
+      >
       
         <div style={{overflow:"hidden", borderRight:"2px solid #f5f6fa"}}>
         <NavbarNested2/>

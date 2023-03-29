@@ -11,7 +11,7 @@ import {
   PasswordInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { FileInput, Avatar, Modal } from '@mantine/core';
+import { FileInput, Avatar, Modal, Alert } from '@mantine/core';
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import axios2 from '../../axios';
@@ -19,6 +19,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { HeaderTabs } from '../header/header';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
+import { IconAlertCircle } from '@tabler/icons-react';
 import man from "./../../imgs/man.png"
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
 // import bg from './bg.svg';
@@ -129,6 +130,7 @@ export function GetInTouch({ update }) {
   const {alrt, setAlrt} = useContext(AuthContext);
   const {msg, setMsg} = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isError, setIsError] = useState(false) 
 
   const form = useForm({
 
@@ -196,7 +198,12 @@ export function GetInTouch({ update }) {
       .catch((error) => {
         // setError(error.response.data);
         console.log(error);
-        setMsg(error.response.data)
+        if(error.response.data){
+        setMsg(error.response.data)}
+        else{
+          setMsg("Some Error Occured")
+        }
+        setIsError(true)
         open()
       })
     
@@ -229,6 +236,7 @@ export function GetInTouch({ update }) {
         setMsg(error.response.data)}else{
           setMsg("Some Error Occured")
         }
+        setIsError(true)
         open()
       })
   }
@@ -252,13 +260,13 @@ export function GetInTouch({ update }) {
   return (
     <div>
       <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"Add User"} />
-      {/* {alrt?(<>
+      {isError?(<>
         <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
-        onClose={()=> setAlrt(false)}
-        title="Bummer!" color="gray" style={{top:0, }}>
+        onClose={()=> setIsError(false)}
+        title="Error" color="red" style={{top:0, }}>
      {msg}
     </Alert>
-      </>):(<></>)} */}
+      </>):(<></>)}
       <Paper shadow="md" radius="lg" className={classes.main}>
 
         <div className={classes.wrapper}>
@@ -318,24 +326,6 @@ export function GetInTouch({ update }) {
           </form>
         </div>
 
-        <Modal opened={opened} onClose={close} title="Warning"
-          radius="md"
-          withBorder
-          p="sm"
-          marginTop="50vh"
-          sx={(theme) => ({
-            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-          })}
-          centered
-
-        >
-
-          <Text ta="center" fz="lg" weight={500} mt="md" pt={"3vw"} pb={"5vw"}>
-            {msg}
-          </Text>
-
-
-        </Modal>
       </Paper>
       
     </div>

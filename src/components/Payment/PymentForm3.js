@@ -8,7 +8,7 @@ import {
     SimpleGrid,
     createStyles,
     rem,
-    PasswordInput,
+    Alert,
     Select,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -18,7 +18,7 @@ import axios from '../../axios';
 import { useDisclosure } from '@mantine/hooks';
 import { HeaderTabs } from '../header/header';
 import { forwardRef } from 'react';
-
+import { IconAlertCircle } from '@tabler/icons-react';
 import "./PaymentForm.css";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
@@ -159,6 +159,7 @@ export function PaymentForm({ update }) {
     const [img, setImg] = useState(update.image);
     const { alrt, setAlrt } = useContext(AuthContext);
     const { msg, setMsg } = useContext(AuthContext);
+    const [isError, setIsError] = useState(false) 
     const navigate = useNavigate();
 
 
@@ -229,9 +230,12 @@ export function PaymentForm({ update }) {
                 )
                 .catch((error) => {
                     // setError(error.response.data);
-                    console.log(error.response.data);
-                    setMsg(error.response.data);
-                    open()
+                    if(error.response.data){
+                    setMsg(error.response.data)}
+                    else{
+                        setMsg("Some Error Occured")
+                    }
+                    setIsError(true)
                 })
         }
     }
@@ -249,9 +253,12 @@ export function PaymentForm({ update }) {
 
                 )
                 .catch((error) => {
-                    setMsg(error.response.data)
-                    console.log(res.data);
-                    open()
+                    if(error.response.data){
+                        setMsg(error.response.data)}
+                        else{
+                            setMsg("Some Error Occured")
+                        }
+                        setIsError(true)
                 })
         }
     }
@@ -366,6 +373,13 @@ export function PaymentForm({ update }) {
 
         <div>
             <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"Add Payment"} />
+            {isError?(<>
+        <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
+        onClose={()=> setIsError(false)}
+        title="Error" color="red" style={{top:0, }}>
+     {msg}
+    </Alert>
+      </>):(<></>)}
             <Paper shadow="md" radius="lg" className={classes.main}>
                 <div className={classes.wrapper}>
 
@@ -428,23 +442,7 @@ export function PaymentForm({ update }) {
                     </form>
                 </div>
 
-                <Modal opened={opened} onClose={close} title="Warning"
-                    radius="md"
-                    p="sm"
-                    withBorder
-                    sx={(theme) => ({
-                        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-                    })}
-                    centered
-
-                >
-
-                    <Text ta="center" fz="lg" weight={500} mt="md" pt={"3vw"} pb={"5vw"}>
-                        {msg}
-                    </Text>
-
-
-                </Modal>
+               
             </Paper>
         </div>
     );

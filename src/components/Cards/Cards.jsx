@@ -80,7 +80,7 @@ function Cards(props) {
 
       </div>
       {/* Shiftss */}
-      <div className="main_container" style={{ marginTop: "2%" }}>
+      <div className="main_container">
 
       <div className="card">
           <div className="title">
@@ -142,10 +142,10 @@ function Cards(props) {
       </div>
 
       {/* payment cyclee */}
-      <div className="main_container" style={{ marginTop: "2%" }}>
+      <div className="main_container">
 
       <div className="card">
-          <div className="title" style={{marginBottom:"10%"}}>
+          <div className="title">
           <p>Total Paid Amount</p>
           <div className="icon">
           <img src={totalPaid}/>

@@ -4,14 +4,14 @@
   /* justify-content: center; */
   /* align-items: center; */
   background-color: white;
-  width: 18vw;
-  border-radius: 1.5rem;
+  /* width: 19.2vw; */
+  /* border-radius: 1.5; */
   box-shadow: none;
   border: 2px solid rgb(226, 225, 225);
   /* height: 10vh; */
 }
 .main_container {
-  width: "100%";
+  /* width: "100%"; */
   display: flex;
   justify-content: space-around;
   padding-top: 1rem;
@@ -38,9 +38,9 @@ p {
 
     /* width: 80vw; */
   }
-  .card {
+  /* .card {
     width: 30vw;
     margin: 5px;
-    /* padding-bottom: 2vw; */
-  }
+    /* padding-bottom: 2vw; 
+  } */
 }

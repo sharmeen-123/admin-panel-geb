@@ -9,13 +9,15 @@ const Loading = () => {
     Lottie.loadAnimation({
       container: container.current,
       renderer: 'svg',
-      loop: true,
-      autoplay: true,
+      // loop: true,
+      // autoplay: true,
       animationData: loaderData
     })
   }, [])
 
-  return <div className='container' ref={container} style={{width:"25%", margin:"0 auto", marginTop:"2%"}}></div>
+  return <div style={{display:'flex', justifyContent:'center',alignItems:"center", height:'78vh'}}>
+    <div className='container' ref={container} style={{width:"15%"}}></div>
+    </div>
 }
 
 export default Loading

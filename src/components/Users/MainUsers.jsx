@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Userscard from "./Userscard";
 import "./MainUsers.css";
-import Tables from "./Tables";
 import axios from "../../axios";
 // import "./Tables.css"
 import {TableSelection} from "./Table3"
@@ -65,7 +64,7 @@ export default function MainUsers() {
       {alrt?(<>
         <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
         onClose={()=> setAlrt(false)}
-        title="Alert" color="orange" style={{top:0, }}>
+        title="Alert" color="green" style={{top:0, }}>
      {msg}
     </Alert>
       </>):(<></>)}
