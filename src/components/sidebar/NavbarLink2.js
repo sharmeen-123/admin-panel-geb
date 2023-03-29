@@ -85,7 +85,7 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link, nu
   ));
 
   const handleClick = () => {
-    setIsOpen((o) => !o);
+    // setIsOpen((o) => !o);
     if(label === isOpened){
       setOpenLink(false)
     }else{
@@ -102,7 +102,7 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link, nu
     <Group position="apart" spacing={0}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <ThemeIcon variant="light" size={30}>
-          <img src={Icon} className={classes.icons} style={{width:'85%'}}/>
+          <img src={Icon} className={classes.icons} style={{width:'75%'}}/>
           {/* <Icon size="2rem" className={classes.icons}/> */}
         </ThemeIcon>
         {number?(<>
@@ -128,26 +128,3 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link, nu
   );
 }
 
-const mockdata = {
-  label: 'Releases',
-  icon: IconCalendarStats,
-  links: [
-    { label: 'Upcoming releases', link: '/' },
-    { label: 'Previous releases', link: '/' },
-    { label: 'Releases schedule', link: '/' },
-  ],
-};
-
-export function NavbarLinksGroup() {
-  return (
-    <Box
-      sx={(theme) => ({
-        minHeight: rem(220),
-        padding: theme.spacing.md,
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
-      })}
-    >
-      <LinksGroup {...mockdata} />
-    </Box>
-  );
-}
