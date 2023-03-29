@@ -101,6 +101,7 @@ const Maps = () => {
     }
 
     useEffect(() => {
+        setLocation([])
         allShifts();
         getUserStatus();
     }, []);

@@ -16,6 +16,7 @@ const Maps = () => {
     const [data, setData] = useState([])
 
     useEffect(() => {
+        
         console.log("shift is user info....", shift, "location in userInfo", location)
         let coordinates = [];
         let loc = shift.locations
