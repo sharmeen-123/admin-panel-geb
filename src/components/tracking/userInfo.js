@@ -4,6 +4,7 @@ import Map, { FullscreenControl, GeolocateControl, Marker, NavigationControl, So
 import { AuthContext } from "../../App";
 import { HeaderTabs } from '../header/header';
 import Loading from '../Loader/loading';
+import "./UserInfo.css"
 
 
 const Maps = () => {
@@ -43,7 +44,7 @@ const Maps = () => {
 
             <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"User Details"} />
             {shift && location &&user &&data?(<>
-                <div style={{ display: "flex", marginTop: "5vw", backgroundColor: "#f5f6fa", borderRadius: '3%', margin: '1.3%' }}>
+                <div style={{ display: "flex", marginTop: "5vw", backgroundColor: "#f5f6fa", borderRadius: '3%', margin: '1.3%' }} className="main">
                 <Map
                     mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZnBiczZqbTE0M2YzdnJrbHFyM3F4MDMifQ.A1gpX0qWw-Y1DRVPCQRlTA'
                     style={{
