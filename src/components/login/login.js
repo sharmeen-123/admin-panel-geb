@@ -59,8 +59,8 @@ import {
     const {msg, setMsg} = useContext(AuthContext);
     const {login, setLogin} = useContext(AuthContext);
     const{activeUser, setActiveUser} = useContext(AuthContext)
-    const [email, setEmail] = useState('fatima@gmail.com')
-    const[pass, setPass] = useState('12345678')
+    const [email, setEmail] = useState('')
+    const[pass, setPass] = useState('')
     const [err, setErr] = useState(false)
     const navigate = useNavigate();
 

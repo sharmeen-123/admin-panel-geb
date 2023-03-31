@@ -60,7 +60,7 @@ const Maps = () => {
             {shift && location &&user &&data?(<>
                 <div style={{ display: "flex", marginTop: "5vw", backgroundColor: "#f5f6fa", borderRadius: '3%', margin: '1.3%' }} className="main">
                 <Map
-                    mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZnBiczZqbTE0M2YzdnJrbHFyM3F4MDMifQ.A1gpX0qWw-Y1DRVPCQRlTA'
+                    mapboxAccessToken= {process.env.REACT_APP_API2}
                     style={{
                         width: "30vw",
                         height: "45vw",

@@ -86,7 +86,7 @@ const Maps = () => {
 
                     <div className="map">
                         <Map
-                            mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZnBiczZqbTE0M2YzdnJrbHFyM3F4MDMifQ.A1gpX0qWw-Y1DRVPCQRlTA'
+                            mapboxAccessToken= {process.env.REACT_APP_API2}
                             style={{
                                 width: "40vw",
                                 height: "35vw",
