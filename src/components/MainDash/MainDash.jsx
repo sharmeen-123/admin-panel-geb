@@ -18,7 +18,6 @@ function MainDash(props) {
     let res = await axios.get('/shifts/getNumberOfShifts')
     .then ((res) => {
       setShifts(res.data.data);
-      // console.log("shifts",res.data.data)
     }
       
     )
@@ -33,7 +32,6 @@ function MainDash(props) {
     let res = await axios.get('/user/getNumberOfUsers')
     .then ((res) => {
       setUsers(res.data.data);
-      console.log("users",res.data.data)
     }
       
     )
@@ -48,7 +46,6 @@ function MainDash(props) {
     let res = await axios.get('/cycle/getAllcycles')
     .then ((res) => {
       setPrevShifts(res.data.data);
-      console.log("previous shifts...",res.data.data)
     }
       
     )
@@ -62,7 +59,6 @@ function MainDash(props) {
     let res = await axios.get('/payment/getAmountPaid')
     .then ((res) => {
       setPayment(res.data);
-      console.log("payments...",res.data)
     }
       
     )
@@ -76,7 +72,6 @@ function MainDash(props) {
       let res = await axios.get('/payment/getAllcycles')
       .then ((res) => {
         setPrevAmount(res.data.data);
-        console.log("prev payments...",res.data.data)
       }
         
       )
@@ -95,7 +90,7 @@ function MainDash(props) {
   return (
     
     <div>
-      <HeaderTabs user={{name:"sharmeen", image:"sdsd"}} title={"Dashboard"}/>
+      <HeaderTabs title={"Dashboard"}/>
       {users && shifts && payment?(
         <div className="MainDash">
         <Cards users={users} shifts={shifts} amount={payment}/>

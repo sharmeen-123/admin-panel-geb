@@ -12,39 +12,37 @@ import { HeaderTabs } from '../header/header';
 import Loading from '../Loader/loading';
 import mapboxgl from 'mapbox-gl';
 import "./Tracking.css"
-
-
+import { UserInfoIcons } from './activeUsers';
 
 const Maps = () => {
     const [lng, setLng] = useState(73.0663);
     const [lat, setLat] = useState(33.7294);
     const [opened, { open, close }] = useDisclosure(false);
     const { shift, setShift } = useContext(AuthContext);
-    const [address, setAddress] = useState()
+    const [address, setAddress] = useState();
     const [shifts, setShifts] = useState();
     const { location, setLocation } = useContext(AuthContext);
     const { user, setUser } = useContext(AuthContext);
-    const [userStatus, setUserStatus] = useState()
+    const [userStatus, setUserStatus] = useState();
 
-    let allAreas = [];
     const allShifts = async () => {
         try {
             const res = await axios2.get('/shifts/getActiveShifts');
             setShifts(res.data.data);
-            console.log("all active shifts**********",res.data.data);
         } catch (error) {
             console.log(error);
         }
     };
+
     const getUserStatus = async () => {
         try {
             const res = await axios2.get('/user/getUserStatus');
             setUserStatus(res.data.data);
-            console.log(res.data.data)
         } catch (error) {
             console.log(error);
         }
     };
+
     const getUser = async (id) => {
         try {
             const res = await axios2.get('/user/getOneUser/' + id);
@@ -53,55 +51,27 @@ const Maps = () => {
             console.log(error);
         }
     };
-    const getAddress = async (latitude, longitude) => {
-        try {
-
-            const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
-            const addresss = response.data.display_name;
-            if (location) {
-                allAreas = location;
-            }
-
-            allAreas.push(addresss)
-            setLocation(allAreas)
-            // const response2 = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
-            // const address2 = response.data.display_name;
-            console.log("promiseee", address)
-            setAddress(addresss)
-
-            // setCheckinAddress(address2)
-            //   return(address);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
 
     const popup = (val) => {
         setShift(val)
         getUser(val.userID)
 
-        let loc = shift.locations
-        console.log("shift.location", loc)
-        loc.map((val, ind) => {
-            getAddress(val.latitude, val.longitude)
-            console.log("in get address...", address)
-            console.log(val.latitude, ".....", val.longitude)
-            // allAreas.push(address)
-        })
-        // let pushLast = location;
-        // pushLast.pop()
-        // setLocation(pushLast)
-        getAddress(shift.lastLocation.latitude, shift.lastLocation.longitude)
-        // allAreas.push(address)
-        console.log(shift.lastLocation.latitude, "*************", shift.lastLocation.longitude)
-        // setLocation(allAreas)
-        console.log("all Areas............", location, "............", allAreas)
-        open()
+        let address = null;
+        const getAddress = async (latitude, longitude) => {
+            try {
+                const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+                address = response.data.display_name;
+                setAddress(address);
+                open();
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        getAddress(val.lastLocation.latitude, val.lastLocation.longitude);
     }
 
     useEffect(() => {
-        setLocation([])
         allShifts();
         getUserStatus();
     }, []);
@@ -109,84 +79,82 @@ const Maps = () => {
     return (
         <div>
 
-<HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"Track Employees"} />
+            <HeaderTabs title={"Track Employees"} />
 
-            {shifts&&userStatus?(<>
+            {shifts && userStatus ? (<>
                 <div className="main">
-            
-                <div className="map">
-                    <Map
-                        mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZnBiczZqbTE0M2YzdnJrbHFyM3F4MDMifQ.A1gpX0qWw-Y1DRVPCQRlTA'
-                        style={{
-                            width: "40vw",
-                            height: "35vw",
-                            borderRadius: "15px",
-                            border: "2px solid rgb(226, 225, 225)",
 
-                        }}
-                        initialViewState={{
-                            longitude: lng,
-                            latitude: lat,
-                            zoom: 10,
-                        }}
-                        mapStyle='mapbox://styles/mapbox/streets-v11'
-                    >
-                        {/* <Marker
+                    <div className="map">
+                        <Map
+                            mapboxAccessToken='pk.eyJ1Ijoic2hhcm1lZW4tZmF0aW1hIiwiYSI6ImNsZnBiczZqbTE0M2YzdnJrbHFyM3F4MDMifQ.A1gpX0qWw-Y1DRVPCQRlTA'
+                            style={{
+                                width: "40vw",
+                                height: "35vw",
+                                borderRadius: "15px",
+                                border: "2px solid rgb(226, 225, 225)",
+
+                            }}
+                            initialViewState={{
+                                longitude: lng,
+                                latitude: lat,
+                                zoom: 10,
+                            }}
+                            mapStyle='mapbox://styles/mapbox/streets-v11'
+                        >
+                            {/* <Marker
                         // key={6}
                         latitude={33.6518}
                         longitude={73.1566}
                     /> */}
 
-                        {shifts?.map((val, ind) => {
-                            return (
-                                <Marker
-                                    key={ind}
-                                    longitude={val.lastLocation.longitude}
-                                    latitude={val.lastLocation.latitude}
-                                    onClick={() => popup(val)}
-                                />
+                            {shifts?.map((val, ind) => {
+                                return (
+                                    <Marker
+                                        key={ind}
+                                        longitude={val.lastLocation.longitude}
+                                        latitude={val.lastLocation.latitude}
+                                        onClick={() => popup(val)}
+                                    />
 
-                            );
-                        })}
+                                );
+                            })}
 
 
-                        <NavigationControl position='bottom-right' />
-                        <FullscreenControl />
-                        <GeolocateControl />
+                            <NavigationControl position='bottom-right' />
+                            <FullscreenControl />
+                            <GeolocateControl />
 
-                    </Map>
-                </div>
-                <div>
-                    <div className="card" style={{height:"90%" }}>
+                        </Map>
+                    </div>
+                    <div>
+                        <div style={{ height: "30rem", display: "flex", flexDirection: "column", width: "24rem" }}>
 
-                        <div style={{ overflow: "auto" }}>
-                            <h1 className="numbers" style={{marginRight:"1vw", marginBottom: "3vw", borderBottom: "2px solid rgb(226, 225, 225)", textAlign: "center" }}>Workers</h1>
-                            <div >
-                                {userStatus?.map((val, ind) => {
-                                    return (
-                                        <div style={{ display: "flex", margin: ".3vw", borderBottom: "2px solid rgb(226, 225, 225)" }} className="img">
-                                            {val.image ? (<>
-                                                <img src={val.image} style={{ width: "3vw",height:"6vh", borderRadius: "100%" }} />
-                                            </>) : (<>
-                                                <img src={require("../../imgs/upload.png")} style={{ width: "3vw", borderRadius: "100%" }} />
-                                            </>)}
-                                            {val.active ? (<>
-                                                <img src="https://www.nicepng.com/png/full/244-2444375_rhodes-online-green-dot-icon.png" style={{ width: ".5vw", height: "1.5vh", marginTop: "1.2vw", marginLeft: "1vw" }} />
-                                            </>) : (<>
-                                                <img src={circle} style={{ width: ".5vw", height: "1.5vh", marginTop: "0.7vw", marginTop: "1.2vw", marginLeft: "1vw", display: "flex" }} />
-                                            </>)}
-                                            <p style={{ textAlign: "center", marginLeft: "1vw" }}>{val.name}</p>
-
-                                        </div>)
-                                })}
+                            <div style={{ overflow: "auto" }}>
+                                <h1 className="numbers" style={{ marginRight: "1vw", marginBottom: "1vw", textAlign: "center" }}>Active Workers</h1>
+                                <div >
+                                    {userStatus?.map((val, ind) => {
+                                        return (
+                                            <div
+                                                onClick={() => popup(val)}
+                                            >
+                                                <UserInfoIcons
+                                                    avatar={val.image}
+                                                    name={val.name}
+                                                    title={val.job}
+                                                    startTime={val.startTime}
+                                                    location={val.lastLocation}
+                                                />
+                                            </div>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div></>):(<>
-            <Loading/>
-            </>)}
-                
+                </div></>) : (<>
+                    <Loading />
+                </>)}
+
             {/* ..........Popup....... */}
             <Modal opened={opened} onClose={close} title="User Info"
                 radius="md"
@@ -195,7 +163,7 @@ const Maps = () => {
                 p="lg"
                 sx={(theme) => ({
                     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-                    
+
                 })}
 
             >
@@ -208,7 +176,7 @@ const Maps = () => {
                         <Text ta="center" c="dimmed" fz="sm">
                             {user.email} • {user.userType}
                         </Text>
-                        <div style={{ marginLeft: "2vw",marginTop:"1vw", display: "flex" }} >
+                        <div style={{ marginLeft: "2vw", marginTop: "1vw", display: "flex" }} >
 
                             <div style={{ marginLeft: "0.5vw", marginRight: "0.5vw", marginTop: "0.7vw" }}>
                                 <svg width="22" height="32" viewBox="0 0 22 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -217,19 +185,21 @@ const Maps = () => {
                             </div>
 
                             <Text c="dimmed" fz="sm">
-                            {address}
-                        </Text>
+                                {address}
+                            </Text>
                         </div>
-                        <NavLink to={"/userInfo"}>
+                            <NavLink to={"/userInfo"}>
 
-                            <Button variant="default" fullWidth mt="md">
-                                View Details
-                            </Button>
-                        </NavLink>
+                                <Button variant="default" fullWidth mt="md">
+                                    View Details
+                                </Button>
+                            </NavLink>
+                        
+
                     </Paper>
 
                 </>) : (<>
-                <Loading/>
+                    <Loading />
                 </>)}
 
 

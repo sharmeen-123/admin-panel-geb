@@ -64,7 +64,6 @@ export function TableSelection({ dataa }) {
       .then((res) => {
         setusers(res.data.data);
         setData(res.data.data)
-        console.log("hourss", res.data.data)
       }
 
       )
@@ -90,7 +89,6 @@ export function TableSelection({ dataa }) {
   }
   const searchName = (e) => {
     setSearch(e.target.value);
-    console.log(search)
     Search()
   }
   const Search = async () => {
@@ -98,7 +96,6 @@ export function TableSelection({ dataa }) {
       .then((res) => {
         setusers(res.data.data);
         setData(res.data.data)
-        console.log("users", res.data.data)
       }
 
       )
@@ -109,12 +106,9 @@ export function TableSelection({ dataa }) {
   }
   // deleting User
   const deletePayment = async () => {
-    console.log("in delete User", deleteId)
     if (deleteId) {
       let res = await axios.delete('/payment/deletePayment/' + deleteId)
         .then((res) => {
-          // setusers(res.data.data);
-          console.log("deleted")
           payAmount()
         }
 
@@ -177,13 +171,6 @@ export function TableSelection({ dataa }) {
     return (
 
       <tr key={item.id} className={cx({ [classes.rowSelected]: selected })} style={{ textAlign: "center" }}>
-        <td>
-          <Checkbox
-            checked={selection.includes(item.id)}
-            onChange={() => toggleRow(item.id)}
-            transitionDuration={0}
-          />
-        </td>
         <td>
           <Group spacing="sm">
             <Avatar size={26} src={item.userImage} radius={26} />
@@ -336,21 +323,13 @@ export function TableSelection({ dataa }) {
   return (
     <div style={{padding:"2%", paddingBottom:0}}>
         <ScrollArea>
-        <TextInput label={"Search Payment"} style={{ marginBottom: "2%" }} placeholder={"Search by name"}
+        <TextInput label={"Search Payment"} style={{ marginBottom: "2%" }} placeholder={"Search by user"}
           onChange={(event) => searchName(event)} />
            <div style={{backgroundColor:"white", border:"2px solid rgb(226, 225, 225)",boxShadow:"0px 0px 3px 3px rgb(226, 225, 225)", borderRadius:"15px", padding:"3%"}}>
     
         <Table>
           <thead>
             <tr>
-              <th>
-                <Checkbox
-                  onChange={toggleAll}
-                  checked={selection?.length === data?.length}
-                  indeterminate={selection?.length > 0 && selection?.length !== data?.length}
-                  transitionDuration={0}
-                />
-              </th>
               <th className={classes.head}>User</th>
               <th>Email</th>
               <th>Shifts</th>

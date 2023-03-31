@@ -9,6 +9,8 @@ import { GetInTouch } from "./components/Users/AddUser2";
 import "./App.css"
 import { NavbarNested2 } from "./components/sidebar/Navbar2";
 import { PaymentForm } from "./components/Payment/PymentForm3";
+import { Signup } from "./components/Signup/signup";
+import { AuthenticationImage } from "./components/login/login";
 export const AuthContext = React.createContext();
 
 const AdminSideBarLayout = () => {
@@ -38,11 +40,18 @@ function App() {
 
   const [update, setUpdate] = useState(false);
   const [location, setLocation] = useState();
+  const [login, setLogin] = useState(false)
+  const [activeUser, setActiveUser] = useState() 
   const [user, setUser] = useState();
   const[shifts, setShifts] = useState()
   const[msg, setMsg] = useState()
   const [alrt, setAlrt] = useState()
+  const [logout, setLogout] =useState(false)
   const value = {
+    login:login,
+    setLogin: setLogin,
+    activeUser:activeUser,
+    setActiveUser: setActiveUser,
     setUpdate: setUpdate,
     update: update,
     location: location,
@@ -55,6 +64,8 @@ function App() {
     setMsg:setMsg,
     alrt: alrt,
     setAlrt: setAlrt,
+    logout: logout,
+    setLogout: setLogout
   };
   console.log(process.env.REACT_APP_API)
   return (
@@ -62,9 +73,12 @@ function App() {
       <Router>
         <div className="App">
           <Routes>
-
+          {/* <Signup update={false}/> */}
+          <Route exact path="/" element={<AuthenticationImage update={false} />} ></Route>
+          <Route exact path="/signup" element={<Signup update={false} />} ></Route>
+          {login? (<>
             <Route exact element={<AdminSideBarLayout />} >
-              <Route exact path="/" element={<MainDash />} />
+              <Route exact path="/dashboard" element={<MainDash />} />
               <Route exact path="/mainUsers" element={<MainUsers />} />
               {/* <Route exact path="/addUser" element={<Adduser update={false} />} /> */}
               <Route exact path="/addUser" element={<GetInTouch update={false} />} />
@@ -75,11 +89,14 @@ function App() {
               <Route exact path="/trackUser" element={<Tracking />} />
               <Route exact path="/userInfo" element={<Map />} />
             </Route>
+          </>):(<></>)}
+            
           </Routes>
         </div>
       </Router>
 
     </AuthContext.Provider>
+    
 
     // <div className="App">
     //   {/* <Sidebar /> */}

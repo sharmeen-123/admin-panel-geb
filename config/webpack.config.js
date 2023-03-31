@@ -102,27 +102,6 @@ module.exports = function (webpackEnv) {
   // Get environment variables to inject into our app.
   const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
   const shouldUseReactRefresh = env.raw.FAST_REFRESH;
 
   // common function to get style loaders
@@ -400,10 +379,12 @@ module.exports = function (webpackEnv) {
               test: /\.svg$/,
               use: [
                 {
+
                   loader: require.resolve('@svgr/webpack'),
                   options: {
                     prettier: false,
                     svgo: false,
+                    throwIfNamespace: false,
                     svgoConfig: {
                       plugins: [{ removeViewBox: false }],
                     },

@@ -58,7 +58,6 @@ export default function Tables() {
     let res = await axios.get('/user/getAllUsers')
       .then((res) => {
         setusers(res.data.data);
-        console.log("users", res.data.data)
       }
 
       )
@@ -70,11 +69,8 @@ export default function Tables() {
 
   // switching verification
   const verification = async (id) => {
-    console.log("in verification", id)
     let res = await axios.put('/user/verifyUser/' + id)
       .then((res) => {
-        // setusers(res.data.data);
-        console.log("updatedd")
       }
 
       )
@@ -86,11 +82,8 @@ export default function Tables() {
 
   // switching status
   const status = async (id) => {
-    console.log("in status", id)
     let res = await axios.put('/user/switchUserStatus/' + id)
       .then((res) => {
-        // setusers(res.data.data);
-        console.log("updatedd")
       }
 
       )
@@ -102,12 +95,9 @@ export default function Tables() {
 
   // deleting User
   const deleteUser = async () => {
-    console.log("in delete User", id)
     if (id) {
       let res = await axios.delete('/user/deleteUser/' + id)
         .then((res) => {
-          // setusers(res.data.data);
-          console.log("deleted")
           Users()
         }
 
@@ -130,7 +120,6 @@ export default function Tables() {
     let res = await axios.get('/user/getUserByName/' + search)
       .then((res) => {
         setusers(res.data.data);
-        console.log("users", res.data.data)
       }
 
       )

@@ -154,17 +154,13 @@ export function GetInTouch({ update }) {
 
   // upload img on cloudinary
   const handleImageUpload = (event) => {
-    console.log(":in image upload")
-    console.log("filee.........", event)
     const file = event?.target?.files?.[0];
-    console.log("file", file)
     if (event) {
       const data = new FormData();
       data.append("file", event);
       data.append("upload_preset", "player_image");
       axios.post("https://api.cloudinary.com/v1_1/dyapmvalo/image/upload", data)
         .then((res) => {
-          console.log(res.data.url)
           setImg(res.data.url)
         })
         .catch((err) => {
@@ -175,7 +171,6 @@ export function GetInTouch({ update }) {
 
   // adding user in db
   const addUser = async (user) => {
-    console.log(user)
     let res = await axios2.post('/user/register', {
       firstName: user.fName,
       lastName: user.lName,
@@ -190,14 +185,11 @@ export function GetInTouch({ update }) {
     })
       .then((res) => {
 
-        console.log("users", res.data.data);
         setMsg("User Added Successfully")
         setAlrt(true)
         navigate('/mainUsers');
       })
       .catch((error) => {
-        // setError(error.response.data);
-        console.log(error);
         if(error.response.data){
         setMsg(error.response.data)}
         else{
@@ -211,7 +203,6 @@ export function GetInTouch({ update }) {
 
   // adding user in db
   const updateUser = async (user) => {
-    console.log(user)
 
     let res = await axios2.put('/user/updateUser/' + update._id, {
       name: user.fName + " " + user.lName,
@@ -223,7 +214,6 @@ export function GetInTouch({ update }) {
       password: user.password
     })
       .then((res) => {
-        console.log("users", res.data.data);
         setMsg("User Updated Successfully")
         setAlrt(true)
         navigate('/mainUsers');
@@ -231,7 +221,6 @@ export function GetInTouch({ update }) {
 
       )
       .catch((error) => {
-        console.log(error);
         if(error.response.data){
         setMsg(error.response.data)}else{
           setMsg("Some Error Occured")
@@ -259,7 +248,7 @@ export function GetInTouch({ update }) {
 
   return (
     <div>
-      <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"Add User"} />
+      <HeaderTabs title={"Add User"} />
       {isError?(<>
         <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
         onClose={()=> setIsError(false)}

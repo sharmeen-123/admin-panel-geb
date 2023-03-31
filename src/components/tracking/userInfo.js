@@ -5,26 +5,44 @@ import { AuthContext } from "../../App";
 import { HeaderTabs } from '../header/header';
 import Loading from '../Loader/loading';
 import "./UserInfo.css"
+import { Avatar } from '@mantine/core';
+import axios from 'axios';
 
 
 const Maps = () => {
     const [lng, setLng] = useState(73.0663);
     const [lat, setLat] = useState(33.7294);
     const { shift, setShift } = useContext(AuthContext);
-    const { location, setLocation } = useContext(AuthContext);
+    const [ location, setLocation ] = useState();
     const { user, setUser } = useContext(AuthContext);
+    const [address, setAddress] = useState()
     const [data, setData] = useState([])
+    let arr = [];
 
+    const getAddress = async (latitude, longitude) => {
+        try {
+
+            const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+            const addresss = response.data.display_name;
+            arr.push(addresss)
+            setLocation(arr)
+            setAddress(response.data.display_name);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
     useEffect(() => {
-        
-        console.log("shift is user info....", shift, "location in userInfo", location)
+        let loc1 = shift.locations
+        loc1?.map((val,ind) => {
+            getAddress(val.latitude, val.longitude)
+        })
         let coordinates = [];
         let loc = shift.locations
         loc?.map((val) => {
             let cord = [val.longitude, val.latitude]
             coordinates.push(cord)
         })
-        console.log("coordinates in useEffect", coordinates)
         setData({
             type: 'Feature',
             properties: {},
@@ -33,17 +51,12 @@ const Maps = () => {
                 coordinates: coordinates
             }
         })
-
-        // let loc = location
-        // loc.pop()
-        // setLocation(loc)
-        console.log(location)
     }, []);
 
     return (
         <div>
 
-            <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"User Details"} />
+            <HeaderTabs title={"User Details"} />
             {shift && location &&user &&data?(<>
                 <div style={{ display: "flex", marginTop: "5vw", backgroundColor: "#f5f6fa", borderRadius: '3%', margin: '1.3%' }} className="main">
                 <Map
@@ -69,7 +82,6 @@ const Maps = () => {
                         latitude={33.6518}
                         longitude={73.1566}
                     /> */}
-                    {console.log("shift.locations are", shift.locations)}
                     {shift.locations?.map((val, ind) => {
                         return (
 
@@ -111,11 +123,7 @@ const Maps = () => {
                     </div>
 
                     <div className="card" style={{ border: "2px solid rgb(226, 225, 225)", margin: "1vw", width: "25vw" }}>
-                        {user.image ? (<>
-                            <img src={user.image} style={{ width: "7vw", borderRadius: "100%", margin: "0 auto" }} />
-                        </>) : (<>
-                            <img src={require("../../imgs/upload.png")} style={{ width: "6vw", borderRadius: "100%", margin: "0 auto" }} />
-                        </>)}
+                    <Avatar src={user.image} size={90} radius={120} mx="auto" />
                         {user ? (<>
                             <div>
                                 <h3 style={{ textAlign: "center" }}>{user.firstName + " " + user.lastName}</h3>
@@ -131,11 +139,11 @@ const Maps = () => {
                         <h3 style={{ marginRight: "0.5vw", marginLeft: "0.5vw", borderBottom: "2px solid rgb(226, 225, 225)", textAlign: "center" }}>All Locations</h3>
                         <div style={{ overflow: "auto", margin: "1vw", scrollbarColor: 'rebeccapurple green' }}>
                             {location ? (<>
-                                {location.map((val) => {
+                                {location?.map((val) => {
                                     return (
                                         <>
                                             <p style={{ textAlign: "center", borderBottom: "2px double rgb(226, 225, 225)", padding: 0, margin: 0 }}>{val}</p>
-                                            {console.log("value in map", val)}
+                                            
                                         </>
                                     )
 

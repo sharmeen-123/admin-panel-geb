@@ -165,18 +165,15 @@ export function PaymentForm({ update }) {
 
 
     const handleValueChange = (value) => {
-        console.log("in value changeee")
         setSelectedValue(value);
         handleUserInfo(userr, value)
         totalHours(selectedValue)
     };
     const Users = async () => {
-        console.log("update in userr....****", update)
         try {
             const res = await axios.get('/user/getAllUsers');
             const users = res.data.data;
             setUserr(users)
-            console.log('users', users);
             const newData = users?.map((val) => ({
                 label: `${val.firstName} ${val.lastName}`,
                 email: val.email,
@@ -199,11 +196,9 @@ export function PaymentForm({ update }) {
                         value: update.userID
                     }
                 }
-                console.log("*****************", updatedVal)
                 newData.unshift(updatedVal)
             }
             setData(newData);
-            console.log('data...', data);
             if (newData.length) {
                 setSelectedValue(newData[0].value);
             }
@@ -215,12 +210,10 @@ export function PaymentForm({ update }) {
     };
 
     const payAmount = async () => {
-        console.log(name)
         if (name) {
             let res = await axios.post('/payment/addpayment', { userName: name, userID: id, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, userEmail: email, userImage: image })
                 .then((res) => {
                     // setHours(res.data.data);
-                    console.log("hourss", res.data.data)
                     setMsg("Amount Paid Successfully!")
                     setImage()
                     setAlrt(true)
@@ -241,7 +234,6 @@ export function PaymentForm({ update }) {
     }
 
     const updateAmount = async () => {
-        console.log(name)
         if (name) {
             let res = await axios.put('/payment/updatePayment/' + update._id, { userID: id, userName: name, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, userEmail: email, userImage: image })
                 .then((res) => {
@@ -266,29 +258,21 @@ export function PaymentForm({ update }) {
 
 
     const handleUserInfo = (users, selectedValue) => {
-        console.log("in user Infoo")
-        console.log("all userss", users, selectedValue)
         const user = users.find(person => person._id === selectedValue);
         //   return person ? person.age : null;
         // };
         let nameee = user.firstName + " " + user.lastName
         setName(nameee);
-        console.log("name...", user.firstName + " " + user.lastName)
         setId(user._id)
-        console.log("id....", id)
         if (user.image) {
             setImage(user.image)
         }
-        console.log("image...", image)
         setEmail(user.email)
-        console.log("email...", email)
-        console.log("propss...", update)
     }
 
 
     // getting total hours of a uset
     const totalHours = async (id) => {
-        console.log("id.....", id)
         if (id) {
             let res = await axios.get('/shifts/getNumberOfHours/' + id)
                 .then((res) => {
@@ -297,8 +281,6 @@ export function PaymentForm({ update }) {
                     setHours(res.data.data.totalHours)
                     let data = { totalHours: res.data.data.totalHours }
                     update = data
-                    console.log("update...", update)
-                    console.log("hourss", res.data.data)
                 }
 
                 )
@@ -354,8 +336,6 @@ export function PaymentForm({ update }) {
     const handleHoursChange = (event) => {
         setHours(event)
         setPayment(wage * hours);
-
-        console.log("hours....", hours)
     };
 
     const handleForm = (user) => {
@@ -364,7 +344,6 @@ export function PaymentForm({ update }) {
         } else {
             updateAmount()
         }
-        console.log("amount paid........")
     }
 
 
@@ -372,7 +351,7 @@ export function PaymentForm({ update }) {
     return (
 
         <div>
-            <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"Add Payment"} />
+            <HeaderTabs title={"Add Payment"} />
             {isError?(<>
         <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
         onClose={()=> setIsError(false)}

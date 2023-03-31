@@ -1,14 +1,18 @@
 import { Navbar, Group, Code, ScrollArea, createStyles, rem, Text } from '@mantine/core';
 
 import { LinksGroup } from './NavbarLink2';
-import  Logo  from "../../imgs/logo.png";
-import React, {useState, useEffect} from 'react';
+import Logo from "../../imgs/logo.png";
+import React, { useEffect } from 'react';
 import IconApps from '../../imgs/dashboard.png';
 import IconUsers from '../../imgs/group.png'
 import IconMapPin from '../../imgs/pin.png'
 import IconCoin from '../../imgs/money-exchange.png'
 import IconSettings from '../../imgs/settings.png'
+import IconExit from '../../imgs/exit.png'
 import './Navbar.css'
+import { useState, useContext } from 'react';
+import Logout from '../logout/logout';
+import { AuthContext } from "../../App";
 
 
 
@@ -36,7 +40,7 @@ const useStyles = createStyles((theme) => ({
   header: {
     padding: theme.spacing.md,
     paddingTop: 0,
-    paddingBottom:0,
+    paddingBottom: 0,
     marginLeft: `calc(${theme.spacing.md} * -1)`,
     marginRight: `calc(${theme.spacing.md} * -1)`,
     color: theme.colorScheme === 'dark' ? theme.white : theme.black,
@@ -48,8 +52,8 @@ const useStyles = createStyles((theme) => ({
   links: {
     marginLeft: `calc(${theme.spacing.md} * -1)`,
     marginRight: `calc(${theme.spacing.md} * -1)`,
-    padding:0,
-    marginTop:0,
+    padding: 0,
+    marginTop: 0,
   },
   linksInner: {
     paddingTop: theme.spacing.xl,
@@ -67,41 +71,43 @@ const useStyles = createStyles((theme) => ({
 
 export function NavbarNested2() {
   const { classes } = useStyles();
+  const { logout, setLogout } = useContext(AuthContext);
   const [openedLink, setOpenedLink] = useState(null); // state to track which link is opened
   const [mockdata, setMockData] = useState([
-    { label: 'Dashboard', icon: IconApps, link: '/', number:1 },
+    { label: 'Dashboard', icon: IconApps, link: '/dashboard', number: 1 },
     {
       label: 'Users',
       icon: IconUsers,
       initiallyOpened: false,
-      link:"/",
-      number:2,
+      link: "/dashboard",
+      number: 2,
       links: [
-        { label: 'Add User', link: '/addUser', number2:2.1 },
-        { label: 'View User', link: '/mainUsers',number2:2.2 }
+        { label: 'Add User', link: '/addUser', number2: 2.1 },
+        { label: 'View User', link: '/mainUsers', number2: 2.2 }
       ],
     },
-    { label: 'Tracking',
-     icon: IconMapPin,
-      link: '/',
+    {
+      label: 'Tracking',
+      icon: IconMapPin,
+      link: '/dashboard',
       initiallyOpened: false,
-       number:3,
-    links: [
-      { label: 'Track Employees', link: '/trackUser', number2:3.1, },
-    ],
-     },
+      number: 3,
+      links: [
+        { label: 'Track Employees', link: '/trackUser', number2: 3.1, },
+      ],
+    },
     {
       label: 'Payments',
       icon: IconCoin,
-      link:"/",
+      link: "/dashboard",
       initiallyOpened: false,
-      number:4,
+      number: 4,
       links: [
-        { label: 'Add Payment', link: '/paymentForm', number2:4.1 },
-        { label: 'View Payment', link: '/paymentUsers', number2:4.2 },
+        { label: 'Add Payment', link: '/paymentForm', number2: 4.1 },
+        { label: 'View Payment', link: '/paymentUsers', number2: 4.2 },
       ],
     },
-   
+
   ])
 
   const [opened, setOpened] = useState({
@@ -114,12 +120,17 @@ export function NavbarNested2() {
       key={item.label}
       isOpened={openedLink} // pass down whether the link is opened
       setOpenLink={setOpenedLink} // pass down function to update openedLink state
-      setOpened = {setOpened}
+      setOpened={setOpened}
       opened={opened}
     />
   ));
   // const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
-  const settings = {label: 'Settings', icon: IconSettings}
+  const settings = { label: 'Settings', icon: IconSettings }
+  const logoutt = { label: 'Logout', icon: IconExit }
+
+  const lgout = () => {
+    setLogout(true)
+  }
 
   useEffect(() => {
     setMockData(prevMockData => {
@@ -138,29 +149,36 @@ export function NavbarNested2() {
       });
     });
     // setOpenedLink()
-    console.log("opened is **********", opened)
   }, [openedLink]);
 
-  
-  
-  
+
+
+
 
   return (
-    <Navbar  p="md" className={classes.navbar}>
-      <Navbar.Section className={classes.header}>
-        <Group>
-            <img src={Logo} style={{width:"4vw", margin:"0"}}/>
-            <Text style={{fontWeight:"700", fontSize:"2vw"}}>GEB</Text>
-        </Group>
-      </Navbar.Section>
+    <div>
+      <Navbar p="md" className={classes.navbar}>
+        <Navbar.Section className={classes.header}>
+          <Group>
+            <img src={Logo} style={{ width: "4vw", margin: "0" }} />
+            <Text style={{ fontWeight: "700", fontSize: "2vw" }}>GEB</Text>
+          </Group>
+        </Navbar.Section>
 
-      <Navbar.Section grow className={classes.links} component={ScrollArea}>
-        <div className={classes.linksInner}>{links}</div>
-      </Navbar.Section>
+        <Navbar.Section grow className={classes.links} component={ScrollArea}>
+          <div className={classes.linksInner}>{links}</div>
+        </Navbar.Section>
 
-      <Navbar.Section className={classes.footer}>
-      <div ><LinksGroup { ...settings } key={settings.label} /></div>
-      </Navbar.Section>
-    </Navbar>
+        <Navbar.Section className={classes.footer}>
+          <div ><LinksGroup {...settings} key={settings.label} /></div>
+            <div onClick={lgout}>
+            <LinksGroup {...logoutt} key={logoutt.label} />
+            </div>
+        </Navbar.Section>
+      </Navbar>
+      {logout ? (<>
+        <Logout />
+      </>) : (<></>)}
+    </div>
   );
 }

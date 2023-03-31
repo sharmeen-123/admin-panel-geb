@@ -21,7 +21,6 @@ export default function MainUsers() {
       let res = await axios.get('/user/getAllUsers')
         .then((res) => {
           setusers(res.data.data);
-          console.log("users", res.data.data)
         }
   
         )
@@ -36,7 +35,6 @@ export default function MainUsers() {
       let res = await axios.get('/user/getNumberOfUsers')
       .then ((res) => {
         setUsers(res.data.data);
-        console.log("users",res.data.data)
       }
         
       )
@@ -60,7 +58,7 @@ export default function MainUsers() {
     
     <div >
       
-      <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"View User"} />
+      <HeaderTabs title={"View User"} />
       {alrt?(<>
         <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
         onClose={()=> setAlrt(false)}

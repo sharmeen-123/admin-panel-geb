@@ -95,7 +95,6 @@ export function TableSelection({ dataa }) {
     let res = await axios.get('/user/getAllUsers')
       .then((res) => {
         setData(res.data.data);
-        console.log("users", res.data.data)
       }
 
       )
@@ -107,11 +106,8 @@ export function TableSelection({ dataa }) {
 
   // switching verification
   const verification = async (id) => {
-    console.log("in verification", id)
     let res = await axios.put('/user/verifyUser/' + id)
       .then((res) => {
-        // setusers(res.data.data);
-        console.log("updatedd")
         Users()
       }
 
@@ -124,11 +120,8 @@ export function TableSelection({ dataa }) {
 
   // switching status
   const status = async (e, id) => {
-    // console.log("in status", e.target.selected)
     let res = await axios.put('/user/switchUserStatus/' + id)
       .then((res) => {
-        // setusers(res.data.data);
-        console.log("updatedd")
         Users()
       }
 
@@ -141,12 +134,9 @@ export function TableSelection({ dataa }) {
 
   // deleting User
   const deleteUser = async () => {
-    console.log("in delete User", id)
     if (id) {
       let res = await axios.delete('/user/deleteUser/' + id)
         .then((res) => {
-          // setusers(res.data.data);
-          console.log("deleted")
           Users()
         }
 
@@ -169,7 +159,6 @@ export function TableSelection({ dataa }) {
     let res = await axios.get('/user/getUserByName/' + search)
       .then((res) => {
         setData(res.data.data);
-        console.log("users", res.data.data)
       }
 
       )
@@ -183,14 +172,12 @@ export function TableSelection({ dataa }) {
     // Users()
     const filteredData = data.filter(item => item.status.toString() === "block");
     setData(filteredData)
-    console.log("filter data ////*********", filteredData)
 
   }
   const sortVerified = () => {
     // Users()
     const filteredData = data.filter(item => item.verified === false);
     setData(filteredData)
-    console.log("filter data ////*********", filteredData)
 
   }
 
@@ -209,13 +196,6 @@ export function TableSelection({ dataa }) {
     const selected = selection.includes(item.id);
     return (
       <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
-        <td>
-          <Checkbox
-            checked={selection.includes(item.id)}
-            onChange={() => toggleRow(item.id)}
-            transitionDuration={0}
-          />
-        </td>
         <td>
           <Group spacing="sm">
             <Avatar size={26} src={item.image} radius={26} />
@@ -425,14 +405,6 @@ export function TableSelection({ dataa }) {
       <Table>
         <thead>
           <tr>
-            <th>
-              <Checkbox
-                onChange={toggleAll}
-                checked={selection?.length === data?.length}
-                indeterminate={selection?.length > 0 && selection?.length !== data?.length}
-                transitionDuration={0}
-              />
-            </th>
             <th>User</th>
             <th>Email</th>
             <th>Date Joined</th>

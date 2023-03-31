@@ -13,12 +13,6 @@ function Cards(props) {
   const [users, setUsers] = useState(props.users)
 
 
-  useEffect(() => {
-    console.log("users......", props.users)
-    console.log(shifts)
-    console.log("paymentt..", props.amount)
-  }, [])
-
   return (
     <div>
       {/* Employeess */}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
   createStyles,
   Container,
@@ -14,18 +14,12 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import {
   IconLogout,
-  IconHeart,
-  IconStar,
-  IconMessage,
-  IconSettings,
-  IconPlayerPause,
-  IconTrash,
-  IconSwitchHorizontal,
   IconChevronDown,
 } from '@tabler/icons-react';
 import './header.css'
-import { MantineLogo } from '@mantine/ds';
-import  Logo  from "../../imgs/logo.png";
+import { AuthContext } from "../../App";
+import Logout from '../logout/logout';
+
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -93,10 +87,14 @@ const useStyles = createStyles((theme) => ({
 }));
 
 
-export function HeaderTabs({ user, title }) {
+export function HeaderTabs({title }) {
   const { classes, theme, cx } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const{activeUser, setActiveUser} = useContext(AuthContext);
+  const {logout, setLogout} =useContext(AuthContext);
+
+ 
 
   return (
     <div className={classes.header} >
@@ -123,16 +121,16 @@ export function HeaderTabs({ user, title }) {
                 className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
               >
                 <Group style={{marginRight:0, paddingRight:0}}>
-                  <Avatar src={user.image} alt={user.name} radius="xl" size={40} />
+                  <Avatar src={activeUser.image} alt={activeUser.name} radius="xl" size={40} />
                   <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-                    {user.name}
+                    {activeUser.name}
                   </Text>
                   <IconChevronDown size={rem(12)} stroke={1.5} />
                 </Group>
               </UnstyledButton>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item
+              {/* <Menu.Item
                 icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
               >
                 Liked posts
@@ -146,18 +144,19 @@ export function HeaderTabs({ user, title }) {
                 icon={<IconMessage size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
               >
                 Your comments
-              </Menu.Item>
+              </Menu.Item> */}
 
-              <Menu.Label>Settings</Menu.Label>
+              {/* <Menu.Label>Settings</Menu.Label>
               <Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>
                 Account settings
               </Menu.Item>
               <Menu.Item icon={<IconSwitchHorizontal size="0.9rem" stroke={1.5} />}>
                 Change account
-              </Menu.Item>
-              <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Logout</Menu.Item>
+              </Menu.Item>*/}
 
-              <Menu.Divider />
+              <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5}/>} onClick={() => setLogout(true)}>Logout</Menu.Item>
+
+            {/* <Menu.Divider />
 
               <Menu.Label>Danger zone</Menu.Label>
               <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
@@ -165,12 +164,16 @@ export function HeaderTabs({ user, title }) {
               </Menu.Item>
               <Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
                 Delete account
-              </Menu.Item>
+              </Menu.Item> */}
             </Menu.Dropdown>
           </Menu>
         </Group>
       </Container>
-     
+      {logout?(<>
+      <Logout/>
+      </>):(<></>)}
+
+      
     </div>
   );
 }

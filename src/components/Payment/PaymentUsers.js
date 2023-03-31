@@ -18,7 +18,6 @@ export default function PaymentUsers(props) {
     let res = await axios.get('/payment/getAllPayments')
         .then((res) => {
           setusers(res.data.data);
-          console.log("hourss", res.data.data)
         }
 
         )
@@ -33,7 +32,7 @@ export default function PaymentUsers(props) {
 
   return (
     <div>
-      <HeaderTabs user={{ name: "sharmeen", image: "sdsd" }} title={"View Payments"} />
+      <HeaderTabs title={"View Payments"} />
       {alrt?(<>
         <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
         onClose={()=> setAlrt(false)}
