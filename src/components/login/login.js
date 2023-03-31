@@ -23,7 +23,7 @@ import {
   
   const useStyles = createStyles((theme) => ({
     wrapper: {
-      minHeight: rem(200),
+      minHeight: rem(610),
       backgroundSize: 'cover',
       backgroundImage:
         `url(${Bg})`,

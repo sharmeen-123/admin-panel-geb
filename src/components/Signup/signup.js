@@ -36,6 +36,9 @@ import {
         display: 'flex',
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
         borderRadius: theme.radius.lg,
+        backgroundSize: 'cover',
+        backgroundImage:
+        `url(${Bg})`,
         padding: rem(4),
         // margin:"3vw",
         border: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[2]
@@ -232,7 +235,7 @@ import {
             
   
             <form className={classes.form} onSubmit={form.onSubmit((values) => handleForm(values))}>
-            <img src={Logo} style={{width:"5rem"}}/>
+            {/* <img src={Logo} style={{width:"5rem"}}/> */}
             {isError?(<>
           <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
           onClose={()=> setIsError(false)}
