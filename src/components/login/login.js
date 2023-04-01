@@ -65,7 +65,7 @@ import {
         borderRadius: theme.radius.lg,
         // padding: rem(4),
         justifyContent:'center',
-        alignItems:'center',
+        // alignItems:'center',
         // margin:"3vw",
         border: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[2]
           }`,
@@ -91,7 +91,8 @@ import {
   
       form: {
         boxSizing: 'border-box',
-        flex: 1,
+        width:'30%',
+        borderRight:"2px solid #f5f6fa",
         // padding: theme.spacing.xl,
         // paddingLeft: `calc(${theme.spacing.xl} * 2)`,
         // borderLeft: 0,
@@ -106,6 +107,7 @@ import {
       contacts:{
         boxSizing: 'border-box',
         flex:1,
+        alignItems:'center',
         // width:'60%',
         // padding: theme.spacing.xl,
         // paddingLeft: `calc(${theme.spacing.xl} * 2)`,
@@ -117,6 +119,12 @@ import {
           padding: theme.spacing.md,
           paddingLeft: theme.spacing.md,
         },
+      },
+      img: {
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        height:"95vh",
       }
      
     };
@@ -198,7 +206,9 @@ import {
           </Text>
         </Paper>
         <div className={classes.contacts}>
+          <div className= {classes.img}>
               <img src={Logo} style={{}} />
+              </div>
             </div>
       </div>
     );
