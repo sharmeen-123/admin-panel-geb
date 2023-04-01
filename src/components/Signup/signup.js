@@ -112,7 +112,7 @@ const useStyles = createStyles((theme) => {
     },
 
     title: {
-      marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
+      // marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
       fontFamily: `Greycliff CF, ${theme.fontFamily}`,
       justifyContent: 'center',
       textAlign: "center",
@@ -250,9 +250,9 @@ export function Signup({ update }) {
                 {msg}
               </Alert>
             </>) : (<></>)}
-            <h1 fz="md" fw={500} className={classes.title}>
+            <h2 fz="md" fw={500} className={classes.title}>
               Signup
-            </h1>
+            </h2>
 
             <div className={classes.fields}>
               <div>
