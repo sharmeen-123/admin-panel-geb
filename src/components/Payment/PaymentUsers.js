@@ -8,6 +8,8 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import { AuthContext } from "../../App";
 import Loading from "../Loader/loading";
 
+import { Demo } from '../notification/notification';
+
 export default function PaymentUsers(props) {
   const [users, setusers] = useState();
   const {alrt, setAlrt} = useContext(AuthContext);
@@ -34,11 +36,7 @@ export default function PaymentUsers(props) {
     <div>
       <HeaderTabs title={"View Payments"} />
       {alrt?(<>
-        <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
-        onClose={()=> setAlrt(false)}
-        title="Alert" color="green" style={{top:0, }}>
-     {msg}
-    </Alert>
+        <Demo/>
       </>):(<></>)}
       {users?(<>
     <div className="cont">

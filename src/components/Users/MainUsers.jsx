@@ -9,6 +9,8 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import { AuthContext } from "../../App";
 import Loading from "../Loader/loading";
 
+import { Demo } from '../notification/notification';
+
 export default function MainUsers() {
   const [users, setusers] = useState()
   const {alrt, setAlrt} = useContext(AuthContext);
@@ -58,11 +60,7 @@ export default function MainUsers() {
       
       <HeaderTabs title={"View User"} />
       {alrt?(<>
-        <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
-        onClose={()=> setAlrt(false)}
-        title="Alert" color="green" style={{top:0, }}>
-     {msg}
-    </Alert>
+        <Demo/>
       </>):(<></>)}
       
         {user && users?(<>

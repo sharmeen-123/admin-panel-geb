@@ -22,6 +22,9 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import "./PaymentForm.css";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
+
+import { Demo } from '../notification/notification';
+import { ErrorNoti } from '../notification/notificationError';
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
 // import bg from './bg.svg';
 
@@ -353,11 +356,7 @@ export function PaymentForm({ update }) {
         <div>
             <HeaderTabs title={"Add Payment"} />
             {isError?(<>
-        <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
-        onClose={()=> setIsError(false)}
-        title="Error" color="red" style={{top:0, }}>
-     {msg}
-    </Alert>
+        <ErrorNoti/>
       </>):(<></>)}
             <Paper shadow="md" radius="lg" className={classes.main}>
                 <div className={classes.wrapper}>

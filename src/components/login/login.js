@@ -20,6 +20,8 @@ import {
   import { useNavigate } from 'react-router-dom';
   import Bg from '../../imgs/backgroundImage.jpg'
   import "./login.css"
+  
+ import { Demo } from '../notification/notification';
   // import {ReactComponent as ReactLogo} from '../../imgs/bg.svg'
   
   // const useStyles = createStyles((theme) => ({
@@ -180,11 +182,7 @@ import {
         <Paper className={classes.form} radius={0} p={30}>
           <div className={classes.div}>
         {alrt?(<>
-          <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
-          onClose={()=> setAlrt(false)}
-          title="Message" color="green" style={{top:0, }}>
-       {msg}
-      </Alert>
+          <Demo/>
         </>):(<></>)}
           <h1 style={{color:'green', textAlign:"center", marginBottom:'10vh', marginTop:'10vh'}}>Login</h1>
   

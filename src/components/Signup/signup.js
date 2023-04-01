@@ -25,6 +25,8 @@ import Logo from "../../imgs/logo.png";
 import './Signup.css'
 import Bg from '../../imgs/backgroundImage.jpg'
 import { NavLink } from 'react-router-dom';
+
+import { ErrorNoti } from '../notification/notificationError';
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
 // import bg from './bg.svg';
 
@@ -261,11 +263,7 @@ export function Signup({ update }) {
             <div className={classes.div}>
             {/* <img src={Logo} style={{width:"5rem"}}/> */}
             {isError ? (<>
-              <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert"
-                onClose={() => setIsError(false)}
-                title="Error" color="red" style={{ top: 0, }}>
-                {msg}
-              </Alert>
+              <ErrorNoti/>
             </>) : (<></>)}
             <h1 fz="md" fw={500} className={classes.title}>
               Signup

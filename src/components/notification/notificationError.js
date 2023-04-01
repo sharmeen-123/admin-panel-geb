@@ -1,12 +1,12 @@
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
-import { Noti } from './noti';
+import { NotiError } from './error';
 
-export const Demo = ()=> {
+export const ErrorNoti = ()=> {
   return (
     <MantineProvider withNormalizeCSS withGlobalStyles TealwithIcon>
       <Notifications />
-      <Noti />
+      <NotiError />
     </MantineProvider>
   );
 }

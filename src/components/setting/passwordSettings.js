@@ -23,7 +23,8 @@ import {
   import { AuthContext } from "../../App";
   import { IconAlertCircle } from '@tabler/icons-react';
   import man from "./../../imgs/man.png";
-  import { Demo } from '../notification/notification';
+ import { Demo } from '../notification/notification';
+ import { ErrorNoti } from '../notification/notificationError';
 //   import "./AddUserrr.css"
   
   const useStyles = createStyles((theme) => {
@@ -197,11 +198,7 @@ import {
       <div>
         <HeaderTabs title={"Settings"} />
         {isError ? (<>
-          <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert"
-            onClose={() => setIsError(false)}
-            title="Error" color="red" style={{ top: 0, }}>
-            {msg}
-          </Alert>
+          <ErrorNoti/>
         </>) : (<></>)}
         <Paper shadow="md" radius="lg" className={classes.main}>
         
