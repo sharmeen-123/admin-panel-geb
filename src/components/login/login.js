@@ -91,7 +91,7 @@ import {
   
       form: {
         boxSizing: 'border-box',
-        width:'30%',
+        width:'35%',
         borderRight:"2px solid #f5f6fa",
         // padding: theme.spacing.xl,
         // paddingLeft: `calc(${theme.spacing.xl} * 2)`,
@@ -207,7 +207,7 @@ import {
         </Paper>
         <div className={classes.contacts}>
           <div className= {classes.img}>
-              <img src={Logo} style={{width:'45vw'}} />
+              <img src={Logo} style={{width:'35vw'}} />
               </div>
             </div>
       </div>
