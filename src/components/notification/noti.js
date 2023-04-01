@@ -6,17 +6,27 @@ import React, {useContext, useEffect} from 'react';
 
 export const Noti = () => {
     const { msg, setMsg } = useContext(AuthContext);
-    const { alrt, setAlrt } = useContext(AuthContext);
+const { alrt, setAlrt } = useContext(AuthContext);
 
-    useEffect(() => {
-        // setAlrt(false)
-      }, [])
-  return (
-          notifications.show({
-            title: 'notification',
-            message: msg,
-            color:'green'
-          })
-     
-  );
+useEffect(() => {
+  if (alrt) {
+    const timeoutId = setTimeout(() => {
+      setAlrt(false);
+    }, 5000); // set timeout to 20 seconds (20000 milliseconds)
+
+    // return a cleanup function to cancel the timeout if the component unmounts
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }
+}, [alrt]);
+
+return (
+  notifications.show({
+    title: 'notification',
+    message: msg,
+    color:'green'
+  })
+);
+
 }

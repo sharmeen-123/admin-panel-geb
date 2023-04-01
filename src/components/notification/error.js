@@ -9,8 +9,17 @@ export const NotiError = () => {
     const { alrt, setAlrt } = useContext(AuthContext);
 
     useEffect(() => {
-        // setAlrt(false)
-      }, [])
+        if (alrt) {
+          const timeoutId = setTimeout(() => {
+            setAlrt(false);
+          }, 5000); // set timeout to 20 seconds (20000 milliseconds)
+      
+          // return a cleanup function to cancel the timeout if the component unmounts
+          return () => {
+            clearTimeout(timeoutId);
+          };
+        }
+      }, [alrt]);
 
   return (
           notifications.show({
