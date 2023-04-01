@@ -54,10 +54,10 @@ const Logout = () => {
                 })}
 
             >
-                    <Paper style={{paddingTop:"5vh", paddingBottom:"5vh"}}>
+                    <Paper style={{ paddingBottom:"2vh"}}>
                        <Text style={{textAlign: 'center'}}>Are you sure you want to logout?</Text>
-<Button onClick={() => { logoutt() }} variant="default" fullWidth mt="md">Yes</Button>
-                          <Button  onClick={() => setLogout(false)} variant="default" fullWidth mt="md">
+<Button onClick={() => { logoutt() }} variant="default" fullWidth mt="md" style={{backgroundColor:"green", color:"white"}}>Yes</Button>
+                          <Button  onClick={() => setLogout(false)} variant="default" fullWidth mt="md" style={{backgroundColor:"#D2042D", color:"white"}}>
                             No
                           </Button>
                         

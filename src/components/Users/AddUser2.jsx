@@ -6,6 +6,7 @@ import {
   Button,
   Group,
   SimpleGrid,
+  Select,
   createStyles,
   rem,
   PasswordInput,
@@ -20,7 +21,8 @@ import { HeaderTabs } from '../header/header';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
 import { IconAlertCircle } from '@tabler/icons-react';
-import man from "./../../imgs/man.png"
+import man from "./../../imgs/man.png";
+import "./AddUser.css"
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
 // import bg from './bg.svg';
 
@@ -116,6 +118,7 @@ const useStyles = createStyles((theme) => {
     },
 
     control: {
+      backgroundColor: "green",
       [BREAKPOINT]: {
         flex: 1,
       },
@@ -127,13 +130,22 @@ export function GetInTouch({ update }) {
   const { classes } = useStyles();
   const [img, setImg] = useState(update.image);
   const [opened, { open, close }] = useDisclosure(false);
-  const {alrt, setAlrt} = useContext(AuthContext);
-  const {msg, setMsg} = useContext(AuthContext);
+  const { alrt, setAlrt } = useContext(AuthContext);
+  const { msg, setMsg } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [isError, setIsError] = useState(false) 
+  const [isError, setIsError] = useState(false)
+  const [phoneValue, setPhoneValue] = useState('');
+
+
+  function handlePhoneChange(event) {
+    const { value } = event.target;
+    if (value.length <= 14) {
+      setPhoneValue(value);
+    }
+  }
+
 
   const form = useForm({
-
     initialValues: {
       password: "",
       confirmPassword: '',
@@ -149,8 +161,11 @@ export function GetInTouch({ update }) {
       confirmPassword: (value, values) =>
         value !== values.password ? 'Passwords did not match' : null,
     },
-
   });
+
+
+
+
 
   // upload img on cloudinary
   const handleImageUpload = (event) => {
@@ -175,11 +190,11 @@ export function GetInTouch({ update }) {
       firstName: user.fName,
       lastName: user.lName,
       email: user.email,
-      phone: user.phone,
+      phone: phoneValue,
       userType: user.designation,
       address: user.address,
       image: img,
-      status: "block",
+      status: "unblock",
       verified: true,
       password: user.password
     })
@@ -190,15 +205,16 @@ export function GetInTouch({ update }) {
         navigate('/mainUsers');
       })
       .catch((error) => {
-        if(error.response.data){
-        setMsg(error.response.data)}
-        else{
+        if (error.response.data) {
+          setMsg(error.response.data)
+        }
+        else {
           setMsg("Some Error Occured")
         }
         setIsError(true)
         open()
       })
-    
+
   }
 
   // adding user in db
@@ -207,7 +223,7 @@ export function GetInTouch({ update }) {
     let res = await axios2.put('/user/updateUser/' + update._id, {
       name: user.fName + " " + user.lName,
       email: user.email,
-      phone: user.phone,
+      phone: phoneValue,
       userType: user.designation,
       address: user.address,
       image: img,
@@ -221,8 +237,9 @@ export function GetInTouch({ update }) {
 
       )
       .catch((error) => {
-        if(error.response.data){
-        setMsg(error.response.data)}else{
+        if (error.response.data) {
+          setMsg(error.response.data)
+        } else {
           setMsg("Some Error Occured")
         }
         setIsError(true)
@@ -240,8 +257,11 @@ export function GetInTouch({ update }) {
     }
   }
   useEffect(() => {
-    if(!update.image){
+    if (!update.image) {
       setImg(man)
+    }
+    if (update) {
+      setPhoneValue(update.phone)
     }
   }, [])
 
@@ -249,27 +269,25 @@ export function GetInTouch({ update }) {
   return (
     <div>
       <HeaderTabs title={"Add User"} />
-      {isError?(<>
-        <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
-        onClose={()=> setIsError(false)}
-        title="Error" color="red" style={{top:0, }}>
-     {msg}
-    </Alert>
-      </>):(<></>)}
+      {isError ? (<>
+        <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert"
+          onClose={() => setIsError(false)}
+          title="Error" color="red" style={{ top: 0, }}>
+          {msg}
+        </Alert>
+      </>) : (<></>)}
       <Paper shadow="md" radius="lg" className={classes.main}>
 
         <div className={classes.wrapper}>
           <div className={classes.contacts}>
             <div style={{ marginTop: "30%" }}>
               <Avatar size={180} src={img} radius={"md"} style={{ margin: "0 auto" }} />
-              <FileInput label="Upload image" placeholder="Upload image" accept="image/png,image/jpeg" onChange={handleImageUpload} />
+              <FileInput style={{ marginTop: "1vh" }} placeholder="Upload image" accept="image/png,image/jpeg" onChange={handleImageUpload} />
             </div>
           </div>
 
           <form className={classes.form} onSubmit={form.onSubmit((values) => handleForm(values))}>
-            <Text fz="lg" fw={700} className={classes.title}>
-              Add User
-            </Text>
+
 
             <div className={classes.fields}>
               <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
@@ -277,13 +295,37 @@ export function GetInTouch({ update }) {
                 <TextInput label="Last Name" placeholder="Your last name" {...form.getInputProps('lName')} />
               </SimpleGrid>
               <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                <TextInput label="Email" placeholder="hello@gmail.dev" required {...form.getInputProps('email')} />
-                <TextInput label="Contact" placeholder="(555) 555-5555"
+                <TextInput
+                  label="Email"
+                  placeholder="hello@gmail.dev"
+                  pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
+                  required
+                  {...form.getInputProps('email')}
+                />
+                <TextInput
+                  label="Contact"
+                  placeholder="(555) 555-5555"
                   pattern="^\(?([2-9][0-9]{2})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"
-                  required {...form.getInputProps('phone')} />
+                  required
+                  value={phoneValue}
+                  onChange={handlePhoneChange}
+                />
+
+
+                {/* <TextInput label="Contact" placeholder="(555) 555-5555"
+                  pattern="^\(?([2-9][0-9]{2})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"
+                  required {...form.getInputProps('phone')} /> */}
               </SimpleGrid>
               <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                <TextInput label="Designation" placeholder="Admin" required {...form.getInputProps('designation')} />
+                <Select
+                  label="Designation"
+                  placeholder="Pick one"
+                  data={[
+                    { value: 'Admin', label: 'Admin' },
+                    { value: 'Site Worker', label: 'Site Worker' }
+                  ]}
+                  required {...form.getInputProps('designation')}
+                />
                 <TextInput label="Address" placeholder="Toronto Canada" required {...form.getInputProps('address')} />
               </SimpleGrid>
 
@@ -306,7 +348,7 @@ export function GetInTouch({ update }) {
 
               <Group position="right" mt="md">
                 {/* <NavLink to={"/mainUsers"}> */}
-                <Button type="submit" className={classes.control}>
+                <Button type="submit" className={`${classes.control} button`} >
                   Add User
                 </Button>
                 {/* </NavLink> */}
@@ -316,7 +358,7 @@ export function GetInTouch({ update }) {
         </div>
 
       </Paper>
-      
+
     </div>
   );
 }

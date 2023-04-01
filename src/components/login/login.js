@@ -20,39 +20,107 @@ import {
   import { useNavigate } from 'react-router-dom';
   import Bg from '../../imgs/backgroundImage.jpg'
   import "./login.css"
+  // import {ReactComponent as ReactLogo} from '../../imgs/bg.svg'
   
-  const useStyles = createStyles((theme) => ({
-    wrapper: {
-      minHeight: rem(610),
-      backgroundSize: 'cover',
-      backgroundImage:
-        `url(${Bg})`,
-    },
+  // const useStyles = createStyles((theme) => ({
+  //   wrapper: {
+  //     // minHeight: rem(610),
+  //     // backgroundSize: 'cover',
+  //     // backgroundImage:
+  //     //   `url(${Bg})`,
+  //     backgroundColor:"white"
+  //   },
   
-    form: {
-      borderRight: `${rem(1)} solid ${
-        theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
-      }`,
-      minHeight: rem(610),
-      maxWidth: rem(450),
-      paddingTop: rem(80),
+  //   form: {
+  //     borderRight: `${rem(1)} solid ${
+  //       theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
+  //     }`,
+  //     // minHeight: rem(610),
+  //     maxWidth: rem(490),
+  //     paddingTop: rem(80),
   
-      [theme.fn.smallerThan('sm')]: {
-        maxWidth: '100%',
+  //     [theme.fn.smallerThan('sm')]: {
+  //       maxWidth: '100%',
+  //     },
+  //   },
+  //   login:{
+  //       backgroundColor:"green",
+  //       '&:hover': {
+  //           backgroundColor: '#4F7942 !important',
+  //         },
+  //   },
+  
+  //   title: {
+  //     color: theme.colorScheme === 'dark' ? theme.white : 'green',
+  //     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+  //   },
+
+  const useStyles = createStyles((theme) => {
+    const BREAKPOINT = theme.fn.smallerThan('sm');
+  
+    return {
+      wrapper: {
+        display: 'flex',
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+        borderRadius: theme.radius.lg,
+        // padding: rem(4),
+        justifyContent:'center',
+        alignItems:'center',
+        // margin:"3vw",
+        border: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[2]
+          }`,
+  
+  
+        [BREAKPOINT]: {
+          flexDirection: 'column',
+        },
+  
+  
       },
-    },
-    login:{
-        backgroundColor:"green",
-        '&:hover': {
-            backgroundColor: '#4F7942 !important',
+      login:{
+              backgroundColor:"green",
+              '&:hover': {
+                  backgroundColor: '#4F7942 !important',
+                },
           },
-    },
+        
+          title: {
+            color: theme.colorScheme === 'dark' ? theme.white : 'green',
+            fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+          },
   
-    title: {
-      color: theme.colorScheme === 'dark' ? theme.white : 'green',
-      fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    },
-  }));
+      form: {
+        boxSizing: 'border-box',
+        flex: 1,
+        // padding: theme.spacing.xl,
+        // paddingLeft: `calc(${theme.spacing.xl} * 2)`,
+        // borderLeft: 0,
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+        // border: "2px solid rgb(226, 225, 225)",
+  
+        [BREAKPOINT]: {
+          padding: theme.spacing.md,
+          paddingLeft: theme.spacing.md,
+        },
+      },
+      contacts:{
+        boxSizing: 'border-box',
+        flex:1,
+        // width:'60%',
+        // padding: theme.spacing.xl,
+        // paddingLeft: `calc(${theme.spacing.xl} * 2)`,
+        margin:'0 auto',
+        textAlign:'center',
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+  
+        [BREAKPOINT]: {
+          padding: theme.spacing.md,
+          paddingLeft: theme.spacing.md,
+        },
+      }
+     
+    };
+  });
   
   export function AuthenticationImage() {
     const { classes } = useStyles();
@@ -95,14 +163,14 @@ import {
       <div className={classes.wrapper}>
         
         <Paper className={classes.form} radius={0} p={30}>
-        <img src={Logo} style={{width:"5rem"}}/>
-            {alrt?(<>
+        {alrt?(<>
           <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
           onClose={()=> setAlrt(false)}
           title="Message" color="green" style={{top:0, }}>
        {msg}
       </Alert>
         </>):(<></>)}
+          <h1 style={{color:'green', textAlign:"center"}}>Login</h1>
           <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
             Welcome back to GEB
           </Title>
@@ -121,7 +189,7 @@ import {
   
           <Text ta="center" mt="md">
             Don&apos;t have an account?{' '}
-            <NavLink to={'/signup'}>
+            <NavLink to={'/signup'} style={{color:'green'}}>
             <Anchor weight={700} 
             style={{color:'green'}}>
               Register
@@ -129,6 +197,9 @@ import {
             </NavLink>
           </Text>
         </Paper>
+        <div className={classes.contacts}>
+              <img src={Logo} style={{}} />
+            </div>
       </div>
     );
   }

@@ -380,7 +380,7 @@ export function TableSelection({ dataa }) {
       
     >
       <Menu.Target>
-        <Button rightIcon={<IconChevronDown size="1.05rem" stroke={1.5} />} pr={12} onClick={()=> Users()} style={{backgroundColor:"rgb(226, 225, 225)", color:"black"}}>
+        <Button rightIcon={<IconChevronDown size="1.05rem" stroke={1.5} />} pr={12} onClick={()=> Users()} className='button'>
           Sort
         </Button>
       </Menu.Target>

@@ -303,7 +303,7 @@ export function PaymentForm({ update }) {
 
     useEffect(() => {
         Users();
-        setMsg("user not selected")
+        setMsg("User Not Selected")
         if (update) {
             setPayment(update.totalPayment)
             setHours(update.totalHours)
@@ -413,7 +413,7 @@ export function PaymentForm({ update }) {
                             />
 
                             <Group position="right" mt="md">
-                                <Button type="submit" className={classes.control} fullWidth>
+                                <Button type="submit" className={`${classes.control} button`} fullWidth>
                                     Pay
                                 </Button>
                             </Group>
