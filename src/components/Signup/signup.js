@@ -325,7 +325,7 @@ export function Signup({ update }) {
             </div>
           </form>
           <div className={classes.contacts}>
-            <img src={Logo} />
+            <img src={Logo} style={{width:"25vw"}}/>
           </div>
         </div>
 

@@ -207,7 +207,7 @@ import {
         </Paper>
         <div className={classes.contacts}>
           <div className= {classes.img}>
-              <img src={Logo} style={{}} />
+              <img src={Logo} style={{width:'45vw'}} />
               </div>
             </div>
       </div>
