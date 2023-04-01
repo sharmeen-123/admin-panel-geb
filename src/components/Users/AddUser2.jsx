@@ -139,7 +139,7 @@ export function GetInTouch({ update }) {
 
   function handlePhoneChange(event) {
     const { value } = event.target;
-    if (value.length <= 14) {
+    if (value.length <= 10) {
       setPhoneValue(value);
     }
   }
@@ -291,8 +291,8 @@ export function GetInTouch({ update }) {
 
             <div className={classes.fields}>
               <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                <TextInput label="First Name" placeholder="Your first name" {...form.getInputProps('fName')} />
-                <TextInput label="Last Name" placeholder="Your last name" {...form.getInputProps('lName')} />
+                <TextInput label="First Name" placeholder="Your first name" {...form.getInputProps('fName')} required/>
+                <TextInput label="Last Name" placeholder="Your last name" {...form.getInputProps('lName')} required/>
               </SimpleGrid>
               <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
                 <TextInput
@@ -305,7 +305,7 @@ export function GetInTouch({ update }) {
                 <TextInput
                   label="Contact"
                   placeholder="(555) 555-5555"
-                  pattern="^\(?([2-9][0-9]{2})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"
+                  pattern="^[2-9][0-9]{2}[0-9]{3}[0-9]{4}$"
                   required
                   value={phoneValue}
                   onChange={handlePhoneChange}

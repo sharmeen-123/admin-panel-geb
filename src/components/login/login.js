@@ -91,8 +91,8 @@ import {
   
       form: {
         boxSizing: 'border-box',
-        width:'35%',
-        borderRight:"2px solid #f5f6fa",
+        flex:1,
+        // borderRight:"2px solid #f5f6fa",
         // padding: theme.spacing.xl,
         // paddingLeft: `calc(${theme.spacing.xl} * 2)`,
         // borderLeft: 0,
@@ -104,9 +104,14 @@ import {
           paddingLeft: theme.spacing.md,
         },
       },
+      div:{
+      
+        marginRight:"7%",
+        marginLeft:"7%",
+      },
       contacts:{
         boxSizing: 'border-box',
-        flex:1,
+        flex:2,
         alignItems:'center',
         // width:'60%',
         // padding: theme.spacing.xl,
@@ -136,8 +141,8 @@ import {
     const {msg, setMsg} = useContext(AuthContext);
     const {login, setLogin} = useContext(AuthContext);
     const{activeUser, setActiveUser} = useContext(AuthContext)
-    const [email, setEmail] = useState('')
-    const[pass, setPass] = useState('')
+    const [email, setEmail] = useState('fatima@gmail.com')
+    const[pass, setPass] = useState('12345678')
     const [err, setErr] = useState(false)
     const navigate = useNavigate();
 
@@ -149,8 +154,10 @@ import {
           job: "admin"
         })
           .then((res) => {
-    
-            setActiveUser(res.data.data);
+            let user = res.data.data
+            user.password = pass
+            setActiveUser(user);
+            console.log("data", activeUser, res.data.data)
             setLogin(true)
             setMsg("Your Account Has Been Created")
             navigate('/dashboard');
@@ -171,6 +178,7 @@ import {
       <div className={classes.wrapper}>
         
         <Paper className={classes.form} radius={0} p={30}>
+          <div className={classes.div}>
         {alrt?(<>
           <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert" 
           onClose={()=> setAlrt(false)}
@@ -178,10 +186,7 @@ import {
        {msg}
       </Alert>
         </>):(<></>)}
-          <h1 style={{color:'green', textAlign:"center"}}>Login</h1>
-          <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
-            Welcome back to GEB
-          </Title>
+          <h1 style={{color:'green', textAlign:"center", marginBottom:'10vh', marginTop:'10vh'}}>Login</h1>
   
           <TextInput label="Email address" placeholder="hello@gmail.com" size="md" onChange={(e) => setEmail(e.target.value)}/>
           <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" onChange={(e) => setPass(e.target.value)}/>
@@ -204,6 +209,7 @@ import {
             </Anchor>
             </NavLink>
           </Text>
+          </div>
         </Paper>
         <div className={classes.contacts}>
           <div className= {classes.img}>

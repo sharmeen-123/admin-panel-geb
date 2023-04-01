@@ -37,11 +37,11 @@ const useStyles = createStyles((theme) => {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-      borderRadius: theme.radius.lg,
+      // borderRadius: theme.radius.lg,
       padding: rem(4),
-      // margin:"3vw",
-      border: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[2]
-        }`,
+      // // margin:"3vw",
+      // border: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[2]
+      //   }`,
 
 
       [BREAKPOINT]: {
@@ -51,16 +51,21 @@ const useStyles = createStyles((theme) => {
 
     },
     main: {
-      margin: "1.5%",
+      // margin: "1.5%",
+      height:"100%"
       // border:"2px solid red"
     },
 
     form: {
       boxSizing: 'border-box',
-      flex: 1,
-      // padding: theme.spacing.xl,
-      paddingLeft: `calc(${theme.spacing.xl} * 2)`,
-      borderLeft: 0,
+      flex:1,
+      // borderRight:"2px solid #f5f6fa",
+      padding: theme.spacing.xl,
+      
+      
+      
+      // paddingLeft: `calc(${theme.spacing.xl} * 2)`,
+      // borderLeft: 0,
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
       // border: "2px solid rgb(226, 225, 225)",
 
@@ -69,7 +74,27 @@ const useStyles = createStyles((theme) => {
         paddingLeft: theme.spacing.md,
       },
     },
+    div:{
+      
+      marginRight:"5%",
+      marginLeft:"5%",
+    },
+    contacts:{
+      boxSizing: 'border-box',
+      flex:2,
+      alignItems:'center',
+      // width:'60%',
+      // padding: theme.spacing.xl,
+      // paddingLeft: `calc(${theme.spacing.xl} * 2)`,
+      margin:'0 auto',
+      textAlign:'center',
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
 
+      [BREAKPOINT]: {
+        padding: theme.spacing.md,
+        paddingLeft: theme.spacing.md,
+      },
+    },
     fields: {
       marginTop: rem(-12),
 
@@ -79,7 +104,7 @@ const useStyles = createStyles((theme) => {
       flex: 1,
 
       '& + &': {
-        marginLeft: theme.spacing.md,
+        // marginLeft: theme.spacing.md,
 
         [BREAKPOINT]: {
           marginLeft: 0,
@@ -96,20 +121,6 @@ const useStyles = createStyles((theme) => {
       },
     },
 
-    contacts: {
-      boxSizing: 'border-box',
-      position: 'relative',
-      borderRadius: theme.radius.lg,
-      textAlign: 'center',
-      // border: `${rem(1)} solid transparent`,
-      // padding: theme.spacing.xl,
-      flex: `0 0 ${rem(490)}`,
-
-      [BREAKPOINT]: {
-        marginBottom: theme.spacing.sm,
-        paddingLeft: theme.spacing.md,
-      },
-    },
 
     title: {
       // marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
@@ -117,15 +128,20 @@ const useStyles = createStyles((theme) => {
       justifyContent: 'center',
       textAlign: "center",
       color: 'green',
+      margin:".2rem",
 
       [BREAKPOINT]: {
         marginBottom: theme.spacing.xl,
       },
     },
-
+    img: {
+      display:'flex',
+      justifyContent:'center',
+      alignItems:'center',
+      height:"95vh",
+    },
     control: {
       margin: "1%",
-      width: "30%",
       backgroundColor: "green",
       '&:hover': {
         backgroundColor: '#4F7942 !important',
@@ -147,7 +163,7 @@ export function Signup({ update }) {
 
   function handlePhoneChange(event) {
     const { value } = event.target;
-    if (value.length <= 14) {
+    if (value.length <= 10) {
       setPhoneValue(value);
     }
   }
@@ -196,7 +212,7 @@ export function Signup({ update }) {
       lastName: user.lName,
       email: user.email,
       phone: phoneValue,
-      userType: user.designation,
+      userType: 'Admin',
       address: user.address,
       image: img,
       status: "unblock",
@@ -242,6 +258,7 @@ export function Signup({ update }) {
 
 
           <form className={classes.form} onSubmit={form.onSubmit((values) => handleForm(values))}>
+            <div className={classes.div}>
             {/* <img src={Logo} style={{width:"5rem"}}/> */}
             {isError ? (<>
               <Alert icon={<IconAlertCircle size="1rem" />} withCloseButton closeButtonLabel="Close alert"
@@ -250,20 +267,15 @@ export function Signup({ update }) {
                 {msg}
               </Alert>
             </>) : (<></>)}
-            <h2 fz="md" fw={500} className={classes.title}>
+            <h1 fz="md" fw={500} className={classes.title}>
               Signup
-            </h2>
+            </h1>
 
             <div className={classes.fields}>
-              <div>
-                <Avatar size={120} src={img} radius={"md"} style={{ margin: "0 auto" }} />
-                <FileInput style={{ width: "20%", margin: "0 auto", padding: "1%" }} placeholder="Upload image" accept="image/png,image/jpeg" onChange={handleImageUpload} />
-              </div>
-              <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                <TextInput label="First Name" placeholder="Your first name" {...form.getInputProps('fName')} />
-                <TextInput label="Last Name" placeholder="Your last name" {...form.getInputProps('lName')} />
-              </SimpleGrid>
-              <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
+             
+                <TextInput label="First Name" placeholder="Your first name" {...form.getInputProps('fName')} required/>
+                <TextInput label="Last Name" placeholder="Your last name" {...form.getInputProps('lName')} required/>
+             
                 <TextInput
                   label="Email"
                   placeholder="hello@gmail.dev"
@@ -274,18 +286,14 @@ export function Signup({ update }) {
                 <TextInput
                   label="Contact"
                   placeholder="(555) 555-5555"
-                  pattern="^\(?([2-9][0-9]{2})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"
+                  pattern="^[2-9][0-9]{2}[0-9]{3}[0-9]{4}$"
                   required
                   value={phoneValue}
                   onChange={handlePhoneChange}
                 />
-              </SimpleGrid>
-              <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                <TextInput label="Designation" disabled required {...form.getInputProps('designation')} />
-                <TextInput label="Address" placeholder="Toronto Canada" required {...form.getInputProps('address')} style={{ marginBottom: 0 }} />
-              </SimpleGrid>
+                <TextInput label="Address" placeholder="Toronto Canada" required {...form.getInputProps('address')} />
+              
 
-              <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
                 <PasswordInput
                   label="Password"
                   placeholder="Password"
@@ -300,7 +308,6 @@ export function Signup({ update }) {
                   required
                   {...form.getInputProps('confirmPassword')}
                 />
-              </SimpleGrid>
 
 
 
@@ -311,7 +318,7 @@ export function Signup({ update }) {
               }}>
 
                 {/* <NavLink to={"/mainUsers"}> */}
-                <Button type="submit" className={classes.control}>
+                <Button type="submit" fullWidth mt="xl" size="md" className={classes.control}>
                   SignUp
                 </Button>
                 {/* </NavLink> */}
@@ -323,10 +330,13 @@ export function Signup({ update }) {
                 </Group>
               </div>
             </div>
+            </div>
           </form>
-          <div className={classes.contacts}>
-            <img src={Logo} style={{width:"25vw"}}/>
-          </div>
+          <div className={classes.contacts} >
+          <div className= {classes.img}>
+              <img src={Logo} style={{width:'35vw'}} />
+              </div>
+            </div>
         </div>
 
       </Paper>

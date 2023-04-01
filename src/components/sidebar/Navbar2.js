@@ -125,7 +125,7 @@ export function NavbarNested2() {
     />
   ));
   // const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
-  const settings = { label: 'Settings', icon: IconSettings }
+  const settings = { label: 'Settings', icon: IconSettings, link: '/settings', }
   const logoutt = { label: 'Logout', icon: IconExit }
 
   const lgout = () => {

@@ -11,6 +11,9 @@ import { NavbarNested2 } from "./components/sidebar/Navbar2";
 import { PaymentForm } from "./components/Payment/PymentForm3";
 import { Signup } from "./components/Signup/signup";
 import { AuthenticationImage } from "./components/login/login";
+import { ProfileInfo } from "./components/setting/profileInfo";
+import { PasswordSettings } from "./components/setting/passwordSettings";
+import { Demo } from "./components/notification/notification";
 export const AuthContext = React.createContext();
 
 const AdminSideBarLayout = () => {
@@ -70,18 +73,19 @@ function App() {
   console.log(process.env.REACT_APP_API)
   return (
     <AuthContext.Provider value={value}>
+      {/* <Demo/> */}
       <Router>
         <div className="App">
           <Routes>
-          {/* <Signup update={false}/> */}
           <Route exact path="/" element={<AuthenticationImage update={false} />} ></Route>
           <Route exact path="/signup" element={<Signup update={false} />} ></Route>
           {login? (<>
             <Route exact element={<AdminSideBarLayout />} >
               <Route exact path="/dashboard" element={<MainDash />} />
               <Route exact path="/mainUsers" element={<MainUsers />} />
-              {/* <Route exact path="/addUser" element={<Adduser update={false} />} /> */}
               <Route exact path="/addUser" element={<GetInTouch update={false} />} />
+              <Route exact path="/settings" element={<ProfileInfo/>} />
+              <Route exact path="/passwordSettings" element={<PasswordSettings />} />
               <Route exact path="/updateUser" element={<GetInTouch update={update} />} />
               <Route exact path="/paymentForm" element={<PaymentForm update={false} />} />
               <Route exact path="/updatePaymentForm" element={<PaymentForm update={update} />} />
@@ -97,15 +101,6 @@ function App() {
 
     </AuthContext.Provider>
     
-
-    // <div className="App">
-    //   {/* <Sidebar /> */}
-    //   {/* <PaymentForm /> */}
-    //   <PaymentUsers />
-    //   {/* <MainDash/> */}
-    //   {/* <Adduser /> */}
-    //   {/* <MainUsers /> */}
-    // </div>
   );
 }
 
