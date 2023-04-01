@@ -8,7 +8,7 @@ export const Noti = () => {
     const { msg, setMsg } = useContext(AuthContext);
   return (
           notifications.show({
-            title: 'Default notification',
+            title: 'notification',
             message: msg,
             color:'green'
           })
