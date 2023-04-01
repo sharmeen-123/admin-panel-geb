@@ -2,12 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import Userscard from "./Userscard";
 import "./MainUsers.css";
 import axios from "../../axios";
-// import "./Tables.css"
 import {TableSelection} from "./Table3"
 import { HeaderTabs } from "../header/header";
 import { Alert } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
 import Loading from "../Loader/loading";
 

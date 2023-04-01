@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
 import { IconAlertCircle } from '@tabler/icons-react';
 import man from "./../../imgs/man.png";
-import "./AddUser.css"
+import "./AddUserrr.css"
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
 // import bg from './bg.svg';
 
