@@ -273,7 +273,6 @@ export function GetInTouch({ update }) {
       <HeaderTabs title={"Add User"} />
       {isError ? (<>
         <ErrorNoti/>
-        {/* {setIsError(false)} */}
       </>) : (<></>)}
       <Paper shadow="md" radius="lg" className={classes.main}>
 

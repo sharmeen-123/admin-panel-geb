@@ -9,7 +9,7 @@ export const Noti = () => {
     const { alrt, setAlrt } = useContext(AuthContext);
 
     useEffect(() => {
-        setAlrt(false)
+        // setAlrt(false)
       }, [])
   return (
           notifications.show({
