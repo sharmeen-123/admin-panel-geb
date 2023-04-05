@@ -27,7 +27,12 @@ const Maps = () => {
 
     const allShifts = async () => {
         try {
-            const res = await axios2.get('/shifts/getActiveShifts');
+            const res = await axios2.get('/shifts/getActiveShifts', 
+            {
+                headers: {
+                  authorization:JSON.parse(localStorage.getItem('token'))
+                }
+              });
             setShifts(res.data.data);
         } catch (error) {
             console.log(error);
@@ -36,7 +41,12 @@ const Maps = () => {
 
     const getUserStatus = async () => {
         try {
-            const res = await axios2.get('/user/getUserStatus');
+            const res = await axios2.get('/user/getUserStatus', 
+            {
+                headers: {
+                  authorization:JSON.parse(localStorage.getItem('token'))
+                }
+              });
             setUserStatus(res.data.data);
         } catch (error) {
             console.log(error);
@@ -45,7 +55,12 @@ const Maps = () => {
 
     const getUser = async (id) => {
         try {
-            const res = await axios2.get('/user/getOneUser/' + id);
+            const res = await axios2.get('/user/getOneUser/' + id, 
+            {
+                headers: {
+                  authorization:JSON.parse(localStorage.getItem('token'))
+                }
+              });
             setUser(res.data.data[0]);
         } catch (error) {
             console.log(error);

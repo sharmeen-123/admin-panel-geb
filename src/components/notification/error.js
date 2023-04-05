@@ -25,7 +25,8 @@ export const NotiError = () => {
           notifications.show({
             title: 'Error',
             message: msg,
-            color:'red'
+            color:'red',
+            autoClose: 1000
           })
      
   );

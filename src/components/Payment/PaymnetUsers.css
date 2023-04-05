@@ -112,6 +112,7 @@ td {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  text-align: center;
   /* background-color: #a61422; */
   width: 5vw;
   /* justify-content: center; */

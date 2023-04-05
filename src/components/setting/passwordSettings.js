@@ -15,7 +15,6 @@ import {
   import { FileInput, Avatar, Modal, Alert } from '@mantine/core';
   import React, { useState, useContext, useEffect } from 'react';
   import { NavLink } from 'react-router-dom';
-  import axios from 'axios';
   import axios2 from '../../axios';
   import { useDisclosure } from '@mantine/hooks';
   import { HeaderTabs } from '../header/header';
@@ -25,6 +24,7 @@ import {
   import man from "./../../imgs/man.png";
  import { Demo } from '../notification/notification';
  import { ErrorNoti } from '../notification/notificationError';
+ import Loading from '../Loader/loading';
 //   import "./AddUserrr.css"
   
   const useStyles = createStyles((theme) => {
@@ -141,10 +141,7 @@ import {
     const navigate = useNavigate();
     const [isError, setIsError] = useState(false)
     const [phoneValue, setPhoneValue] = useState('');
-  
-  
-   
-  
+    const [isAdded, setIsAdded] = useState(false);
   
     const form = useForm({
       initialValues: {
@@ -165,18 +162,25 @@ import {
       let res = await axios2.put('/user/updatePassword/' + activeUser.id, {
         oldPassword: user.oldPassword,
         password: user.password,
+      }, {
+        headers: {
+          authorization:JSON.parse(localStorage.getItem('token'))
+        }
       })
         .then((res) => {
             let userr = activeUser
             userr.password = user.password
             setActiveUser(userr)
+            localStorage.setItem('user', JSON.stringify(userr))
           setMsg("Password Updated Successfully")
           setAlrt(true)
+          setIsAdded(false)
           navigate('/settings');
         }
   
         )
         .catch((error) => {
+          setIsAdded(false)
           if (error.response.data) {
             setMsg(error.response.data)
           } else {
@@ -190,6 +194,7 @@ import {
   
   
     const handleForm = (user) => {
+      setIsAdded(true)
         updateUser(user)
     }
   
@@ -251,7 +256,9 @@ import {
           </div>
   
         </Paper>
-  
+  {isAdded?(<>
+  <Loading/>
+  </>):(<></>)}
       </div>
     );
   }

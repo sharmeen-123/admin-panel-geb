@@ -22,9 +22,8 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import "./PaymentForm.css";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
-
-import { Demo } from '../notification/notification';
 import { ErrorNoti } from '../notification/notificationError';
+import Loading from '../Loader/loading';
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
 // import bg from './bg.svg';
 
@@ -162,7 +161,8 @@ export function PaymentForm({ update }) {
     const [img, setImg] = useState(update.image);
     const { alrt, setAlrt } = useContext(AuthContext);
     const { msg, setMsg } = useContext(AuthContext);
-    const [isError, setIsError] = useState(false) 
+    const [isError, setIsError] = useState(false) ;
+    const [isAdded, setIsAdded] = useState(false)
     const navigate = useNavigate();
 
 
@@ -170,11 +170,15 @@ export function PaymentForm({ update }) {
     const handleValueChange = (value) => {
         setSelectedValue(value);
         handleUserInfo(userr, value)
-        totalHours(selectedValue)
+        // totalHours(selectedValue)
     };
     const Users = async () => {
         try {
-            const res = await axios.get('/user/getAllUsers');
+            const res = await axios.get('/user/getAllSiteWorkers', {
+                headers: {
+                  authorization:JSON.parse(localStorage.getItem('token'))
+                }
+              });
             const users = res.data.data;
             setUserr(users)
             const newData = users?.map((val) => ({
@@ -214,18 +218,25 @@ export function PaymentForm({ update }) {
 
     const payAmount = async () => {
         if (name) {
-            let res = await axios.post('/payment/addpayment', { userName: name, userID: id, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, userEmail: email, userImage: image })
+            let res = await axios.post('/payment/addpayment', 
+            { userName: name, userID: id, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, userEmail: email, userImage: image }
+            ,{
+                headers: {
+                  authorization:JSON.parse(localStorage.getItem('token'))
+                }
+              })
                 .then((res) => {
                     // setHours(res.data.data);
                     setMsg("Amount Paid Successfully!")
                     setImage()
                     setAlrt(true)
+                    setIsAdded(false)
                     navigate('/paymentUsers');
                 }
 
                 )
                 .catch((error) => {
-                    // setError(error.response.data);
+                    setIsAdded(false)
                     if(error.response.data){
                     setMsg(error.response.data)}
                     else{
@@ -238,16 +249,25 @@ export function PaymentForm({ update }) {
 
     const updateAmount = async () => {
         if (name) {
-            let res = await axios.put('/payment/updatePayment/' + update._id, { userID: id, userName: name, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, userEmail: email, userImage: image })
+            let res = await axios.put('/payment/updatePayment/' + update._id, 
+            { userID: id, userName: name, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, 
+                userEmail: email, userImage: image }, 
+                {
+                    headers: {
+                      authorization:JSON.parse(localStorage.getItem('token'))
+                    }
+                  })
                 .then((res) => {
                     setMsg("Payment Updated")
                     setImage()
                     setAlrt(true)
+                    setIsAdded(false)
                     navigate('/paymentUsers');
                 }
 
                 )
                 .catch((error) => {
+                    setIsAdded(false)
                     if(error.response.data){
                         setMsg(error.response.data)}
                         else{
@@ -273,31 +293,6 @@ export function PaymentForm({ update }) {
         setEmail(user.email)
     }
 
-
-    // getting total hours of a uset
-    const totalHours = async (id) => {
-        if (id) {
-            let res = await axios.get('/shifts/getNumberOfHours/' + id)
-                .then((res) => {
-                    setUsers(res.data.data)
-                    setShifts(res.data.data.shifts)
-                    setHours(res.data.data.totalHours)
-                    let data = { totalHours: res.data.data.totalHours }
-                    update = data
-                }
-
-                )
-                .catch((error) => {
-                    // setError(error.response.data);
-                    console.log(error);
-                })
-        }
-    }
-
-    // useEffect(() => {
-    //     setShifts(users.shifts)
-    //                 setHours(users.totalHours)
-    // },[users])
     useEffect(() => {
         const totalPayment = wage * hours;
         setPayment(totalPayment);
@@ -342,12 +337,35 @@ export function PaymentForm({ update }) {
     };
 
     const handleForm = (user) => {
+        setIsAdded(true)
         if (!update) {
             payAmount()
         } else {
             updateAmount()
         }
     }
+
+    useEffect(() => {
+        const fetchTotalHours = async () => {
+          if (selectedValue) {
+            try {
+              const response = await axios.get('/shifts/getNumberOfHours/' + selectedValue, {
+                headers: {
+                  authorization: JSON.parse(localStorage.getItem('token'))
+                }
+              });
+              const data = response.data.data;
+              setUsers(data);
+              setShifts(data.shifts);
+              setHours(data.totalHours);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        };
+        fetchTotalHours();
+      }, [selectedValue]);
+      
 
 
 
@@ -422,6 +440,9 @@ export function PaymentForm({ update }) {
 
                
             </Paper>
+            {isAdded?(<>
+            <Loading/>
+            </>):(<></>)}
         </div>
     );
 }

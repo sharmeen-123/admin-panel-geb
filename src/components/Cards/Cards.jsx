@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Cards.css";
-import axios from "../../axios";
 import admin from "../../imgs/Setting.png"
 import Employee from "../../imgs/construction.png"
 import shift from "../../imgs/shift.png"

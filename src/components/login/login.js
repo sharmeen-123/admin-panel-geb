@@ -150,7 +150,7 @@ import {
 
      // adding user in db
      const handleChange = async () => {
-        let res = await axios.post('/user/login', {
+        let res = await axios.post('/auth/login', {
           email: email,
           password: pass, 
           job: "admin"
@@ -158,11 +158,15 @@ import {
           .then((res) => {
             let user = res.data.data
             user.password = pass
-            setActiveUser(user);
             console.log("data", activeUser, res.data.data)
             setLogin(true)
             setMsg("Your Account Has Been Created")
-            navigate('/dashboard');
+            if(res.data.token){
+              localStorage.setItem('token', JSON.stringify(res.data.token))
+              localStorage.setItem('user', JSON.stringify(res.data.data))
+              setActiveUser(JSON.parse(localStorage.getItem('user')))
+              navigate('/dashboard');
+          }
           })
           .catch((error) => {
             if(error.response.data){

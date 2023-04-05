@@ -5,7 +5,12 @@ import { Noti } from './noti';
 export const Demo = ()=> {
   return (
     <MantineProvider withNormalizeCSS withGlobalStyles TealwithIcon>
-      <Notifications />
+      <Notifications 
+      
+    // autoClose='2000'
+    limit={1}
+    position="top-center"
+      />
       <Noti />
     </MantineProvider>
   );

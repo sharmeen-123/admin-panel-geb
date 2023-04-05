@@ -15,8 +15,14 @@ function MainDash(props) {
 
    // getting shifts info
    const Shifts = async () => {
-    let res = await axios.get('/shifts/getNumberOfShifts')
+    let res = await axios.get('/shifts/getNumberOfShifts', {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    }
+    )
     .then ((res) => {
+      console.log("data", res.data)
       setShifts(res.data.data);
     }
       
@@ -29,7 +35,11 @@ function MainDash(props) {
 
   // getting users info
   const Users = async () => {
-    let res = await axios.get('/user/getNumberOfUsers')
+    let res = await axios.get('/user/getNumberOfUsers', {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    })
     .then ((res) => {
       setUsers(res.data.data);
     }
@@ -43,7 +53,11 @@ function MainDash(props) {
 
    // getting previous Shifts info
    const previousShifts = async () => {
-    let res = await axios.get('/cycle/getAllcycles')
+    let res = await axios.get('/cycle/getAllcycles', {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    })
     .then ((res) => {
       setPrevShifts(res.data.data);
     }
@@ -56,7 +70,11 @@ function MainDash(props) {
   }
    // getting payment info
    const paidAmount = async () => {
-    let res = await axios.get('/payment/getAmountPaid')
+    let res = await axios.get('/payment/getAmountPaid', {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    })
     .then ((res) => {
       setPayment(res.data);
     }
@@ -69,7 +87,12 @@ function MainDash(props) {
   }
     // getting payment info
     const previousAmount = async () => {
-      let res = await axios.get('/payment/getAllcycles')
+      let res = await axios.get('/payment/getAllcycles', {
+        headers: {
+          authorization:JSON.parse(localStorage.getItem('token'))
+        }
+      }
+      )
       .then ((res) => {
         setPrevAmount(res.data.data);
       }

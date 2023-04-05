@@ -23,6 +23,7 @@ import { AuthContext } from "../../App";
 import { IconAlertCircle } from '@tabler/icons-react';
 import man from "./../../imgs/man.png";
 import "./AddUserrr.css"
+import Loading from '../Loader/loading';
 
 import { ErrorNoti } from '../notification/notificationError';
 // import { ContactIconsList } from '../ContactIcons/ContactIcons';
@@ -137,6 +138,7 @@ export function GetInTouch({ update }) {
   const navigate = useNavigate();
   const [isError, setIsError] = useState(false)
   const [phoneValue, setPhoneValue] = useState('');
+  const [isAdded, setIsAdded] = useState(false)
 
 
   function handlePhoneChange(event) {
@@ -188,7 +190,7 @@ export function GetInTouch({ update }) {
 
   // adding user in db
   const addUser = async (user) => {
-    let res = await axios2.post('/user/register', {
+    let res = await axios2.post('/auth/register', {
       firstName: user.fName,
       lastName: user.lName,
       email: user.email,
@@ -198,15 +200,21 @@ export function GetInTouch({ update }) {
       image: img,
       status: "unblock",
       verified: true,
-      password: user.password
+    }, 
+    {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
     })
       .then((res) => {
 
         setMsg("User Added Successfully")
         setAlrt(true)
+        setIsAdded(false)
         navigate('/mainUsers');
       })
       .catch((error) => {
+        setIsAdded(false)
         if (error.response.data) {
           setMsg(error.response.data)
         }
@@ -229,16 +237,22 @@ export function GetInTouch({ update }) {
       userType: user.designation,
       address: user.address,
       image: img,
-      password: user.password
+    }, 
+    {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
     })
       .then((res) => {
         setMsg("User Updated Successfully")
         setAlrt(true)
+        setIsAdded(false)
         navigate('/mainUsers');
       }
 
       )
       .catch((error) => {
+        setIsAdded(false)
         if (error.response.data) {
           setMsg(error.response.data)
         } else {
@@ -252,6 +266,7 @@ export function GetInTouch({ update }) {
 
 
   const handleForm = (user) => {
+    setIsAdded(true)
     if (!update) {
       addUser(user)
     } else {
@@ -314,7 +329,7 @@ export function GetInTouch({ update }) {
                   pattern="^\(?([2-9][0-9]{2})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"
                   required {...form.getInputProps('phone')} /> */}
               </SimpleGrid>
-              <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
+              {/* <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}> */}
                 <Select
                   label="Designation"
                   placeholder="Pick one"
@@ -325,9 +340,9 @@ export function GetInTouch({ update }) {
                   required {...form.getInputProps('designation')}
                 />
                 <TextInput label="Address" placeholder="Toronto Canada" required {...form.getInputProps('address')} />
-              </SimpleGrid>
+              {/* </SimpleGrid> */}
 
-              <PasswordInput
+              {/* <PasswordInput
                 label="Password"
                 placeholder="Password"
                 required
@@ -340,7 +355,7 @@ export function GetInTouch({ update }) {
                 placeholder="Confirm password"
                 required
                 {...form.getInputProps('confirmPassword')}
-              />
+              /> */}
 
 
 
@@ -356,6 +371,9 @@ export function GetInTouch({ update }) {
         </div>
 
       </Paper>
+      {isAdded?(<>
+      <Loading/>
+      </>):(<></>)}
 
     </div>
   );

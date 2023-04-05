@@ -34,6 +34,8 @@ const Logout = () => {
         setMsg()
         setAlrt()
         navigate('/');
+        localStorage.clear();
+
       }
 
       useEffect(() => {

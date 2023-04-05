@@ -17,7 +17,11 @@ export default function PaymentUsers(props) {
 
   // api to get all payments
   const payAmount = async () => {
-    let res = await axios.get('/payment/getAllPayments')
+    let res = await axios.get('/payment/getAllPayments', {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    })
         .then((res) => {
           setusers(res.data.data);
         }

@@ -13,6 +13,7 @@ import './Navbar.css'
 import { useState, useContext } from 'react';
 import Logout from '../logout/logout';
 import { AuthContext } from "../../App";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -72,6 +73,7 @@ const useStyles = createStyles((theme) => ({
 export function NavbarNested2() {
   const { classes } = useStyles();
   const { logout, setLogout } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [openedLink, setOpenedLink] = useState(null); // state to track which link is opened
   const [mockdata, setMockData] = useState([
     { label: 'Dashboard', icon: IconApps, link: '/dashboard', number: 1 },
@@ -148,9 +150,18 @@ export function NavbarNested2() {
         }
       });
     });
-    // setOpenedLink()
+  
+    // // Store the updated mockData in local storage
+    // const updatedMockData = JSON.stringify(mockdata);
+    // localStorage.setItem('mockdata', updatedMockData);
+    // setMockData(localStorage.getItem(JSON.parse('mockdata')))
   }, [openedLink]);
 
+  useEffect(() => {
+    // Call your function here
+    // setMockData(JSON.parse(localStorage.getItem('mockdata')))
+    navigate('/dashboard');
+  }, []);
 
 
 

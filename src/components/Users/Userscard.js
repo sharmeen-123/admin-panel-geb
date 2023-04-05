@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import axios from "../../axios";
 import admin from "../../imgs/Setting.png"
 import Employee from "../../imgs/construction.png"
 import rejected from "../../imgs/rejected.png"
@@ -70,7 +69,7 @@ export default function Userscard({user}) {
 
         <div className="card">
           <div className="title">
-          <p>Disapprove</p>
+          <p>Pending</p>
           <div className="icon">
             <img src={rejected}/>
 

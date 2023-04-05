@@ -15,6 +15,7 @@ import {
   IconCalendar,
   IconChevronDown,
 } from '@tabler/icons-react';
+import { Demo } from '../notification/notification';
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -58,7 +59,11 @@ export function TableSelection({ dataa }) {
   const [search, setSearch] = useState(false);
   const [data, setData] = useState(dataa)
   const { update, setUpdate } = useContext(AuthContext);
+  const { msg, setMsg } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
+  const [del, setDelete] = useState(false);
+  const [isPending, setIspending] = useState(false);
+  const theme = useMantineTheme();
 
   function togglePopup(user, del) {
     setShowPopup(!showPopup);
@@ -92,7 +97,12 @@ export function TableSelection({ dataa }) {
   }
   // getting users info
   const Users = async () => {
-    let res = await axios.get('/user/getAllUsers')
+    let res = await axios.get('/user/getAllUsers', 
+    {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    })
       .then((res) => {
         setData(res.data.data);
       }
@@ -106,7 +116,14 @@ export function TableSelection({ dataa }) {
 
   // switching verification
   const verification = async (id) => {
-    let res = await axios.put('/user/verifyUser/' + id)
+    console.log("verification", JSON.parse(localStorage.getItem('token')))
+    let res = await axios.put('/user/verifyUser/' + id, {},
+    {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    }
+    )
       .then((res) => {
         Users()
       }
@@ -120,7 +137,13 @@ export function TableSelection({ dataa }) {
 
   // switching status
   const status = async (e, id) => {
-    let res = await axios.put('/user/switchUserStatus/' + id)
+    let res = await axios.put('/user/switchUserStatus/' + id, {},
+    {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    }
+    )
       .then((res) => {
         Users()
       }
@@ -134,15 +157,26 @@ export function TableSelection({ dataa }) {
 
   // deleting User
   const deleteUser = async () => {
+    setDelete(false)
     if (id) {
-      let res = await axios.delete('/user/deleteUser/' + id)
+      let res = await axios.delete('/user/deleteUser/' + id, 
+      {
+        headers: {
+          authorization:JSON.parse(localStorage.getItem('token'))
+        }
+      }
+      )
         .then((res) => {
+          setMsg("User Deleted Successfully")
+          setDelete(true)
           Users()
+        
         }
 
         )
         .catch((error) => {
           // setError(error.response.data);
+          setDelete(false)
           console.log(error);
         })
     }
@@ -154,9 +188,19 @@ export function TableSelection({ dataa }) {
     Search()
   }
 
+  const handlePending = () => {
+    setIspending(!isPending);
+    console.log("is pending is ", isPending)
+  }
+
   // searching user
   const Search = async () => {
-    let res = await axios.get('/user/getUserByName/' + search)
+    let res = await axios.get('/user/getUserByName/' + search, 
+    {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    })
       .then((res) => {
         setData(res.data.data);
       }
@@ -185,6 +229,19 @@ export function TableSelection({ dataa }) {
     Users();
   }, [])
 
+  useEffect(() => {
+    if (del) {
+      const timeoutId = setTimeout(() => {
+        setDelete(false);
+        {console.log(del)}
+      }, 5000); // set timeout to 20 seconds (20000 milliseconds)
+  
+      // return a cleanup function to cancel the timeout if the component unmounts
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  },);
   const toggleRow = (id) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
@@ -197,7 +254,7 @@ export function TableSelection({ dataa }) {
     return (
       <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
         <td>
-          <Group spacing="sm">
+          <Group spacing="sm" style={{display:'flex', justifyContent:'center'}}>
             <Avatar size={26} src={item.image} radius={26} />
             <Text size="sm" weight={500}>
               {item.firstName + " " + item.lastName}
@@ -205,43 +262,88 @@ export function TableSelection({ dataa }) {
           </Group>
         </td>
         <td>{item.email}</td>
+        <td>{item.userType}</td>
         <td>{item.dateJoined}</td>
         <td>
           {item.status === "block" ? (<>
-            <select onChange={e => status(e, item._id)} selected="block" value={"block"} className="block">
+            <Button  onClick={e => status(e, item._id)} className="block">
+          Block
+        </Button>
+            {/* <select onChange={e => status(e, item._id)} selected="block" value={"block"} className="block">
 
               <option value="block" className='block'>block</option>
 
               <option value="unblock" className='unblock'>unblock</option>
 
-            </select></>) : (<>
-              <select onChange={e => status(e, item._id)} selected="unblock" value={"unblock"} className="unblock">
+            </select> */}
+            </>) : (<>
+              <Button  onClick={e => status(e, item._id)} className="unblock">
+          unblock
+        </Button>
+              {/* <select onChange={e => status(e, item._id)} selected="unblock" value={"unblock"} className="unblock">
 
                 <option value="unblock" className='unblock'>unblock</option>
 
                 <option value="block" className='block'>block</option>
 
-              </select></>)}
+              </select> */}
+              </>)}
         </td>
         <td>
           {item.verified === true ? (<>
-            <select onChange={e => verification(item._id)} className="unblock">
+            <Button   onClick={handlePending} className="unblock">
+          Verify
+        </Button>
+          {/* <button className="unblock" style={{border:'none'}} onClick={handlePending}>Verify</button> */}
+         
+            {/* <select onChange={e => verification(item._id)} className="unblock">
 
               <option value="verify" className='unblock'>verify</option>
 
               <option value="disprove" className='block'>disprove</option>
 
-            </select></>) : (<>
-              <select onChange={e => verification(item._id)} className={"block"}>
-                <option value="disprove" className='block'>disprove</option>
-                <option value="verify" className='unblock'>verify</option>
-              </select></>)}
+            </select> */}
+            </>) : (<>
+
+              <Menu
+      transitionProps={{ transition: 'pop-top-right' }}
+      position="top-end"
+      width={220}
+      withinPortal
+      
+    >
+        <Button onClick={e => verification(item._id)} className="block">
+          Pending
+        </Button>
+      {/* <Menu.Dropdown >
+        
+        <Menu.Item
+          icon={<IconSquareCheck size="1rem" color={theme.colors.green[8]} stroke={1.5} />}
+          onClick={sortVerified}
+        >
+          Verify
+        </Menu.Item>
+        
+      </Menu.Dropdown> */}
+    </Menu>
+            
+              {/* <button className="block" style={{border:'none'}} onClick={handlePending}>Pending</button>
+              {isPending?(<>
+            <div className="unblock" style={{border:'none', marginTop:'5%', position:'sticky'}}>Verify</div>
+          </>):(<></>)} */}
+         
+              {/* <select onChange={e => verification(item._id)} className={"block"}>
+                <option value="disprove" style={{backgroundColor:'white'}}>pending</option>
+                <option value="verify" style={{backgroundColor:'white'}}>verify</option>
+              </select> */}
+              </>)}
 
         </td>
-        <td>
+        <td style={{ display:'flex', justifyContent:'center'}}>
           <div className="button-container" >
             <div
-              onClick={() => togglePopup2(item)}>
+              onClick={() => togglePopup2(item)}
+              style={{cursor: 'pointer'}}>
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <circle cx="12" cy="12" r="2" />
@@ -325,7 +427,10 @@ export function TableSelection({ dataa }) {
             </NavLink>
             <div
 
-              onClick={() => togglePopup(item)}>
+              onClick={() => {togglePopup(item)
+                              setDelete(false)}}
+                              style={{cursor: 'pointer'}}
+                              >
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <line x1="4" y1="7" x2="20" y2="7" />
@@ -344,7 +449,8 @@ export function TableSelection({ dataa }) {
                       <Text>
                         Delete User
                       </Text>
-                      <img src={Close} onClick={() => setShowPopup(!showPopup)} style={{width:"15px"}}/>
+                      <img src={Close} onClick={() => {setShowPopup(!showPopup)
+                                                        setDelete(false)}} style={{width:"15px"}}/>
                     </Group>
                         
                         <Text ta="center" fz="lg" weight={500} mt="md">
@@ -352,7 +458,8 @@ export function TableSelection({ dataa }) {
                         </Text>
                         <p>You want to Delete User!</p>
                         <Button onClick={() => { togglePopup(false, true); }} variant="default" fullWidth mt="md">Yes</Button>
-                          <Button  onClick={() => togglePopup(false, false)} variant="default" fullWidth mt="md">
+                          <Button  onClick={() => {togglePopup(false, false)
+                                                    setDelete(false)}} variant="default" fullWidth mt="md">
                             No
                           </Button>
                         
@@ -365,10 +472,11 @@ export function TableSelection({ dataa }) {
       </tr>
     );
   });
-  const theme = useMantineTheme();
+ 
 
   return (
     <ScrollArea>
+      {del?(<><Demo/></>):(<></>)}
       <Group position='apart'>
       <TextInput label={"Search User"} style={{marginBottom:"2%", width:"85%"}} placeholder={"Search by name"}
       onChange={e=> handleSearch(e)}/>
@@ -407,6 +515,7 @@ export function TableSelection({ dataa }) {
           <tr>
             <th>User</th>
             <th>Email</th>
+            <th>Designation</th>
             <th>Date Joined</th>
             <th>Status</th>
             <th>Verified</th>

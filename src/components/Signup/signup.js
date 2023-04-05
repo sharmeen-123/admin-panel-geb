@@ -209,7 +209,7 @@ export function Signup({ update }) {
 
   // adding user in db
   const addUser = async (user) => {
-    let res = await axios2.post('/user/register', {
+    let res = await axios2.post('/auth/register', {
       firstName: user.fName,
       lastName: user.lName,
       email: user.email,
@@ -218,14 +218,18 @@ export function Signup({ update }) {
       address: user.address,
       image: img,
       status: "unblock",
-      verified: true,
+      verified: false,
       password: user.password
     })
       .then((res) => {
 
         setMsg("Your Account Has Been Created")
         setAlrt(true)
+        if(res.data.token){
+          localStorage.setItem('token', JSON.stringify(res.data.token))
+          localStorage.setItem('user', JSON.stringify(res.data.data))
         navigate('/');
+      }
       })
       .catch((error) => {
         if (error.response.data) {

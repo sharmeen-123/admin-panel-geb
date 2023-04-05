@@ -25,6 +25,7 @@ import {
   import man from "./../../imgs/man.png";
   import { Demo } from '../notification/notification';
   import { ErrorNoti } from '../notification/notificationError';
+  import Loading from '../Loader/loading';
 //   import "./AddUserrr.css"
   
   const useStyles = createStyles((theme) => {
@@ -141,6 +142,7 @@ import {
     const navigate = useNavigate();
     const [isError, setIsError] = useState(false)
     const [phoneValue, setPhoneValue] = useState('');
+    const [isAdded, setIsAdded] = useState(false)
   
   
     function handlePhoneChange(event) {
@@ -198,6 +200,11 @@ import {
         address: user.address,
         image: img,
         password: activeUser.password
+      }, 
+      {
+        headers: {
+          authorization:JSON.parse(localStorage.getItem('token'))
+        }
       })
         .then((res) => {
             let userr = activeUser
@@ -208,14 +215,16 @@ import {
             userr.phone = phoneValue;
             userr.address= user.address;
             userr.image= img;
-            
+            setIsAdded(false)
             setActiveUser(userr)
+            localStorage.setItem('user', JSON.stringify(activeUser))
           setMsg("Profile Updated Successfully")
           setAlrt(true)
         }
   
         )
         .catch((error) => {
+          setIsAdded(false)
           if (error.response.data) {
             setMsg(error.response.data)
           } else {
@@ -229,6 +238,7 @@ import {
   
   
     const handleForm = (user) => {
+      setIsAdded(true)
         updateUser(user)
     }
     useEffect(() => {
@@ -308,6 +318,9 @@ import {
           </div>
   
         </Paper>
+        {isAdded?(<>
+        <Loading/>
+        </>):(<></>)}
   
       </div>
     );

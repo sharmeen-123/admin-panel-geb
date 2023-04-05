@@ -44,7 +44,7 @@ function App() {
   const [update, setUpdate] = useState(false);
   const [location, setLocation] = useState();
   const [login, setLogin] = useState(false)
-  const [activeUser, setActiveUser] = useState() 
+  const [activeUser, setActiveUser] = useState(JSON.parse(localStorage.getItem('user'))) 
   const [user, setUser] = useState();
   const[shifts, setShifts] = useState()
   const[msg, setMsg] = useState()
@@ -79,7 +79,6 @@ function App() {
           <Routes>
           <Route exact path="/" element={<AuthenticationImage update={false} />} ></Route>
           <Route exact path="/signup" element={<Signup update={false} />} ></Route>
-          {login? (<>
             <Route exact element={<AdminSideBarLayout />} >
               <Route exact path="/dashboard" element={<MainDash />} />
               <Route exact path="/mainUsers" element={<MainUsers />} />
@@ -93,7 +92,6 @@ function App() {
               <Route exact path="/trackUser" element={<Tracking />} />
               <Route exact path="/userInfo" element={<Map />} />
             </Route>
-          </>):(<></>)}
             
           </Routes>
         </div>

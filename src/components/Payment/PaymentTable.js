@@ -10,6 +10,7 @@ import "./PaymentTable.css"
 import Close from "../../imgs/close.png"
 import {  Card} from '@mantine/core';
 import BackGround from '../../imgs/backgroundImage.jpg'
+import { Demo } from '../notification/notification';
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -54,13 +55,19 @@ export function TableSelection({ dataa }) {
   const [search, setSearch] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
   const { update, setUpdate } = useContext(AuthContext);
+  const { msg, setMsg } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
+  const [del , setDel] = useState(false)
 
 
 
   // api to get all payments
   const payAmount = async () => {
-    let res = await axios.get('/payment/getAllPayments')
+    let res = await axios.get('/payment/getAllPayments', {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    })
       .then((res) => {
         setusers(res.data.data);
         setData(res.data.data)
@@ -92,7 +99,11 @@ export function TableSelection({ dataa }) {
     Search()
   }
   const Search = async () => {
-    let res = await axios.get('/payment/getPaymentByName/' + search)
+    let res = await axios.get('/payment/getPaymentByName/' + search, {
+      headers: {
+        authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    })
       .then((res) => {
         setusers(res.data.data);
         setData(res.data.data)
@@ -107,8 +118,14 @@ export function TableSelection({ dataa }) {
   // deleting User
   const deletePayment = async () => {
     if (deleteId) {
-      let res = await axios.delete('/payment/deletePayment/' + deleteId)
+      let res = await axios.delete('/payment/deletePayment/' + deleteId, {
+        headers: {
+          authorization:JSON.parse(localStorage.getItem('token'))
+        }
+      })
         .then((res) => {
+          setMsg('Payment Deleted Successfully')
+          setDel(true)
           payAmount()
         }
 
@@ -172,7 +189,7 @@ export function TableSelection({ dataa }) {
 
       <tr key={item.id} className={cx({ [classes.rowSelected]: selected })} style={{ textAlign: "center" }}>
         <td>
-          <Group spacing="sm">
+          <Group spacing="sm" style={{display:'flex',justifyContent:'center'}}>
             <Avatar size={26} src={item.userImage} radius={26} />
             <Text size="sm" weight={500}>
               {item.userName}
@@ -184,12 +201,16 @@ export function TableSelection({ dataa }) {
         <td>{item.totalHours}</td>
         <td>{item.wage}</td>
         <td>{item.paidAmount}</td>
-        <td>
+        <td style={{display:'Flex', justifyContent:'center'}}>
           <div className="button-container">
 
             <div
-              onClick={() => togglePopup2(item)}>
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              onClick={() => togglePopup2(item)}
+              style={{cursor: 'pointer'}}>
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" 
+              height="44" 
+              viewBox="0 0 24 24" stroke-width="1.5" 
+              stroke="blue" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <circle cx="12" cy="12" r="2" />
                 <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" />
@@ -220,47 +241,10 @@ export function TableSelection({ dataa }) {
       <Group mt="md" position="center" spacing={30}>
         {items}
       </Group>
-      {/* <Button
-        fullWidth
-        radius="md"
-        mt="xl"
-        size="md"
-        color={theme.colorScheme === 'dark' ? undefined : 'dark'}
-      >
-        Follow
-      </Button> */}
+     
     </Card>
 
-                  {/* <Paper style={{ width: "30vw" }}>
-                    <Group position='apart'>
-                      <Text>
-                        Payment Info
-                      </Text>
-                      <img src={Close} onClick={() => setShowPopup2(!showPopup2)} style={{width:"15px"}}/>
-                    </Group>
-
-                    <Avatar src={image} size={120} radius={120} mx="auto" />
-                    <Text ta="center" fz="lg" weight={500} mt="md">
-                      {name}
-                    </Text>
-                    <Group position='apart' style={{ margin: "1vw" }}>
-                      <Text ta="center" c="dimmed" fz="sm">
-                        Wage per Hour:{" " + wage}
-                      </Text>
-                      <Text ta="center" c="dimmed" fz="sm">
-                        Total Hours:{" " + hours}
-                      </Text>
-                    </Group>
-                    <Group position='apart' style={{ margin: "1vw" }}>
-                      <Text ta="center" c="dimmed" fz="sm">
-                        Total Payment:{" " + payment}
-                      </Text>
-                      <Text ta="center" c="dimmed" fz="sm">
-                        Shifts:{" " + shifts}
-                      </Text>
-                    </Group>
-
-                  </Paper> */}
+                  
                   </Popup>
             )}
 
@@ -278,7 +262,9 @@ export function TableSelection({ dataa }) {
             </NavLink>
             <div
 
-              onClick={() => togglePopup(item)}>
+              onClick={() => {togglePopup(item)
+                                setDel(false)}}
+                                style={{cursor: 'pointer'}}>
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <line x1="4" y1="7" x2="20" y2="7" />
@@ -322,6 +308,9 @@ export function TableSelection({ dataa }) {
 
   return (
     <div style={{padding:"2%", paddingBottom:0}}>
+      {del?(<>
+      <Demo/>
+      </>):(<></>)}
         <ScrollArea>
         <TextInput label={"Search Payment"} style={{ marginBottom: "2%" }} placeholder={"Search by user"}
           onChange={(event) => searchName(event)} />
