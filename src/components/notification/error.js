@@ -21,13 +21,27 @@ export const NotiError = () => {
         }
       }, [alrt]);
 
+
+      useEffect(() => {
+        notifications.show({
+          title: 'Error',
+          message: msg,
+          color:'red',
+          autoClose: 5000,
+          withCloseButton: true,
+        })
+        notifications.cleanQueue();
+      }, []);
+
   return (
-          notifications.show({
-            title: 'Error',
-            message: msg,
-            color:'red',
-            autoClose: 1000
-          })
+    <></>
+          // notifications.show({
+          //   title: 'Error',
+          //   message: msg,
+          //   color:'red',
+          //   autoClose: 5000,
+          //   withCloseButton: true,
+          // })
      
   );
 }

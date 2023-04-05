@@ -11,51 +11,15 @@ import {
     rem,
     Alert
   } from '@mantine/core';
-  import React, {useState, useContext} from 'react';
+  import React, {useState, useContext, useEffect} from 'react';
   import { NavLink } from 'react-router-dom';
   import { AuthContext } from "../../App";
-  import { IconAlertCircle } from '@tabler/icons-react';
   import Logo from '../../imgs/logo.png'
   import axios from '../../axios';
   import { useNavigate } from 'react-router-dom';
-  import Bg from '../../imgs/backgroundImage.jpg'
   import "./login.css"
   
  import { Demo } from '../notification/notification';
-  // import {ReactComponent as ReactLogo} from '../../imgs/bg.svg'
-  
-  // const useStyles = createStyles((theme) => ({
-  //   wrapper: {
-  //     // minHeight: rem(610),
-  //     // backgroundSize: 'cover',
-  //     // backgroundImage:
-  //     //   `url(${Bg})`,
-  //     backgroundColor:"white"
-  //   },
-  
-  //   form: {
-  //     borderRight: `${rem(1)} solid ${
-  //       theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
-  //     }`,
-  //     // minHeight: rem(610),
-  //     maxWidth: rem(490),
-  //     paddingTop: rem(80),
-  
-  //     [theme.fn.smallerThan('sm')]: {
-  //       maxWidth: '100%',
-  //     },
-  //   },
-  //   login:{
-  //       backgroundColor:"green",
-  //       '&:hover': {
-  //           backgroundColor: '#4F7942 !important',
-  //         },
-  //   },
-  
-  //   title: {
-  //     color: theme.colorScheme === 'dark' ? theme.white : 'green',
-  //     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-  //   },
 
   const useStyles = createStyles((theme) => {
     const BREAKPOINT = theme.fn.smallerThan('sm');
@@ -178,16 +142,17 @@ import {
           })
         
       }
-    
+   
 
     return (
       <div className={classes.wrapper}>
         
         <Paper className={classes.form} radius={0} p={30}>
           <div className={classes.div}>
-        {alrt?(<>
-          <Demo/>
-        </>):(<></>)}
+            {alrt?(<>
+            {console.log('in alrt')}
+                <Demo/>
+              </>):(<></>)}
           <h1 style={{color:'green', textAlign:"center", marginBottom:'10vh', marginTop:'10vh'}}>Login</h1>
   
           <TextInput label="Email address" placeholder="hello@gmail.com" size="md" onChange={(e) => setEmail(e.target.value)}/>

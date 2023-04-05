@@ -80,9 +80,7 @@ export function TableSelection({ dataa }) {
       })
   }
 
-  const updatePayment = (user) => {
-    setUpdate(user)
-  }
+
 
   const setView = obj => {
     setName(obj.userName);
@@ -157,13 +155,6 @@ export function TableSelection({ dataa }) {
     payAmount();
   }, [])
 
-  const toggleRow = (id) =>
-    setSelection((current) =>
-      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
-    );
-  const toggleAll = () =>
-    setSelection((current) => (current?.length === data?.length ? [] : data?.map((item) => item.id)));
-    // const { classes, theme } = useStyles()
   const rows = data?.map((item) => {
     const selected = selection.includes(item.id);
 
@@ -278,20 +269,18 @@ export function TableSelection({ dataa }) {
 
               <Popup>
 
-                <Paper style={{ width: "22vw", padding:"4%" }}>
+                <Paper style={{ width: "25vw", padding:"4%" }}>
                 <Group position='apart'>
                       <Text>
-                        Delete Payment
+                        Delete 
                       </Text>
                       <img src={Close} onClick={() => setShowPopup(!showPopup)} style={{width:"15px"}}/>
                     </Group>
-
-                  <Text ta="center" fz="lg" weight={500} mt="md">
-                    Delete Payment
-                  </Text>
                   <p>You want to Delete payment!</p>
-                  <Button onClick={() => { togglePopup(false, true); }} variant="default" fullWidth mt="md">Yes</Button>
-                  <Button onClick={() => togglePopup(false, false)} variant="default" fullWidth mt="md">
+                  <Button onClick={() => { togglePopup(false, true); }} variant="default" fullWidth mt="md"
+                  style={{backgroundColor:"#D2042D", color:'white'}}>Yes</Button>
+                  <Button onClick={() => togglePopup(false, false)} variant="default" fullWidth mt="md"
+                  style={{backgroundColor:"green", color:'white'}}>
                     No
                   </Button>
 

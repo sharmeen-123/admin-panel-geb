@@ -59,10 +59,12 @@ export function TableSelection({ dataa }) {
   const [search, setSearch] = useState(false);
   const [data, setData] = useState(dataa)
   const { update, setUpdate } = useContext(AuthContext);
+  const {updateCard, setUpdateCard} =useContext(AuthContext); 
   const { msg, setMsg } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
   const [del, setDelete] = useState(false);
   const [isPending, setIspending] = useState(false);
+  const [shouldUpdateTable, setShouldUpdateTable] = useState(false);
   const theme = useMantineTheme();
 
   function togglePopup(user, del) {
@@ -125,6 +127,7 @@ export function TableSelection({ dataa }) {
     }
     )
       .then((res) => {
+        setUpdateCard(!updateCard)
         Users()
       }
 
@@ -212,6 +215,46 @@ export function TableSelection({ dataa }) {
       })
   }
 
+  const SortByName = () => {
+    console.log("in sort by name")
+    let newArray = data;
+    newArray.sort((a, b) => a.firstName.localeCompare(b.firstName));
+    setData(newArray);
+    console.log("new array is ******", data)
+    if(shouldUpdateTable){
+      Users()
+    }
+    setShouldUpdateTable(!shouldUpdateTable);
+
+  }
+
+  const SortByStatus = () => {
+    console.log("in sort by status")
+    setShouldUpdateTable(false)
+    let newArray = data;
+    newArray.sort((a, b) => a.status.localeCompare(b.status));
+    setData(newArray);
+    console.log("new array is ******", data)
+    if(shouldUpdateTable){
+      Users()
+    }
+    setShouldUpdateTable(!shouldUpdateTable);
+
+  }
+  const SortByVerified = () => {
+    console.log("in sort by status");
+    setShouldUpdateTable(false);
+    let newArray = data;
+    newArray.sort((a, b) => a.verified - b.verified);
+    setData(newArray);
+    console.log("new array is ******", data);
+    if (shouldUpdateTable) {
+      Users();
+    }
+    setShouldUpdateTable(!shouldUpdateTable);
+  };
+  
+
   const sortBlock = () => {
     // Users()
     const filteredData = data.filter(item => item.status.toString() === "block");
@@ -242,14 +285,9 @@ export function TableSelection({ dataa }) {
       };
     }
   },);
-  const toggleRow = (id) =>
-    setSelection((current) =>
-      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
-    );
-  const toggleAll = () =>
-    setSelection((current) => (current?.length === data?.length ? [] : data.map((item) => item.id)));
 
   const rows = data?.map((item) => {
+    {console.log("in map data is*****", data)}
     const selected = selection.includes(item.id);
     return (
       <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
@@ -269,24 +307,12 @@ export function TableSelection({ dataa }) {
             <Button  onClick={e => status(e, item._id)} className="block">
           Block
         </Button>
-            {/* <select onChange={e => status(e, item._id)} selected="block" value={"block"} className="block">
-
-              <option value="block" className='block'>block</option>
-
-              <option value="unblock" className='unblock'>unblock</option>
-
-            </select> */}
+            
             </>) : (<>
               <Button  onClick={e => status(e, item._id)} className="unblock">
           unblock
         </Button>
-              {/* <select onChange={e => status(e, item._id)} selected="unblock" value={"unblock"} className="unblock">
-
-                <option value="unblock" className='unblock'>unblock</option>
-
-                <option value="block" className='block'>block</option>
-
-              </select> */}
+             
               </>)}
         </td>
         <td>
@@ -294,15 +320,7 @@ export function TableSelection({ dataa }) {
             <Button   onClick={handlePending} className="unblock">
           Verify
         </Button>
-          {/* <button className="unblock" style={{border:'none'}} onClick={handlePending}>Verify</button> */}
-         
-            {/* <select onChange={e => verification(item._id)} className="unblock">
-
-              <option value="verify" className='unblock'>verify</option>
-
-              <option value="disprove" className='block'>disprove</option>
-
-            </select> */}
+          
             </>) : (<>
 
               <Menu
@@ -315,27 +333,9 @@ export function TableSelection({ dataa }) {
         <Button onClick={e => verification(item._id)} className="block">
           Pending
         </Button>
-      {/* <Menu.Dropdown >
-        
-        <Menu.Item
-          icon={<IconSquareCheck size="1rem" color={theme.colors.green[8]} stroke={1.5} />}
-          onClick={sortVerified}
-        >
-          Verify
-        </Menu.Item>
-        
-      </Menu.Dropdown> */}
+      
     </Menu>
-            
-              {/* <button className="block" style={{border:'none'}} onClick={handlePending}>Pending</button>
-              {isPending?(<>
-            <div className="unblock" style={{border:'none', marginTop:'5%', position:'sticky'}}>Verify</div>
-          </>):(<></>)} */}
-         
-              {/* <select onChange={e => verification(item._id)} className={"block"}>
-                <option value="disprove" style={{backgroundColor:'white'}}>pending</option>
-                <option value="verify" style={{backgroundColor:'white'}}>verify</option>
-              </select> */}
+       
               </>)}
 
         </td>
@@ -350,13 +350,6 @@ export function TableSelection({ dataa }) {
                 <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" />
               </svg>
             </div>
-            {/* <img
-                          src={require("../../imgs/view.png")}
-                          className="icon"
-                          onClick={togglePopup2}
-                        /> */}
-
-
  {/* ..........Popup....... */}
  {showPopup2 && (
               <Popup >
@@ -419,11 +412,6 @@ export function TableSelection({ dataa }) {
                   <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
                 </svg>
               </div>
-              {/* <img
-                            src={require("../../imgs/pencil.png")}
-                            onClick={() => setUpdate(item)}
-                          //   className="icon"
-                          /> */}
             </NavLink>
             <div
 
@@ -444,22 +432,21 @@ export function TableSelection({ dataa }) {
             {showPopup && (
               <Popup>
                
-                <Paper style={{ width: "22vw", padding:"4%" }}>
+                <Paper style={{ width: "25vw", padding:"4%" }}>
                 <Group position='apart'>
                       <Text>
-                        Delete User
+                        Delete 
                       </Text>
                       <img src={Close} onClick={() => {setShowPopup(!showPopup)
                                                         setDelete(false)}} style={{width:"15px"}}/>
                     </Group>
-                        
-                        <Text ta="center" fz="lg" weight={500} mt="md">
-                            Delete User
-                        </Text>
                         <p>You want to Delete User!</p>
-                        <Button onClick={() => { togglePopup(false, true); }} variant="default" fullWidth mt="md">Yes</Button>
+                        <Button onClick={() => { togglePopup(false, true); }} variant="default" fullWidth mt="md"
+                          style={{backgroundColor:"#D2042D", color:'white'}}>
+                            Yes</Button>
                           <Button  onClick={() => {togglePopup(false, false)
-                                                    setDelete(false)}} variant="default" fullWidth mt="md">
+                                                    setDelete(false)}} variant="default" fullWidth mt="md"
+                                                    style={{backgroundColor:"green", color:'white'}}>
                             No
                           </Button>
                         
@@ -488,11 +475,13 @@ export function TableSelection({ dataa }) {
       
     >
       <Menu.Target>
+        <NavLink to="/addUser">
         <Button rightIcon={<IconChevronDown size="1.05rem" stroke={1.5} />} pr={12} onClick={()=> Users()} className='button'>
-          Sort
+          Add User
         </Button>
+        </NavLink>
       </Menu.Target>
-      <Menu.Dropdown>
+      {/* <Menu.Dropdown>
         
         <Menu.Item
           icon={<IconSquareCheck size="1rem" color={theme.colors.pink[6]} stroke={1.5} />}
@@ -506,19 +495,19 @@ export function TableSelection({ dataa }) {
         >
           Sort by Status
         </Menu.Item>
-      </Menu.Dropdown>
+      </Menu.Dropdown> */}
     </Menu>
     </Group>
     <div style={{backgroundColor:"white", border:"2px solid rgb(226, 225, 225)",boxShadow:"0px 0px 3px 3px rgb(226, 225, 225)", borderRadius:"15px", padding:"3%"}}>
-      <Table>
+      <Table shouldUpdate={shouldUpdateTable}>
         <thead>
           <tr>
-            <th>User</th>
+            <th onClick={SortByName}>Name</th>
             <th>Email</th>
             <th>Designation</th>
             <th>Date Joined</th>
-            <th>Status</th>
-            <th>Verified</th>
+            <th onClick={SortByStatus}>Status</th>
+            <th onClick={SortByVerified}>Verified</th>
             <th>Action</th>
           </tr>
         </thead>

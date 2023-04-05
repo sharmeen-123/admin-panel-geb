@@ -18,7 +18,8 @@ export default function MainUsers() {
   // setAlrt(false)
   // setAlrt(!alrt)
   const {msg, setMsg} = useContext(AuthContext);
-  const [user, setUsers] = useState(false)
+  const [user, setUsers] = useState(false);
+  const {updateCard, setUpdateCard} = useContext(AuthContext); 
     // getting users info
     const Users = async () => {
       let res = await axios.get('/user/getAllUsers', 
@@ -59,10 +60,15 @@ export default function MainUsers() {
 
     
   useEffect(() => {
+    Userss();
+  }, [updateCard])
+
+  useEffect(() => {
     setAlrt(false);
     Users();
     Userss();
   }, [])
+
 
   useEffect(() => {
       const timeoutId = setTimeout(() => {

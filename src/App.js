@@ -44,13 +44,16 @@ function App() {
   const [update, setUpdate] = useState(false);
   const [location, setLocation] = useState();
   const [login, setLogin] = useState(false)
-  const [activeUser, setActiveUser] = useState(JSON.parse(localStorage.getItem('user'))) 
+  const [activeUser, setActiveUser] = useState() 
   const [user, setUser] = useState();
   const[shifts, setShifts] = useState()
   const[msg, setMsg] = useState()
   const [alrt, setAlrt] = useState()
   const [logout, setLogout] =useState(false)
+  const [updateCard, setUpdateCard] = useState(false)
   const value = {
+    updateCard:updateCard,
+    setUpdateCard:setUpdateCard,
     login:login,
     setLogin: setLogin,
     activeUser:activeUser,

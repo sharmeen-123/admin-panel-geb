@@ -216,6 +216,31 @@ export function PaymentForm({ update }) {
         }
     };
 
+    const setPaid = async () => {
+        if (name) {
+            let res = await axios.put('/payment/setPaid/'+id, 
+            { }
+            ,{
+                headers: {
+                  authorization:JSON.parse(localStorage.getItem('token'))
+                }
+              })
+                .then((res) => {
+                    console.log("updated")
+                    setMsg("Amount Paid Successfully!")
+                    setImage()
+                    setAlrt(true)
+                    setIsAdded(false)
+                    navigate('/paymentUsers');
+                }
+
+                )
+                .catch((error) => {
+                    console.log('error occured')
+                })
+        }
+    }
+
     const payAmount = async () => {
         if (name) {
             let res = await axios.post('/payment/addpayment', 
@@ -226,12 +251,8 @@ export function PaymentForm({ update }) {
                 }
               })
                 .then((res) => {
-                    // setHours(res.data.data);
-                    setMsg("Amount Paid Successfully!")
-                    setImage()
-                    setAlrt(true)
-                    setIsAdded(false)
-                    navigate('/paymentUsers');
+                    setPaid()
+                    
                 }
 
                 )

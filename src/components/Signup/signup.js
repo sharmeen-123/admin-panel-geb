@@ -190,23 +190,6 @@ export function Signup({ update }) {
 
   });
 
-  // upload img on cloudinary
-  const handleImageUpload = (event) => {
-    const file = event?.target?.files?.[0];
-    if (event) {
-      const data = new FormData();
-      data.append("file", event);
-      data.append("upload_preset", "player_image");
-      axios.post("https://api.cloudinary.com/v1_1/dyapmvalo/image/upload", data)
-        .then((res) => {
-          setImg(res.data.url)
-        })
-        .catch((err) => {
-          console.log(err)
-        });
-    }
-  };
-
   // adding user in db
   const addUser = async (user) => {
     let res = await axios2.post('/auth/register', {
@@ -223,13 +206,9 @@ export function Signup({ update }) {
     })
       .then((res) => {
 
-        setMsg("Your Account Has Been Created")
-        setAlrt(true)
-        if(res.data.token){
-          localStorage.setItem('token', JSON.stringify(res.data.token))
-          localStorage.setItem('user', JSON.stringify(res.data.data))
+          setMsg("Your Account Has Been Created")
+          setAlrt(true)
         navigate('/');
-      }
       })
       .catch((error) => {
         if (error.response.data) {

@@ -94,8 +94,8 @@ export function HeaderTabs({title }) {
   const{activeUser, setActiveUser} = useContext(AuthContext);
   const {logout, setLogout} =useContext(AuthContext);
   useEffect (()=>{
-    // setActiveUser(localStorage.getItem('user'))
-    console.log("header tabb", activeUser)
+    setActiveUser(JSON.parse(localStorage.getItem('user')))
+    console.log("header tabb", JSON.parse(localStorage.getItem('user')))
   },[])
  
 
@@ -124,9 +124,9 @@ export function HeaderTabs({title }) {
                 className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
               >
                 <Group style={{marginRight:0, paddingRight:0}}>
-                  <Avatar src={activeUser.image} alt={activeUser.name} radius="xl" size={40} />
+                  <Avatar src={JSON.parse(localStorage.getItem('user')).image} alt={JSON.parse(localStorage.getItem('user')).name} radius="xl" size={40} />
                   <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-                    {activeUser.name}
+                    {JSON.parse(localStorage.getItem('user')).name}
                   </Text>
                   <IconChevronDown size={rem(12)} stroke={1.5} />
                 </Group>
