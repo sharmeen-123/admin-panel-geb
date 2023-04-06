@@ -216,42 +216,35 @@ export function TableSelection({ dataa }) {
   }
 
   const SortByName = () => {
-    console.log("in sort by name")
-    let newArray = data;
-    newArray.sort((a, b) => a.firstName.localeCompare(b.firstName));
-    setData(newArray);
-    console.log("new array is ******", data)
+
     if(shouldUpdateTable){
       Users()
+    }else{
+      setData( data.sort((a, b) => a.firstName.localeCompare(b.firstName)));
     }
     setShouldUpdateTable(!shouldUpdateTable);
+   
 
   }
 
   const SortByStatus = () => {
-    console.log("in sort by status")
-    setShouldUpdateTable(false)
-    let newArray = data;
-    newArray.sort((a, b) => a.status.localeCompare(b.status));
-    setData(newArray);
-    console.log("new array is ******", data)
+   
     if(shouldUpdateTable){
       Users()
+    }else{
+      setData( data.sort((a, b) => a.status.localeCompare(b.status)));
     }
     setShouldUpdateTable(!shouldUpdateTable);
 
   }
   const SortByVerified = () => {
-    console.log("in sort by status");
-    setShouldUpdateTable(false);
-    let newArray = data;
-    newArray.sort((a, b) => a.verified - b.verified);
-    setData(newArray);
-    console.log("new array is ******", data);
-    if (shouldUpdateTable) {
-      Users();
+    if(shouldUpdateTable){
+      Users()
+    }else{
+      setData( data.sort((a, b) => a.verified - b.verified));
     }
     setShouldUpdateTable(!shouldUpdateTable);
+    
   };
   
 
@@ -405,7 +398,7 @@ export function TableSelection({ dataa }) {
               to="/updateUser">
               <div
                 onClick={() => setUpdate(item)}
-                style={{ margin: "0", padding: 0 }}>
+                style={{ margin: "0", padding: 0, cursor: 'pointer' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="orange" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
@@ -502,12 +495,27 @@ export function TableSelection({ dataa }) {
       <Table shouldUpdate={shouldUpdateTable}>
         <thead>
           <tr>
-            <th onClick={SortByName}>Name</th>
+            <th >
+              <div style={{display: 'flex', justifyContent:'center'}}>
+                <div>Name</div>
+                <IconChevronDown size="1.05rem" stroke={1.5} onClick={SortByName} style={{marginLeft:15}}/>
+              </div>
+            </th>
             <th>Email</th>
             <th>Designation</th>
             <th>Date Joined</th>
-            <th onClick={SortByStatus}>Status</th>
-            <th onClick={SortByVerified}>Verified</th>
+            <th >
+            <div style={{display: 'flex', justifyContent:'center'}}>
+                <div>Status</div>
+                <IconChevronDown size="1.05rem" stroke={1.5} onClick={SortByStatus} style={{marginLeft:10}}/>
+              </div>
+            </th>
+            <th>
+            <div style={{display: 'flex', justifyContent:'space-around'}}>
+                <div>Verified</div>
+                <IconChevronDown size="1.05rem" stroke={1.5} onClick={SortByVerified}/>
+              </div>
+              </th>
             <th>Action</th>
           </tr>
         </thead>

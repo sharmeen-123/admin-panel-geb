@@ -138,7 +138,9 @@ export function GetInTouch({ update }) {
   const navigate = useNavigate();
   const [isError, setIsError] = useState(false)
   const [phoneValue, setPhoneValue] = useState('');
-  const [isAdded, setIsAdded] = useState(false)
+  const [isAdded, setIsAdded] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
 
 
   function handlePhoneChange(event) {
@@ -267,6 +269,8 @@ export function GetInTouch({ update }) {
 
   const handleForm = (user) => {
     setIsAdded(true)
+    setIsButtonDisabled(true);
+    setTimeout(() => setIsButtonDisabled(false), 10000);
     if (!update) {
       addUser(user)
     } else {
@@ -293,7 +297,7 @@ export function GetInTouch({ update }) {
 
         <div className={classes.wrapper}>
           <div className={classes.contacts}>
-            <div style={{ marginTop: "30%" }}>
+            <div style={{ display:'flex', flexDirection:'column', justifyContent:'center' }}>
               <Avatar size={180} src={img} radius={"md"} style={{ margin: "0 auto" }} />
               <FileInput style={{ marginTop: "1vh" }} placeholder="Upload image" accept="image/png,image/jpeg" onChange={handleImageUpload} />
             </div>
@@ -361,7 +365,7 @@ export function GetInTouch({ update }) {
 
               <Group position="right" mt="md">
                 {/* <NavLink to={"/mainUsers"}> */}
-                <Button type="submit" className={`${classes.control} button`} >
+                <Button type="submit" className={`${classes.control} button`} disabled={isButtonDisabled}>
                   Add User
                 </Button>
                 {/* </NavLink> */}

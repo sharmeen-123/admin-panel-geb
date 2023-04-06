@@ -162,7 +162,9 @@ export function PaymentForm({ update }) {
     const { alrt, setAlrt } = useContext(AuthContext);
     const { msg, setMsg } = useContext(AuthContext);
     const [isError, setIsError] = useState(false) ;
-    const [isAdded, setIsAdded] = useState(false)
+    const [isAdded, setIsAdded] = useState(false);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
     const navigate = useNavigate();
 
 
@@ -217,7 +219,6 @@ export function PaymentForm({ update }) {
     };
 
     const setPaid = async () => {
-        if (name) {
             let res = await axios.put('/payment/setPaid/'+id, 
             { }
             ,{
@@ -227,18 +228,13 @@ export function PaymentForm({ update }) {
               })
                 .then((res) => {
                     console.log("updated")
-                    setMsg("Amount Paid Successfully!")
-                    setImage()
-                    setAlrt(true)
-                    setIsAdded(false)
-                    navigate('/paymentUsers');
+                    
                 }
 
                 )
                 .catch((error) => {
                     console.log('error occured')
                 })
-        }
     }
 
     const payAmount = async () => {
@@ -252,6 +248,11 @@ export function PaymentForm({ update }) {
               })
                 .then((res) => {
                     setPaid()
+                    setMsg("Amount Paid Successfully!")
+                    setImage()
+                    setAlrt(true)
+                    setIsAdded(false)
+                    navigate('/paymentUsers');
                     
                 }
 
@@ -321,8 +322,9 @@ export function PaymentForm({ update }) {
 
 
     useEffect(() => {
+        setAlrt(false)
         Users();
-        setMsg("User Not Selected")
+        // setMsg("")
         if (update) {
             setPayment(update.totalPayment)
             setHours(update.totalHours)
@@ -359,6 +361,8 @@ export function PaymentForm({ update }) {
 
     const handleForm = (user) => {
         setIsAdded(true)
+        setIsButtonDisabled(true);
+        setTimeout(() => setIsButtonDisabled(false), 10000);
         if (!update) {
             payAmount()
         } else {
@@ -451,7 +455,8 @@ export function PaymentForm({ update }) {
                             />
 
                             <Group position="right" mt="md">
-                                <Button type="submit" className={`${classes.control} button`} fullWidth>
+                                <Button type="submit" className={`${classes.control} button`} fullWidth
+                                disabled={isButtonDisabled}>
                                     Pay
                                 </Button>
                             </Group>
