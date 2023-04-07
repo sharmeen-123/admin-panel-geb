@@ -270,8 +270,6 @@ export function GetInTouch({ update }) {
 
   const handleForm = (user) => {
     setIsAdded(true)
-    setIsButtonDisabled(true);
-    setTimeout(() => setIsButtonDisabled(false), 10000);
     if (!update) {
       addUser(user)
     } else {
@@ -291,7 +289,10 @@ export function GetInTouch({ update }) {
   return (
     <div>
       <HeaderTabs title={"Add User"} />
-      {isError ? (<>
+      {isAdded?(<>
+      <Loading/>
+      </>):(<>
+        {isError ? (<>
         <ErrorNoti/>
       </>) : (<></>)}
       <Paper shadow="md" radius="lg" className={classes.main}>
@@ -383,7 +384,7 @@ export function GetInTouch({ update }) {
 
               <Group position="right" mt="md">
                 {/* <NavLink to={"/mainUsers"}> */}
-                <Button type="submit" className={`${classes.control} button`} disabled={isButtonDisabled}>
+                <Button type="submit" className={`${classes.control} button`}>
                   Add User
                 </Button>
                 {/* </NavLink> */}
@@ -393,9 +394,9 @@ export function GetInTouch({ update }) {
         </div>
 
       </Paper>
-      {isAdded?(<>
-      <Loading/>
-      </>):(<></>)}
+      </>)}
+      
+      
 
     </div>
   );

@@ -27,7 +27,7 @@ export const NotiError = () => {
           title: 'Error',
           message: msg,
           color:'red',
-          autoClose: 5000,
+          autoClose: 2000,
           withCloseButton: true,
         })
         notifications.cleanQueue();

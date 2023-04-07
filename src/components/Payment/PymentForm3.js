@@ -282,7 +282,14 @@ export function PaymentForm({ update }) {
     }
 
     const updateAmount = async () => {
-        if (name) {
+        if(hours == 0 || wage == 0){
+            
+            setIsAdded(false)
+            setMsg("Hours and Wage cannot be Zero")
+            setIsError(true)
+            console.log("hurs canot be 0")
+            }
+            else  {
             let res = await axios.put('/payment/updatePayment/' + update._id,
                 {
                     userID: id, userName: name, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts,
