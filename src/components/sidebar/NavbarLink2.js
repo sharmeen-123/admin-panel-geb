@@ -57,7 +57,7 @@ const useStyles = createStyles((theme) => ({
     },
     '&.active': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
-      borderLeft:"5px solid gray"
+      borderLeft:"5px solid green"
     },
   },
 

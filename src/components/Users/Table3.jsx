@@ -14,6 +14,9 @@ import {
   IconUsers,
   IconCalendar,
   IconChevronDown,
+  IconSelector,
+  IconPlus,
+  IconChevronUp,
 } from '@tabler/icons-react';
 import { Demo } from '../notification/notification';
 
@@ -216,50 +219,56 @@ export function TableSelection({ dataa }) {
   }
 
   const SortByName = () => {
-
-    if(shouldUpdateTable){
-      Users()
-    }else{
+    if(shouldUpdateTable != "updateName"){
       setData( data.sort((a, b) => a.firstName.localeCompare(b.firstName)));
+      setShouldUpdateTable("updateName");
+      
+    }else{
+      Users()
+      setShouldUpdateTable(false)
     }
-    setShouldUpdateTable(!shouldUpdateTable);
+
+    // if(shouldUpdateTable){
+    //   Users()
+    // }else{
+    //   setData( data.sort((a, b) => a.firstName.localeCompare(b.firstName)));
+    // }
+    // setShouldUpdateTable(!shouldUpdateTable);
    
 
   }
 
   const SortByStatus = () => {
-   
-    if(shouldUpdateTable){
-      Users()
-    }else{
+    if(shouldUpdateTable != "updateStatus"){
       setData( data.sort((a, b) => a.status.localeCompare(b.status)));
+      setShouldUpdateTable("updateStatus");
+      
+    }else{
+      Users()
+      setShouldUpdateTable(false)
     }
-    setShouldUpdateTable(!shouldUpdateTable);
+   
+    // if(shouldUpdateTable){
+    //   Users()
+    // }else{
+    //   setData( data.sort((a, b) => a.status.localeCompare(b.status)));
+    // }
+    // setShouldUpdateTable(!shouldUpdateTable);
 
   }
   const SortByVerified = () => {
-    if(shouldUpdateTable){
-      Users()
-    }else{
+    if(shouldUpdateTable != "updateVerified"){
       setData( data.sort((a, b) => a.verified - b.verified));
+      setShouldUpdateTable("updateVerified");
+      
+    }else{
+      Users()
+      setShouldUpdateTable(false)
     }
-    setShouldUpdateTable(!shouldUpdateTable);
+   
     
   };
-  
 
-  const sortBlock = () => {
-    // Users()
-    const filteredData = data.filter(item => item.status.toString() === "block");
-    setData(filteredData)
-
-  }
-  const sortVerified = () => {
-    // Users()
-    const filteredData = data.filter(item => item.verified === false);
-    setData(filteredData)
-
-  }
 
   useEffect(() => {
     Users();
@@ -380,12 +389,12 @@ export function TableSelection({ dataa }) {
               {phone}
             </Text>
           </Group>
-          <Group noWrap spacing={10} mt={5}>
+          {/* <Group noWrap spacing={10} mt={5}>
             <IconMapPin stroke={1.5} size="1rem" className={classes.icon} />
             <Text fz="xs" c="dimmed">
               {address}
             </Text>
-          </Group>
+          </Group> */}
         </div>
       </Group>
     </div>
@@ -469,7 +478,7 @@ export function TableSelection({ dataa }) {
     >
       <Menu.Target>
         <NavLink to="/addUser">
-        <Button rightIcon={<IconChevronDown size="1.05rem" stroke={1.5} />} pr={12} onClick={()=> Users()} className='button'>
+        <Button rightIcon={<IconPlus size="1.05rem" stroke={1.5} />} pr={10} onClick={()=> Users()} className='button'>
           Add User
         </Button>
         </NavLink>
@@ -496,24 +505,39 @@ export function TableSelection({ dataa }) {
         <thead>
           <tr>
             <th >
-              <div style={{display: 'flex', justifyContent:'center'}}>
-                <div>Name</div>
-                <IconChevronDown size="1.05rem" stroke={1.5} onClick={SortByName} style={{marginLeft:15}}/>
+              <div style={{display: 'flex', justifyContent:'center', cursor:'pointer', alignItems:'center'}} onClick={SortByName}>
+                <div style={{marginRight:10}}>Name</div>
+                {shouldUpdateTable=='updateName'?(<>
+                  <IconSelector size="1.05rem" stroke={2.5}  />
+                </>):(<>
+                  <IconSelector size="1.05rem" stroke={2.5} style={{ color:'lightgray'}}/>
+                </>)}
+                
               </div>
             </th>
             <th>Email</th>
             <th>Designation</th>
             <th>Date Joined</th>
             <th >
-            <div style={{display: 'flex', justifyContent:'center'}}>
-                <div>Status</div>
-                <IconChevronDown size="1.05rem" stroke={1.5} onClick={SortByStatus} style={{marginLeft:10}}/>
+            <div style={{display: 'flex', justifyContent:'center', cursor: 'pointer',  alignItems:'center'}} onClick={SortByStatus}>
+                <div style={{marginRight:10}}>Status</div>
+                {shouldUpdateTable=='updateStatus'?(<>
+                  <IconSelector size="1.05rem" stroke={2.5}  />
+                </>):(<>
+                  <IconSelector size="1.05rem" stroke={2.5} style={{ color:'lightgray'}}/>
+                </>)}
+                {/* <IconChevronDown size="1.05rem" stroke={1.5} style={{marginLeft:10}}/> */}
               </div>
             </th>
             <th>
-            <div style={{display: 'flex', justifyContent:'space-around'}}>
-                <div>Verified</div>
-                <IconChevronDown size="1.05rem" stroke={1.5} onClick={SortByVerified}/>
+            <div style={{display: 'flex', justifyContent:'center', cursor:'pointer', alignItems:'center'}}  onClick={SortByVerified}>
+                <div style={{marginRight:10}}>Verified</div>
+                {shouldUpdateTable=='updateVerified'?(<>
+                  <IconSelector size="1.05rem" stroke={2.5}  />
+                </>):(<>
+                  <IconSelector size="1.05rem" stroke={2.5} style={{ color:'lightgray'}}/>
+                </>)}
+                {/* <IconChevronDown size="1.05rem" stroke={1.5}/> */}
               </div>
               </th>
             <th>Action</th>

@@ -149,7 +149,7 @@ export function PaymentForm({ update }) {
     const [data, setData] = useState([]);
     const [users, setUsers] = useState();
     const [selectedValue, setSelectedValue] = useState();
-    const [name, setName] = useState(false);
+    const [name, setName] = useState('');
     const [wage, setWage] = useState(0);
     const [hours, setHours] = useState(0);
     const [payment, setPayment] = useState(0);
@@ -161,7 +161,7 @@ export function PaymentForm({ update }) {
     const [img, setImg] = useState(update.image);
     const { alrt, setAlrt } = useContext(AuthContext);
     const { msg, setMsg } = useContext(AuthContext);
-    const [isError, setIsError] = useState(false) ;
+    const [isError, setIsError] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -178,9 +178,9 @@ export function PaymentForm({ update }) {
         try {
             const res = await axios.get('/user/getAllSiteWorkers', {
                 headers: {
-                  authorization:JSON.parse(localStorage.getItem('token'))
+                    authorization: JSON.parse(localStorage.getItem('token'))
                 }
-              });
+            });
             const users = res.data.data;
             setUserr(users)
             const newData = users?.map((val) => ({
@@ -219,49 +219,61 @@ export function PaymentForm({ update }) {
     };
 
     const setPaid = async () => {
-            let res = await axios.put('/payment/setPaid/'+id, 
-            { }
-            ,{
+        let res = await axios.put('/payment/setPaid/' + id,
+            {}
+            , {
                 headers: {
-                  authorization:JSON.parse(localStorage.getItem('token'))
+                    authorization: JSON.parse(localStorage.getItem('token'))
                 }
-              })
-                .then((res) => {
-                    console.log("updated")
-                    
-                }
+            })
+            .then((res) => {
+                console.log("updated")
 
-                )
-                .catch((error) => {
-                    console.log('error occured')
-                })
+            }
+
+            )
+            .catch((error) => {
+                console.log('error occured')
+            })
     }
 
     const payAmount = async () => {
-        if (name) {
-            let res = await axios.post('/payment/addpayment', 
-            { userName: name, userID: id, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, userEmail: email, userImage: image }
-            ,{
-                headers: {
-                  authorization:JSON.parse(localStorage.getItem('token'))
-                }
-              })
+        if(hours == 0 || wage == 0){
+            
+        setIsAdded(false)
+        setMsg("Hours and Wage cannot be Zero")
+        setIsError(true)
+        console.log("hurs canot be 0")
+        }
+        else {
+            let res = await axios.post('/payment/addpayment',
+                { userName: name, userID: id, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, userEmail: email, userImage: image }
+                , {
+                    headers: {
+                        authorization: JSON.parse(localStorage.getItem('token'))
+                    }
+                })
                 .then((res) => {
-                    setPaid()
+                    console.log('user hours',users.totalHours)
+                    if(users.totalHours != 0){
+                    setPaid()}
+                    setIsAdded(false)
                     setMsg("Amount Paid Successfully!")
                     setImage()
                     setAlrt(true)
-                    setIsAdded(false)
-                    navigate('/paymentUsers');
                     
+                    navigate('/paymentUsers');
+                    console.log("paidd")
+
                 }
 
                 )
                 .catch((error) => {
                     setIsAdded(false)
-                    if(error.response.data){
-                    setMsg(error.response.data)}
-                    else{
+                    if (error.response.data) {
+                        setMsg(error.response.data)
+                    }
+                    else {
                         setMsg("Some Error Occured")
                     }
                     setIsError(true)
@@ -271,14 +283,16 @@ export function PaymentForm({ update }) {
 
     const updateAmount = async () => {
         if (name) {
-            let res = await axios.put('/payment/updatePayment/' + update._id, 
-            { userID: id, userName: name, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts, 
-                userEmail: email, userImage: image }, 
+            let res = await axios.put('/payment/updatePayment/' + update._id,
+                {
+                    userID: id, userName: name, wage: wage, paidAmount: payment, totalHours: hours, shifts: shifts,
+                    userEmail: email, userImage: image
+                },
                 {
                     headers: {
-                      authorization:JSON.parse(localStorage.getItem('token'))
+                        authorization: JSON.parse(localStorage.getItem('token'))
                     }
-                  })
+                })
                 .then((res) => {
                     setMsg("Payment Updated")
                     setImage()
@@ -290,12 +304,13 @@ export function PaymentForm({ update }) {
                 )
                 .catch((error) => {
                     setIsAdded(false)
-                    if(error.response.data){
-                        setMsg(error.response.data)}
-                        else{
-                            setMsg("Some Error Occured")
-                        }
-                        setIsError(true)
+                    if (error.response.data) {
+                        setMsg(error.response.data)
+                    }
+                    else {
+                        setMsg("Some Error Occured")
+                    }
+                    setIsError(true)
                 })
         }
     }
@@ -322,9 +337,10 @@ export function PaymentForm({ update }) {
 
 
     useEffect(() => {
-        setAlrt(false)
+        setAlrt(false);
+        setMsg("")
         Users();
-        // setMsg("")
+
         if (update) {
             setPayment(update.totalPayment)
             setHours(update.totalHours)
@@ -361,8 +377,6 @@ export function PaymentForm({ update }) {
 
     const handleForm = (user) => {
         setIsAdded(true)
-        setIsButtonDisabled(true);
-        setTimeout(() => setIsButtonDisabled(false), 10000);
         if (!update) {
             payAmount()
         } else {
@@ -372,25 +386,31 @@ export function PaymentForm({ update }) {
 
     useEffect(() => {
         const fetchTotalHours = async () => {
-          if (selectedValue) {
-            try {
-              const response = await axios.get('/shifts/getNumberOfHours/' + selectedValue, {
-                headers: {
-                  authorization: JSON.parse(localStorage.getItem('token'))
+            if (selectedValue) {
+                try {
+                    const response = await axios.get('/shifts/getNumberOfHours/' + selectedValue, {
+                        headers: {
+                            authorization: JSON.parse(localStorage.getItem('token'))
+                        }
+                    });
+                    const data = response.data.data;
+                    setUsers(data);
+                    setShifts(data.shifts);
+                    setHours(data.totalHours);
+                } catch (error) {
+                    console.log(error);
                 }
-              });
-              const data = response.data.data;
-              setUsers(data);
-              setShifts(data.shifts);
-              setHours(data.totalHours);
-            } catch (error) {
-              console.log(error);
             }
-          }
         };
         fetchTotalHours();
-      }, [selectedValue]);
-      
+    }, [selectedValue]);
+
+    useEffect(()=>{
+        if(userr.length != 0){
+        setSelectedValue(userr[0]._id)
+        handleValueChange(userr[0]._id)
+        console.log('user is',userr)}
+    },[userr])
 
 
 
@@ -398,9 +418,12 @@ export function PaymentForm({ update }) {
 
         <div>
             <HeaderTabs title={"Add Payment"} />
-            {isError?(<>
-        <ErrorNoti/>
-      </>):(<></>)}
+            {isAdded ? (<>
+                <Loading />
+            </>) : (<>
+                {isError ? (<>
+                <ErrorNoti />
+            </>) : (<></>)}
             <Paper shadow="md" radius="lg" className={classes.main}>
                 <div className={classes.wrapper}>
 
@@ -435,6 +458,7 @@ export function PaymentForm({ update }) {
                                     label="Hours"
                                     id="hours"
                                     value={hours}
+                                    // min={1}
                                     onChange={(event) => handleHoursChange(event)}
 
                                 />
@@ -456,7 +480,8 @@ export function PaymentForm({ update }) {
 
                             <Group position="right" mt="md">
                                 <Button type="submit" className={`${classes.control} button`} fullWidth
-                                disabled={isButtonDisabled}>
+                                    // disabled={isButtonDisabled}
+                                    >
                                     Pay
                                 </Button>
                             </Group>
@@ -464,11 +489,11 @@ export function PaymentForm({ update }) {
                     </form>
                 </div>
 
-               
+
             </Paper>
-            {isAdded?(<>
-            <Loading/>
-            </>):(<></>)}
+            </>)}
+            
+           
         </div>
     );
 }

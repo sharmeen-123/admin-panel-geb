@@ -192,7 +192,7 @@ export function GetInTouch({ update }) {
 
   // adding user in db
   const addUser = async (user) => {
-    let res = await axios2.post('/auth/register', {
+    await axios2.post('/auth/register', {
       firstName: user.fName,
       lastName: user.lName,
       email: user.email,
@@ -202,6 +202,7 @@ export function GetInTouch({ update }) {
       image: img,
       status: "unblock",
       verified: true,
+      password:user.password,
     }, 
     {
       headers: {
@@ -297,7 +298,7 @@ export function GetInTouch({ update }) {
 
         <div className={classes.wrapper}>
           <div className={classes.contacts}>
-            <div style={{ display:'flex', flexDirection:'column', justifyContent:'center' }}>
+            <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', alignItems:"center", height:'100%' }}>
               <Avatar size={180} src={img} radius={"md"} style={{ margin: "0 auto" }} />
               <FileInput style={{ marginTop: "1vh" }} placeholder="Upload image" accept="image/png,image/jpeg" onChange={handleImageUpload} />
             </div>
@@ -332,8 +333,10 @@ export function GetInTouch({ update }) {
                 {/* <TextInput label="Contact" placeholder="(555) 555-5555"
                   pattern="^\(?([2-9][0-9]{2})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"
                   required {...form.getInputProps('phone')} /> */}
+                  
               </SimpleGrid>
-              {/* <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}> */}
+              {!update?(<>
+                <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
                 <Select
                   label="Designation"
                   placeholder="Pick one"
@@ -344,9 +347,21 @@ export function GetInTouch({ update }) {
                   required {...form.getInputProps('designation')}
                 />
                 <TextInput label="Address" placeholder="Toronto Canada" required {...form.getInputProps('address')} />
-              {/* </SimpleGrid> */}
-
-              {/* <PasswordInput
+              </SimpleGrid> </>):(<>
+                <Select
+                  label="Designation"
+                  placeholder="Pick one"
+                  data={[
+                    { value: 'Admin', label: 'Admin' },
+                    { value: 'Site Worker', label: 'Site Worker' }
+                  ]}
+                  required {...form.getInputProps('designation')}
+                />
+                <TextInput label="Address" placeholder="Toronto Canada" required {...form.getInputProps('address')} />
+              </>)}
+              
+              {!update?(<>
+                <PasswordInput
                 label="Password"
                 placeholder="Password"
                 required
@@ -359,7 +374,10 @@ export function GetInTouch({ update }) {
                 placeholder="Confirm password"
                 required
                 {...form.getInputProps('confirmPassword')}
-              /> */}
+              />
+              </>):(<></>)}
+
+             
 
 
 

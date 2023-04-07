@@ -11,6 +11,9 @@ import Close from "../../imgs/close.png"
 import {  Card} from '@mantine/core';
 import BackGround from '../../imgs/backgroundImage.jpg'
 import { Demo } from '../notification/notification';
+import {
+  IconSelector,
+} from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -28,6 +31,12 @@ const useStyles = createStyles((theme) => ({
   avatar: {
     border: `${rem(.1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white}`,
   },
+  head:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    cursor:'pointer'
+  }
 
 }));
 
@@ -57,7 +66,8 @@ export function TableSelection({ dataa }) {
   const { update, setUpdate } = useContext(AuthContext);
   const { msg, setMsg } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
-  const [del , setDel] = useState(false)
+  const [del , setDel] = useState(false);
+  const [shouldUpdateTable, setShouldUpdateTable] = useState(false);
 
 
 
@@ -151,6 +161,15 @@ export function TableSelection({ dataa }) {
     open()
   }
 
+  const SortByName = () => {
+    if(shouldUpdateTable != "updateName"){
+      setData( data.sort((a, b) => a.userName.localeCompare(b.userName)));
+      setShouldUpdateTable("updateName");
+      
+    }else{
+      setData(dataa)
+      setShouldUpdateTable(false)
+    }}
   useEffect(() => {
     payAmount();
   }, [])
@@ -308,7 +327,17 @@ export function TableSelection({ dataa }) {
         <Table>
           <thead>
             <tr>
-              <th className={classes.head}>User</th>
+              <th className={classes.head} onClick={SortByName} >
+              <div style={{marginRight:10}}>Name</div>
+              
+                {shouldUpdateTable=='updateName'?(<>
+                  <IconSelector size="1.05rem" stroke={2.5}  />
+                </>):(<>
+                  <IconSelector size="1.05rem" stroke={2.5} style={{ color:'lightgray'}}/>
+                </>)}
+                
+            
+              </th>
               <th>Email</th>
               <th>Shifts</th>
               <th>Hours</th>
