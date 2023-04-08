@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import MainDash from "./components/MainDash/MainDash";
 import MainUsers from "./components/Users/MainUsers";
@@ -14,6 +14,7 @@ import { AuthenticationImage } from "./components/login/login";
 import { ProfileInfo } from "./components/setting/profileInfo";
 import { PasswordSettings } from "./components/setting/passwordSettings";
 import { Demo } from "./components/notification/notification";
+import Logo from './imgs/logo.png'
 export const AuthContext = React.createContext();
 
 const AdminSideBarLayout = () => {
@@ -73,8 +74,17 @@ function App() {
     logout: logout,
     setLogout: setLogout
   };
-  console.log(process.env.REACT_APP_API)
+  // console.log(process.env.REACT_APP_API)
+
+  // useEffect(() => {
+  //   document.title = "New Page Title";
+  // }, []);
   return (
+    <div>
+       {/* <header>
+        <img src={Logo} alt="My Logo" />
+        <h1>My Website</h1>
+      </header> */}
     <AuthContext.Provider value={value}>
       {/* <Demo/> */}
       <Router>
@@ -101,6 +111,7 @@ function App() {
       </Router>
 
     </AuthContext.Provider>
+    </div>
     
   );
 }

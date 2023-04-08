@@ -392,6 +392,7 @@ export function PaymentForm({ update }) {
     }
 
     useEffect(() => {
+        if(!update){
         const fetchTotalHours = async () => {
             if (selectedValue) {
                 try {
@@ -409,7 +410,7 @@ export function PaymentForm({ update }) {
                 }
             }
         };
-        fetchTotalHours();
+        fetchTotalHours();}
     }, [selectedValue]);
 
     useEffect(()=>{

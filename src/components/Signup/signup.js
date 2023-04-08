@@ -306,7 +306,7 @@ export function Signup({ update }) {
                 <Group mt="md">
                   <Text>Already have an account</Text>
                   <NavLink to={'/'} style={{ color: 'green', fontWeight: "bold" }}>
-                    <Text>Signin</Text>
+                    <Text onClick={() => setAlrt(false)}>Signin</Text>
                   </NavLink>
                 </Group>
               </div>
