@@ -239,7 +239,7 @@ export function AuthenticationImage() {
                 <TextInput
                   label="Email"
                   placeholder="hello@gmail.dev"
-                  pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
+                  // pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
                   mt="md"
                   size="md"
                   required
